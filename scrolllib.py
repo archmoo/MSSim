@@ -120,16 +120,16 @@ class ScrollLib:
 
         }
 
-    def getScrollStat(self, scroll, equip):
-        if scroll in self.m_decisive.keys():
-            options = self.m_decisive[scroll]
+    def getScrollStat(self, effect, equip):
+        if effect in self.m_decisive.keys():
+            options = self.m_decisive[effect]
             for lvlRange, stat in options.items():
                 low = lvlRange[0]
                 high = lvlRange[1]
                 if low <= equip.m_level and high >= equip.m_level:
                     return ('decisive', stat)
-        elif scroll in self.m_chaos.keys():
-            options = self.m_chaos[scroll]
+        elif effect in self.m_chaos.keys():
+            options = self.m_chaos[effect]
             for lvlRange, cdf in options.items():
                 low = lvlRange[0]
                 high = lvlRange[1]

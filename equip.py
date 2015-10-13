@@ -156,7 +156,6 @@ class Equip:
             self.m_stars = 0
             self.m_protect = False
             self.m_guardian = False
-            self.m_safety = False
         elif effect == 'Potential':
             if random.random() < 0.8:
                 numLines = 2
@@ -170,43 +169,38 @@ class Equip:
             else:
                 rank = 3
             self.m_pot.m_rank = rank
-            self.m_pot.roll(Equip.potLib, numLines)
+            self.m_pot.roll(numLines)
             self.m_protect = False
             self.m_guardian = False
-            self.m_safety = False
         elif effect == 'Epic Potential':
             if random.random() < 0.8:
                 numLines = 2
             else:
                 numLines = 3
             self.m_pot.m_rank = 2
-            self.m_pot.roll(Equip.potLib, numLines)
+            self.m_pot.roll(numLines)
             self.m_protect = False
             self.m_guardian = False
-            self.m_safety = False
         elif effect == 'Unique Potential':
             if random.random() < 0.8:
                 numLines = 2
             else:
                 numLines = 3
             self.m_pot.m_rank = 3
-            self.m_pot.roll(Equip.potLib, numLines)
+            self.m_pot.roll(numLines)
             self.m_protect = False
             self.m_guardian = False
-            self.m_safety = False
         elif effect == 'Clean Slate':
             if self.m_success + self.m_remain_slot < self.m_total_slot:
                 self.m_remain_slot += 1
             self.m_protect = False
             self.m_guardian = False
-            self.m_safety = False
         elif effect == 'Hammer':
             if self.m_remain_hammer > 0:
                 self.m_remain_hammer -= 1
                 self.m_total_slot += 1
                 self.m_remain_slot += 1
                 self.m_protect = False
-                self.m_guardian = False
                 self.m_safety = False
         elif effect == 'Potential Stamp':
             if len(self.m_pot.m_lines) == 2:
@@ -219,8 +213,8 @@ class Equip:
             self.m_safety = True
         return True
 
-    def applyScroll(self, scroll):
-        scrollType, stat = Equip.scrollLib.getScrollStat(scroll, self)
+    def applyScroll(self, effect):
+        scrollType, stat = Equip.scrollLib.getScrollStat(effect, self)
         if scrollType == 'decisive':
             for key, value in stat.items():
                 self[key] = self[key] + value
@@ -239,7 +233,8 @@ class Equip:
                                 val *= 10
                             self[option] = max(0, self[option] + val)
                             break
-                        
+        self.m_remain_slot -= 1
+        self.m_success += 1                        
             
 
 if __name__ == '__main__':

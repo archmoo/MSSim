@@ -126,26 +126,31 @@ class SpecialLib:
             'type': 'cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.2, 0.1, 0.04, 0),
+            'effect': 'Reset Potential',
             },
         'Black Cube' : {
             'type': 'cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.45, 0.25, 0.1, 0),
+            'effect': 'Choose Potential',
             },
         'Violet Cube' : {
             'type': 'cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.45, 0.25, 0.1, 0),
+            'effect': 'Pick Potential Lines',
             },
         'Master Craftsman Cube' : {
             'type': 'cube',
             'availability': (True, True, True, False),
             'tierup rate': (0.055, 0.01, 0, 0),
+            'effect': 'Reset Potential',
             },
         'Meister Cube' : {
             'type': 'cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.1, 0.05, 0.01, 0),
+            'effect': 'Reset Potential',
             },
         
         }

@@ -338,13 +338,14 @@ class PotentialLib:
                 count = 0
                 if [line[0] for line in pot.m_lines].count('% Boss Damage') >= 2:
                     continue
-            potValues = value[rank]
-            for line in potValues:
-                minLvl = line[0]
-                maxLvl = line[1]
-                val = line[2]
-                if minLvl <= pot.m_level and maxLvl >= pot.m_level:
-                    options.append((key, val))
+            if rank in value.keys():
+                potValues = value[rank]
+                for line in potValues:
+                    minLvl = line[0]
+                    maxLvl = line[1]
+                    val = line[2]
+                    if minLvl <= pot.m_level and maxLvl >= pot.m_level:
+                        options.append((key, val))
         return options
         
                 
