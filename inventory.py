@@ -201,51 +201,57 @@ if __name__ == '__main__':
     a.createItem('Protect Scroll', 100)
     a.createItem('Guardian Scroll', 100)
     a.createItem('Safety Scroll', 100)
-    a.createItem('10% Clean Slate Scroll', 100)
+    a.createItem('10% Clean Slate Scroll', 1000)
+    a.createItem('100% Golden Hammer', 2)
     a.createEquip('Royal Dunwitch Hat')
-##    while a.m_equip[0].m_remain_slot and a.m_use['10% Clean Slate Scroll']:
-##        for i in range(100):
-##            a.useItem('Protect Scroll', 0)
-##            a.useItem('Guardian Scroll', 0)
-##            res = a.useItem('Prime Scroll for Armor', 0)
-##            if res == BOOM:
-##                print 'BOOM'
-##                break
-##            if res == INVALID:
-##                print 'stop', a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success
-##                print res, a.m_equip[0]['int'], a.m_use['Prime Scroll for Armor']
-##                break
-##            print res, a.m_equip[0]['int'], a.m_use['Prime Scroll for Armor']
-##        
-##        for i in range(1000):
-##            res = a.useItem('10% Clean Slate Scroll', 0)
-##            if res == SUCCESS:
-##                print 'css pass', a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success
-##            elif res == INVALID:
-##                break
-##    print a.m_use['10% Clean Slate Scroll'], a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success, a.m_equip[0]['int']
-    a.createItem('60% Unique Potential Scroll', 1)
-    a.createItem('Perfect Potential Stamp', 1)
-    a.createItem('Black Cube', 100)
-    a.createItem('Violet Cube', 100)
-    while a.m_equip[0].m_pot.m_rank < 3:
-        a.useItem('Guardian Scroll', 0)
-        res = a.useItem('60% Unique Potential Scroll', 0)
-        if res == SUCCESS:
-            a.useItem('Perfect Potential Stamp', 0)
-            print 'uniq pot pass'
-            print a.m_equip[0].m_pot.m_rank, a.m_equip[0].m_pot.m_lines
-
-    for i in range(30):
-        if a.m_equip[0].m_pot.m_rank < 4:
-            a.useItem('Black Cube', 0)
-            print a.m_equip[0].m_pot.m_rank
-            for line in a.m_equip[0].m_pot.m_lines:
-                print line[0][2:], str(line[1]*100)+'%'
-
-    for i in range(30):
-        a.useItem('Violet Cube', 0)
-        print a.m_equip[0].m_pot.m_rank
-        for line in a.m_equip[0].m_pot.m_lines:
-            print line[0][2:], str(line[1]*100)+'%'
+    a.useItem('100% Golden Hammer', 0)
+    a.useItem('100% Golden Hammer', 0)
+    while a.m_equip[0].m_remain_slot and a.m_use['10% Clean Slate Scroll']:
+        for i in range(100):
+            if not a.m_equip[0].m_remain_slot:
+                break
+            a.useItem('Protect Scroll', 0)
+            a.useItem('Guardian Scroll', 0)
+            a.useItem('Safety Scroll', 0)
+            res = a.useItem('Prime Scroll for Armor', 0)
+            if res == BOOM:
+                print 'BOOM'
+                break
+            if res == INVALID:
+                print 'stop', a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success
+                print res, a.m_equip[0]['int'], a.m_use['Prime Scroll for Armor']
+                break
+            print res, a.m_equip[0]['int'], a.m_use['Prime Scroll for Armor']
+        
+        for i in range(1000):
+            res = a.useItem('10% Clean Slate Scroll', 0)
+            if res == SUCCESS:
+                print 'css pass', a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success
+            elif res == INVALID:
+                break
+    print a.m_use['10% Clean Slate Scroll'], a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success, a.m_equip[0]['int']
+##    a.createItem('60% Unique Potential Scroll', 1)
+##    a.createItem('Perfect Potential Stamp', 1)
+##    a.createItem('Black Cube', 100)
+##    a.createItem('Violet Cube', 100)
+##    while a.m_equip[0].m_pot.m_rank < 3:
+##        a.useItem('Guardian Scroll', 0)
+##        res = a.useItem('60% Unique Potential Scroll', 0)
+##        if res == SUCCESS:
+##            a.useItem('Perfect Potential Stamp', 0)
+##            print 'uniq pot pass'
+##            print a.m_equip[0].m_pot.m_rank, a.m_equip[0].m_pot.m_lines
+##
+##    for i in range(30):
+##        if a.m_equip[0].m_pot.m_rank < 4:
+##            a.useItem('Black Cube', 0)
+##            print a.m_equip[0].m_pot.m_rank
+##            for line in a.m_equip[0].m_pot.m_lines:
+##                print line[0][2:], str(line[1]*100)+'%'
+##
+##    for i in range(30):
+##        a.useItem('Violet Cube', 0)
+##        print a.m_equip[0].m_pot.m_rank
+##        for line in a.m_equip[0].m_pot.m_lines:
+##            print line[0][2:], str(line[1]*100)+'%'
         
