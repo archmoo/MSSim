@@ -1,5 +1,6 @@
 from potentiallib import PotentialLib
 import random
+import rng
 
 class Potential:
     'Potential class'
@@ -25,7 +26,7 @@ class Potential:
     def roll(self, numLines = -1):
         if numLines == -1:
             numLines = len(self.m_lines)
-        primeChance = 0.05
+        primeChance = 0.02 * numLines
         ranks = []
         for i in range(numLines):
             if i == 0:
@@ -37,12 +38,12 @@ class Potential:
                     ranks.append(max(0, self.m_rank - 1))
         self.m_lines = []
         for i in range(numLines):
-            line = random.choice(Potential.potLib.roll(self, ranks[i]))
+            line = rng.weighted_choice(Potential.potLib.roll(self, ranks[i]))
             self.m_lines.append(line)
             
 
     def expand(self):
-        self.m_lines.append(random.choice(Potential.potLib.roll(self, max(0, self.m_rank - 1))))
+        self.m_lines.append(rng.weighted_choice(Potential.potLib.roll(self, max(0, self.m_rank - 1))))
         
         
         
