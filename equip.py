@@ -96,7 +96,42 @@ class Equip:
             self.m_accuracy = value
         elif string == 'avoid':
             self.m_avoid = value
-    
+
+    def showEquip(self):
+        output = ''
+        output += self.m_name + '\n'
+        output += 'Category: ' + self.m_type + '\n'
+        output += 'REQ LVL: ' + str(self.m_level) + '\n'
+        output += 'Class: ' + self.m_class + '\n'
+        if self.m_str:
+            output += 'STR: +' + str(self.m_str) + '\n'
+        if self.m_dex:
+            output += 'DEX: +' + str(self.m_dex) + '\n'
+        if self.m_int:
+            output += 'INT: +' + str(self.m_int) + '\n'
+        if self.m_luk:
+            output += 'LUK: +' + str(self.m_luk) + '\n'
+        if self.m_hp:
+            output += 'MaxHP: +' + str(self.m_hp) + '\n'
+        if self.m_mp:
+            output += 'MaxMP: +' + str(self.m_mp) + '\n'
+        if self.m_watt:
+            output += 'WEAPON ATT: ' + str(self.m_watt) + '\n'
+        if self.m_matt:
+            output += 'MAGIC ATT: ' + str(self.m_matt) + '\n'
+        if self.m_wdef:
+            output += 'WEAPON DEF: ' + str(self.m_wdef) + '\n'
+        if self.m_mdef:
+            output += 'MAGIC DEF: ' + str(self.m_mdef) + '\n'
+        if self.m_accuracy:
+            output += 'ACCURACY: +' + str(self.m_accuracy) + '\n'
+        if self.m_avoid:
+            output += 'AVOIDABILITY: +' + str(self.m_avoid) + '\n'
+        if self.m_pot:
+            output += self.m_pot.showPot()
+        return output
+
+        
     def setClean(self):
         equip = Equip.equipLib.getEquip(self.m_name)
         if equip is None:

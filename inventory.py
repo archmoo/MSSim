@@ -203,7 +203,7 @@ if __name__ == '__main__':
 ##    a.createItem('Safety Scroll', 100)
 ##    a.createItem('10% Clean Slate Scroll', 1000)
 ##    a.createItem('100% Golden Hammer', 2)
-    a.createEquip('Gold Maple Leaf Emblem')
+    a.createEquip('Royal Dunwitch Hat')
 ##    a.useItem('100% Golden Hammer', 0)
 ##    a.useItem('100% Golden Hammer', 0)
 ##    while a.m_equip[0].m_remain_slot and a.m_use['10% Clean Slate Scroll']:
@@ -241,13 +241,10 @@ if __name__ == '__main__':
             a.useItem('Perfect Potential Stamp', 0)
             print 'pot pass'
             print a.m_equip[0].m_pot.m_rank, a.m_equip[0].m_pot.m_lines
-    a.m_equip[0].m_pot.m_rank = 4
     for i in range(300):
         if a.m_equip[0].m_pot.m_rank < 5:
             a.useItem('Meister Cube', 0)
-            print a.m_equip[0].m_pot.m_rank
-            for line in a.m_equip[0].m_pot.m_lines:
-                print line[0], line[1]
+            print a.m_equip[0].m_pot.showPot()
             raw_input('Continue ?')
 
         

@@ -317,6 +317,7 @@ class EquipLib:
         'Ghost Ship Exorcist' : {
             'name': 'Ghost Ship Exorcist',
             'type': 'Badge',
+            'class': 'All',
             'level': 150,
             'str': 3,
             'dex': 3,
