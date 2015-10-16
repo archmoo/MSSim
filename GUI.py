@@ -1,16 +1,12 @@
-import Tkinter
+import Tkinter, ttk
 from equiplib import EquipLib
 from inventory import Inventory
 
-class MainWidget(Tkinter.Frame):
+class InventoryWidget(Tkinter.Frame):
 
-    m_inventory = None
     m_selectedEquipIdx = -1
     
     def __init__(self, parent):
-
-        self.m_inventory = Inventory()
-        
         Tkinter.Frame.__init__(self, parent)
         self.parent = parent
         self.initUI()
@@ -26,7 +22,8 @@ class MainWidget(Tkinter.Frame):
             equip = chosenEquip.get()
             if equip != '- Choose Equip -':
                 self.equipListbox.insert(Tkinter.END, equip)
-                self.m_inventory.createEquip(equip)
+                self.parent.m_inventory.createEquip(equip)
+                self.parent.m_sysMessage.set(equip + ' created.')
             
         toplevel = Tkinter.Toplevel(self)
         toplevel.title('Create Equipment')
@@ -55,8 +52,9 @@ class MainWidget(Tkinter.Frame):
 
     def equipDeleteButtonClicked(self):
         if self.m_selectedEquipIdx != -1:
+            self.parent.m_sysMessage.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_name + ' deleted.')
             self.equipListbox.delete(self.m_selectedEquipIdx)
-            self.m_inventory.deleteEquip(self.m_selectedEquipIdx)
+            self.parent.m_inventory.deleteEquip(self.m_selectedEquipIdx)
             self.equipStats.set('')
             self.m_selectedEquipIdx = -1
             
@@ -67,54 +65,93 @@ class MainWidget(Tkinter.Frame):
             idx = choice[0]
             value = listbox.get(choice[0])
             self.m_selectedEquipIdx = idx
-            equip = self.m_inventory.m_equip[idx]
+            equip = self.parent.m_inventory.m_equip[idx]
             self.equipStats.set(equip.showEquip())
         else:
             self.m_selectedEquipIdx = -1
+
+    def initUI(self):
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
         
+        self.Frameleft = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameright = Tkinter.Frame(self, padx=5, pady=5)
+
+        self.Frameleft.rowconfigure(1, weight=1)
+        
+        self.equipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
+        self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
+
+        self.equipCreateButton = Tkinter.Button(self.Frameleft, text='Create', command=self.equipCreateButtonClicked)
+        self.equipModifyButton = Tkinter.Button(self.Frameleft, text='Modify')
+        self.equipDeleteButton = Tkinter.Button(self.Frameleft, text='Delete', command=self.equipDeleteButtonClicked)
+ 
+        self.equipStats = Tkinter.StringVar()
+        self.equipStatsContent = Tkinter.Label(self.Frameright,
+                                             textvariable=self.equipStats,
+                                             anchor=Tkinter.N,
+                                             justify=Tkinter.LEFT)
+        self.equipStats.set('')
+
+        self.equipListboxLabel = Tkinter.Label(self.Frameleft, text='Inventory List')
+        self.equipStatsLabel = Tkinter.Label(self.Frameright, text='Stats')
+
+        self.equipListboxLabel.grid(row=0, column=0, rowspan=1, columnspan=3, padx=5, pady=5)
+        self.equipListbox.grid(row=1, column=0,
+                               rowspan=5, columnspan=3,
+                               padx=5, pady=5,
+                               sticky=Tkinter.W+Tkinter.E+Tkinter.N+Tkinter.S)
+        self.equipCreateButton.grid(row=6, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.equipModifyButton.grid(row=6, column=1, padx=5, pady=5)
+        self.equipDeleteButton.grid(row=6, column=2, padx=5, pady=5, sticky=Tkinter.E)
+        self.equipStatsLabel.grid(row=0, column=0, rowspan=1, columnspan=3, padx=5, pady=5)
+        self.equipStatsContent.grid(row=1, column=0,
+                                  rowspan=5, columnspan=3,
+                                  padx=5, pady=5,
+                                  sticky=Tkinter.N+Tkinter.S+Tkinter.W,
+                                  )
+        
+        self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
+        self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
+
+class MainWidget(Tkinter.Frame):
+
+    m_inventory = None
+    m_sysMessage = None
+    
+    def __init__(self, parent):
+
+        self.m_inventory = Inventory()
+        self.m_sysMessage = Tkinter.StringVar()
+        self.m_sysMessage.set('Welcome!')
+        Tkinter.Frame.__init__(self, parent)
+        self.parent = parent
+        self.initUI()
+
     def initUI(self):
         self.parent.title('MS Sim')
         self.pack(fill=Tkinter.BOTH, expand=1)
-        
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
-        self.columnconfigure(2, weight=1)
-        self.columnconfigure(3, weight=1)
-        self.columnconfigure(4, weight=1)
-        self.columnconfigure(5, weight=1)
-        
-        self.equipListbox = Tkinter.Listbox(self, selectmode='single')
-        self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
-        self.equipListbox.grid(row=0, column=0,
-                    rowspan=5, columnspan=3,
-                    padx=5, pady=5,
-                    sticky=Tkinter.W+Tkinter.E+Tkinter.N+Tkinter.S)
+        self.tabs = ttk.Notebook(self)
+        self.tabInventory = InventoryWidget(self)
+        self.tabEquip = Tkinter.Frame(self)
+        self.tabPurchase = Tkinter.Frame(self)
+        self.tabs.add(self.tabInventory, text='Inventory')
+        self.tabs.add(self.tabEquip, text='Equip')
+        self.tabs.add(self.tabPurchase, text='Purchase')
 
-        self.equipCreateButton = Tkinter.Button(self, text='Create', command=self.equipCreateButtonClicked)
-        self.equipCreateButton.grid(row=5, column=0, padx=5, pady=5, sticky=Tkinter.W)
-        self.equipDeleteButton = Tkinter.Button(self, text='Delete', command=self.equipDeleteButtonClicked)
-        self.equipDeleteButton.grid(row=5, column=2, padx=5, pady=5, sticky=Tkinter.E)
-
-        self.equipStats = Tkinter.StringVar()
-        self.equipStatsLabel = Tkinter.Label(self,
-                                          textvariable=self.equipStats,
-                                          anchor=Tkinter.N,
-                                          justify=Tkinter.LEFT)
-        self.equipStatsLabel.grid(row=0, column=3,
-                        rowspan=5, columnspan=3,
-                        padx=5, pady=5,
-                        sticky=Tkinter.N+Tkinter.S+Tkinter.W,
-                        )
-        self.equipStats.set('')
-
+        self.sysMessage = Tkinter.Label(self,
+                                        textvariable=self.m_sysMessage,
+                                        justify=Tkinter.LEFT)
         self.quitButton = Tkinter.Button(self, text='Quit', command=self.parent.destroy)
-        self.quitButton.grid(row=5, column=5, padx=5, pady=5, sticky=Tkinter.E)
-
+        
+        self.tabs.pack(fill=Tkinter.BOTH, expand=1)
+        self.sysMessage.pack(padx=5, pady=5, side=Tkinter.LEFT)
+        self.quitButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
+        
 if __name__ == '__main__':
 
     root = Tkinter.Tk()
-    root.geometry('600x400+200+200')
+    root.geometry('600x600+200+200')
     app = MainWidget(root)
     root.mainloop()
     
