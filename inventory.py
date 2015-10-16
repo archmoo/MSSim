@@ -157,39 +157,42 @@ class Inventory:
             if stat['effect'] == 'Pick Potential Lines':
                 newPot.m_lines = [()] * len(self.m_equip[equipIdx].m_pot.m_lines) * 2
             newPot.roll()
-            if stat['effect'] == 'Reset Potential':
-                self.m_equip[equipIdx].m_pot = newPot
-            elif stat['effect'] == 'Choose Potential':
-                print '---Compare---'
-                print '1. (Original)', self.m_equip[equipIdx].m_pot.m_rank
-                for line in self.m_equip[equipIdx].m_pot.m_lines:
-                    print line
-                print
-                print '2. (New)', newPot.m_rank
-                for line in newPot.m_lines:
-                    print line
-                print 
-                choice = int(raw_input('Choose 1 or 2:'))
-                if choice == 2:
-                    self.m_equip[equipIdx].m_pot = newPot
-            elif stat['effect'] == 'Pick Potential Lines':
-                numLines = len(self.m_equip[equipIdx].m_pot.m_lines)
-                print '---Pick '+str(numLines)+'---'
-                print 'Rank:', newPot.m_rank
-                for i in range(len(newPot.m_lines)):
-                    print str(i)+'.', newPot.m_lines[i]
-                print
-                choices = []
-                for i in range(numLines):
-                    choice = int(raw_input('Choice '+str(i)+':'))
-                    while(choice in choices or choice >= len(newPot.m_lines)):
-                        choice = int(raw_input('Choice '+str(i)+':'))
-                    choices.append(choice)
-                pot = []
-                for i in range(numLines):
-                    pot.append(newPot.m_lines[choices[i]])
-                self.m_equip[equipIdx].m_pot.m_lines = pot
-                    
+            return (stat['effect'], newPot)
+##            if stat['effect'] == 'Reset Potential':
+##                self.m_equip[equipIdx].m_pot = newPot
+##            elif stat['effect'] == 'Choose Potential':
+##                print '---Compare---'
+##                print '1. (Original)', self.m_equip[equipIdx].m_pot.m_rank
+##                for line in self.m_equip[equipIdx].m_pot.m_lines:
+##                    print line
+##                print
+##                print '2. (New)', newPot.m_rank
+##                for line in newPot.m_lines:
+##                    print line
+##                print 
+##                choice = int(raw_input('Choose 1 or 2:'))
+##                if choice == 2:
+##                    self.m_equip[equipIdx].m_pot = newPot
+##            elif stat['effect'] == 'Pick Potential Lines':
+##                numLines = len(self.m_equip[equipIdx].m_pot.m_lines)
+##                print '---Pick '+str(numLines)+'---'
+##                print 'Rank:', newPot.m_rank
+##                for i in range(len(newPot.m_lines)):
+##                    print str(i)+'.', newPot.m_lines[i]
+##                print
+##                choices = []
+##                for i in range(numLines):
+##                    choice = int(raw_input('Choice '+str(i)+':'))
+##                    while(choice in choices or choice >= len(newPot.m_lines)):
+##                        choice = int(raw_input('Choice '+str(i)+':'))
+##                    choices.append(choice)
+##                pot = []
+##                for i in range(numLines):
+##                    pot.append(newPot.m_lines[choices[i]])
+##                self.m_equip[equipIdx].m_pot.m_lines = pot
+
+    def setEquipPot(self, pot, equipIdx):
+        self.m_equip[equipIdx].m_pot = pot
         
     def createEquip(self, equipName):
         equip = Equip(equipName)

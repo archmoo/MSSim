@@ -47,6 +47,30 @@ class Potential:
                     output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(line[1][1])
             output += '\n'
         return output
+
+    def getShowPotList(self):
+        output = []
+        for line in self.m_lines:
+            if type(line[1]) is not tuple:
+                if line[1] >= 0:
+                    sign = '+'
+                else:
+                    sign = '-'
+                if line[0][0] == '%':
+                    output.append(line[0][2:] + ': ' + sign + str(int(line[1]*100)) + '%')
+                elif type(line[1]) is str:
+                    output.append(line[0][2:] + ': ' + line[1])
+                else:
+                    output.append(line[0][2:] + ': ' + sign + str(line[1]))
+            else:
+                if line[0][0] == '%':
+                    output.append(str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(int(line[1][1]*100)) + '%')
+                elif type(line[1]) is str:
+                    output.append(str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + line[1][1])
+                else:
+                    output.append(str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(line[1][1]))
+        return output
+        
             
     def setRank(self, rank):
         self.m_rank = rank
@@ -54,7 +78,7 @@ class Potential:
     def roll(self, numLines = -1):
         if numLines == -1:
             numLines = len(self.m_lines)
-        primeChance = 0.02 * numLines
+        primeChance = 0.02*numLines
         ranks = []
         for i in range(numLines):
             if i == 0:

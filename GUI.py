@@ -4,6 +4,7 @@ from equiplib import EquipLib
 from scrolllib import ScrollLib
 from speciallib import SpecialLib
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID
+from potential import rank_label
 
 class InventoryWidget(Tkinter.Frame):
 
@@ -78,7 +79,8 @@ class InventoryWidget(Tkinter.Frame):
             equipName = self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_name
             if useItem != '- Choose Use Item -':
                 message = 'Use ' + useItem + ' on ' + equipName + '?'
-                tkMessageBox.askquestion("Use Item", message, type='yesno')
+                if tkMessageBox.askquestion("Use Item", message, type='yesno') != 'yes':
+                    return
                 res = self.parent.m_inventory.useItem(useItem, self.m_selectedEquipIdx)
                 if res == INVALID:
                     sysMessage.set('Can not use ' + useItem + '.')
@@ -117,7 +119,140 @@ class InventoryWidget(Tkinter.Frame):
                     toplevel.destroy()
                     tkMessageBox.showwarning('Item Destroyed', message=equipName + ' is destroyed by ' + useItem)
                 else: # Cubes
-                    pass
+                    effect = res[0]
+                    newPot = res[1]
+                    if effect == 'Reset Potential':
+                        message = 'New Potential:\n-------------\n'
+                        if newPot.m_rank > self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_rank:
+                            message += '***TIER UP!***\n\n'
+                        self.parent.m_inventory.setEquipPot(newPot, self.m_selectedEquipIdx)
+                        message += self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.showPot()
+                        sysMessage.set('Used ' + useItem + ' successfully.')
+                        self.equipStats.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip())
+                        equipStatsContent.config(state=Tkinter.NORMAL)
+                        equipStatsContent.delete('1.0', Tkinter.END)
+                        equipStatsContent.insert('insert', self.equipStats.get())
+                        equipStatsContent.config(state=Tkinter.DISABLED)
+                        self.equipStatsContent.config(state=Tkinter.NORMAL)
+                        self.equipStatsContent.delete('1.0', Tkinter.END)
+                        self.equipStatsContent.insert('insert', self.equipStats.get())
+                        self.equipStatsContent.config(state=Tkinter.DISABLED)
+                        tkMessageBox.showinfo('Potential Reset', message)
+                    elif effect == 'Choose Potential':
+                        def select():
+                            if choice.get() == 1:
+                                self.parent.m_inventory.setEquipPot(newPot, self.m_selectedEquipIdx)
+                                self.equipStats.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip())
+                                equipStatsContent.config(state=Tkinter.NORMAL)
+                                equipStatsContent.delete('1.0', Tkinter.END)
+                                equipStatsContent.insert('insert', self.equipStats.get())
+                                equipStatsContent.config(state=Tkinter.DISABLED)
+                                self.equipStatsContent.config(state=Tkinter.NORMAL)
+                                self.equipStatsContent.delete('1.0', Tkinter.END)
+                                self.equipStatsContent.insert('insert', self.equipStats.get())
+                                self.equipStatsContent.config(state=Tkinter.DISABLED)
+                                sysMessage.set('New potential is chosen.')
+                            else:
+                                sysMessage.set('Original potential is kept.')
+                            selectPotPopup.destroy()
+                        choice = Tkinter.IntVar()
+                        choice.set(0)
+                        selectPotPopup = Tkinter.Toplevel(toplevel)
+                        selectPotPopup.grab_set()
+                        selectPotPopup.title('Choose Potential')
+                        selectPotPopup.geometry('500x200+350+350')
+                        oldPotMessage = self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.showPot()
+                        newPotMessage = ''
+                        if newPot.m_rank > self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_rank:
+                            newPotMessage += '***TIER UP!***\n\n'
+                        newPotMessage += newPot.showPot()
+                        oldPotLabel = Tkinter.Label(selectPotPopup, text='Original\n-----------------')
+                        newPotLabel = Tkinter.Label(selectPotPopup, text='New\n-----------------')
+                        oldPotContent = Tkinter.Label(selectPotPopup, text=oldPotMessage)
+                        newPotContent = Tkinter.Label(selectPotPopup, text=newPotMessage)
+                        oldPotRadio = Tkinter.Radiobutton(selectPotPopup, text='', variable=choice, value=0)
+                        newPotRadio = Tkinter.Radiobutton(selectPotPopup, text='', variable=choice, value=1)
+                        selectButton = Tkinter.Button(selectPotPopup, text='Select', command=select, pady=5)
+
+                        selectPotPopup.rowconfigure(1, weight=1)
+                        selectPotPopup.columnconfigure(0, weight=1)
+                        selectPotPopup.columnconfigure(1, weight=1)
+                        oldPotLabel.grid(row=0, column=0, sticky=Tkinter.N)
+                        newPotLabel.grid(row=0, column=1, sticky=Tkinter.N)
+                        oldPotContent.grid(row=1, column=0, sticky=Tkinter.N)
+                        newPotContent.grid(row=1, column=1, sticky=Tkinter.N)
+                        oldPotRadio.grid(row=2, column=0)
+                        newPotRadio.grid(row=2, column=1)
+                        selectButton.grid(row=3, column=0, columnspan=2)
+                    elif effect == 'Pick Potential Lines':
+                        def select():
+                            selectedNum = 0
+                            for i in range(linesNum*2):
+                                selectedNum += checkboxVars[i].get()
+                            if selectedNum != linesNum:
+                                tkMessageBox.showwarning('Wrong Selections', 'Please choose exactly ' + str(linesNum) + ' lines.')
+                            else:
+                                self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_rank = newPot.m_rank
+                                self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_lines = []
+                                for i in range(linesNum*2):
+                                    if checkboxVars[i].get():
+                                        self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_lines.append(newPot.m_lines[i])
+                                self.equipStats.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip())
+                                equipStatsContent.config(state=Tkinter.NORMAL)
+                                equipStatsContent.delete('1.0', Tkinter.END)
+                                equipStatsContent.insert('insert', self.equipStats.get())
+                                equipStatsContent.config(state=Tkinter.DISABLED)
+                                self.equipStatsContent.config(state=Tkinter.NORMAL)
+                                self.equipStatsContent.delete('1.0', Tkinter.END)
+                                self.equipStatsContent.insert('insert', self.equipStats.get())
+                                self.equipStatsContent.config(state=Tkinter.DISABLED)
+                                sysMessage.set('New potential is chosen.')
+                                selectPotPopup.destroy()
+
+                        # default: 0, 1, (2)
+                        linesNum = len(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_lines)
+                        origRank = self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_rank
+                        self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_rank = newPot.m_rank
+                        self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_lines = []
+                        for i in range(linesNum):
+                            self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_pot.m_lines.append(newPot.m_lines[i])
+                        self.equipStats.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip())
+                        equipStatsContent.config(state=Tkinter.NORMAL)
+                        equipStatsContent.delete('1.0', Tkinter.END)
+                        equipStatsContent.insert('insert', self.equipStats.get())
+                        equipStatsContent.config(state=Tkinter.DISABLED)
+                        self.equipStatsContent.config(state=Tkinter.NORMAL)
+                        self.equipStatsContent.delete('1.0', Tkinter.END)
+                        self.equipStatsContent.insert('insert', self.equipStats.get())
+                        self.equipStatsContent.config(state=Tkinter.DISABLED)
+                        
+                        selectPotPopup = Tkinter.Toplevel(toplevel)
+                        selectPotPopup.grab_set()
+                        selectPotPopup.title('Select Potential Lines')
+                        selectPotPopup.geometry('320x280+350+350')
+                        message = 'Select ' + str(linesNum) + ' lines:\n-------------------\n'
+                        if newPot.m_rank > origRank:
+                            message += '***TIER UP!***\n'
+                        message += '\n('+ rank_label[newPot.m_rank] + ')'
+                        messageLabel = Tkinter.Label(selectPotPopup, text=message)
+                        showPotList = newPot.getShowPotList()
+                        checkboxVars = []
+                        for i in range(linesNum*2):
+                            checkboxVars.append(Tkinter.IntVar())
+                        checkboxes = [None]*(linesNum*2)
+                        for i in range(linesNum*2):
+                            checkboxes[i] = Tkinter.Checkbutton(selectPotPopup, text=showPotList[i], variable=checkboxVars[i])
+                        selectButton = Tkinter.Button(selectPotPopup, text='Select', command=select, pady=5)
+
+                        for col in range(11):
+                            selectPotPopup.columnconfigure(col, weight=1)
+                        selectPotPopup.rowconfigure(linesNum*2+1, weight=1)
+                        messageLabel.grid(row=0, column=0, columnspan=11)
+                        for i in range(linesNum*2):
+                            checkboxes[i].grid(row=i+1, column=5, sticky=Tkinter.W)
+                        selectButton.grid(row=linesNum*2+1, column=0, columnspan=11)
+
+                                            
 
         toplevel = Tkinter.Toplevel(self)
         toplevel.grab_set()
@@ -169,9 +304,9 @@ class InventoryWidget(Tkinter.Frame):
         sysMessage.set('')
 
         typeOptionMenu.grid(row=0, column=0, rowspan=1, columnspan=2,
-                            padx=5)
+                            padx=5, sticky=Tkinter.W)
         useOptionMenu.grid(row=1, column=0, rowspan=1, columnspan=2,
-                            padx=5)
+                            padx=5, sticky=Tkinter.W)
         useDescriptionContent.grid(row=2, column=0,
                                   rowspan=3, columnspan=2,
                                   padx=10, pady=5,

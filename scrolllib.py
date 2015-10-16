@@ -15,6 +15,31 @@ class ScrollLib:
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Armor',
             },
+        '60% Chaos Scroll': {
+            'type' : 'Scroll',
+            'success rate': 0.6,
+            'boom rate': 0,
+            'effect': 'Chaos Scroll',
+            },
+        '30% Chaos Scroll of Goodness': {
+            'type' : 'Scroll',
+            'success rate': 0.3,
+            'boom rate': 0,
+            'effect': 'Chaos Scroll of Goodness',
+            },
+        '50% Incredible Chaos Scroll of Goodness': {
+            'type' : 'Scroll',
+            'success rate': 0.5,
+            'boom rate': 0,
+            'effect': 'Incredible Chaos Scroll of Goodness',
+            },
+        '60% Miraculous Chaos Scroll': {
+            'type' : 'Scroll',
+            'success rate': 0.6,
+            'boom rate': 0,
+            'effect': 'Miraculous Chaos Scroll',
+            },
+        
         '15% str for Weapon': {
             'type': 'Trace',
             'success rate': 0.15,
