@@ -412,6 +412,162 @@ class InventoryWidget(Tkinter.Frame):
         self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
         self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
 
+class EquipWidget(Tkinter.Frame):
+    
+    def __init__(self, parent):
+        Tkinter.Frame.__init__(self, parent)
+        self.parent = parent
+        self.initUI()
+
+    def reset(self):
+        pass
+
+    def currentEquipListboxSelect(self, event):
+        pass
+    
+    def equipListboxSelect(self, event):
+        pass
+    
+    def initUI(self):
+        def update(self):
+            pass
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        
+        self.Frameleft = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameleft.rowconfigure(4, weight=1)
+        self.Frameright = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameright.rowconfigure(1, weight=1)
+        self.Frameright.rowconfigure(5, weight=1)
+        
+        types = ['dummy']
+        self.chosenType = Tkinter.StringVar()
+        self.chosenType.set('- Choose Type -')
+        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *types, command=update)
+
+        self.currentEquipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single', height=1)
+        self.equipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
+        self.currentEquipListbox.bind('<<ListboxSelect>>', self.currentEquipListboxSelect)
+        self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
+        self.equipButton = Tkinter.Button(self.Frameleft, text='Equip')
+        self.unequipButton = Tkinter.Button(self.Frameleft, text='Unequip')
+
+        self.equipStatsContent = ScrolledText.ScrolledText(self.Frameright,
+                                                           wrap=Tkinter.WORD,
+                                                           width=35, height=10)
+        self.equipStatsContent.config(font=('San Francisco', 13, 'normal'))
+        self.equipStatsContent.insert('insert', '')
+        self.equipStatsContent.config(state=Tkinter.DISABLED)
+
+        self.charStatsContent = ScrolledText.ScrolledText(self.Frameright,
+                                                           wrap=Tkinter.WORD,
+                                                           width=35, height=10)
+        self.charStatsContent.config(font=('San Francisco', 13, 'normal'))
+        self.charStatsContent.insert('insert', '')
+        self.charStatsContent.config(state=Tkinter.DISABLED)
+
+        self.currentEquipLabel = Tkinter.Label(self.Frameleft, text='Currently Equipped:')
+        self.inventoryEquipLabel = Tkinter.Label(self.Frameleft, text='Inventory:')
+        self.equipStatsLabel = Tkinter.Label(self.Frameright, text='Selected Equip Stats')
+        self.charStatsLabel = Tkinter.Label(self.Frameright, text='Character Stats')
+
+        self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+        self.currentEquipLabel.grid(row=1, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.currentEquipListbox.grid(row=2, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W+Tkinter.E)
+        self.inventoryEquipLabel.grid(row=3, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+        self.equipListbox.grid(row=4, column=0, rowspan=3, columnspan=3, padx=5, pady=5, sticky=Tkinter.W+Tkinter.E+Tkinter.N+Tkinter.S)
+        self.equipButton.grid(row=7, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.unequipButton.grid(row=7, column=2, padx=5, pady=5, sticky=Tkinter.E)
+
+        self.equipStatsLabel.grid(row=0, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.equipStatsContent.grid(row=1, column=0,
+                                    rowspan=3, columnspan=3,
+                                    padx=5, pady=5,
+                                    sticky=Tkinter.N+Tkinter.S+Tkinter.W)
+        self.charStatsLabel.grid(row=4, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.charStatsContent.grid(row=5, column=0,
+                                    rowspan=3, columnspan=3,
+                                    padx=5, pady=5,
+                                    sticky=Tkinter.N+Tkinter.S+Tkinter.W)
+        
+        self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
+        self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
+
+class PurchaseWidget(Tkinter.Frame):
+
+    def __init__(self, parent):
+        Tkinter.Frame.__init__(self, parent)
+        self.parent = parent
+        self.initUI()
+
+    def reset(self):
+        pass
+
+    def initUI(self):
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        
+        self.Frameleft = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameleft.rowconfigure(2, weight=1)
+        self.Frameright = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameright.rowconfigure(1, weight=1)
+        self.Frameright.rowconfigure(5, weight=1)
+
+
+        self.categories = ['']
+        self.chosenCategory = Tkinter.StringVar()
+        self.chosenCategory.set('- Choose Category -')
+        
+        self.types = ['']
+        self.chosenType = Tkinter.StringVar()
+        self.chosenType.set('- Choose Type -')
+
+        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *self.types)
+        self.categoryOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenCategory, *self.categories)
+
+        self.itemListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
+
+        self.resourceContent = Tkinter.StringVar()
+        self.resourceLabel = Tkinter.Label(self.Frameleft, textvariable=self.resourceContent, justify=Tkinter.LEFT)
+        self.resourceContent.set('Meso: Unlimited\nNX: Unlimited')
+
+        self.descriptionLabel = Tkinter.Label(self.Frameright, text='Description')
+        self.descriptionContent = ScrolledText.ScrolledText(self.Frameright,
+                                                           wrap=Tkinter.WORD,
+                                                           width=35, height=10)
+        self.descriptionContent.config(font=('San Francisco', 13, 'normal'))
+        self.descriptionContent.insert('insert', '')
+        self.descriptionContent.config(state=Tkinter.DISABLED)
+        self.marketInfoLabel = Tkinter.Label(self.Frameright, text='Market Info')
+        self.marketInfoContent = ScrolledText.ScrolledText(self.Frameright,
+                                                           wrap=Tkinter.WORD,
+                                                           width=35, height=10)
+        self.marketInfoContent.config(font=('San Francisco', 13, 'normal'))
+        self.marketInfoContent.insert('insert', '')
+        self.marketInfoContent.config(state=Tkinter.DISABLED)
+        self.purchaseButton = Tkinter.Button(self.Frameright, text='Purchase')
+
+        self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+        self.categoryOptionMenu.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+        self.itemListbox.grid(row=2, column=0, rowspan=6, columnspan=3, padx=5, pady=5, sticky=Tkinter.W+Tkinter.E+Tkinter.S+Tkinter.N)
+        self.resourceLabel.grid(row=8, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+
+        self.descriptionLabel.grid(row=0, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.descriptionContent.grid(row=1, column=0,
+                                    rowspan=3, columnspan=3,
+                                    padx=5, pady=5,
+                                    sticky=Tkinter.N+Tkinter.S+Tkinter.W)
+        self.marketInfoLabel.grid(row=4, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.marketInfoContent.grid(row=5, column=0,
+                                    rowspan=3, columnspan=3,
+                                    padx=5, pady=5,
+                                    sticky=Tkinter.N+Tkinter.S+Tkinter.W)
+        self.purchaseButton.grid(row=8, column=2, padx=5, pady=5, sticky=Tkinter.E)
+        
+        self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
+        self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
+
+
 class MainWidget(Tkinter.Frame):
 
     m_inventory = None
@@ -458,8 +614,8 @@ class MainWidget(Tkinter.Frame):
         self.pack(fill=Tkinter.BOTH, expand=1)
         self.tabs = ttk.Notebook(self)
         self.tabInventory = InventoryWidget(self)
-        self.tabEquip = Tkinter.Frame(self)
-        self.tabPurchase = Tkinter.Frame(self)
+        self.tabEquip = EquipWidget(self)
+        self.tabPurchase = PurchaseWidget(self)
         self.tabs.add(self.tabInventory, text='Inventory')
         self.tabs.add(self.tabEquip, text='Equip')
         self.tabs.add(self.tabPurchase, text='Purchase')
