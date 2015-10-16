@@ -3,6 +3,7 @@ import ScrolledText
 from equiplib import EquipLib
 from scrolllib import ScrollLib
 from speciallib import SpecialLib
+from equipslot import EquipSlot
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID
 from potential import rank_label
 import pickle
@@ -42,7 +43,9 @@ class InventoryWidget(Tkinter.Frame):
                 self.equipListbox.insert(Tkinter.END, equip)
                 self.parent.m_inventory.createEquip(equip)
                 self.parent.m_sysMessage.set(equip + ' created.')
-            
+
+        self.parent.tabEquip.reset()
+        
         toplevel = Tkinter.Toplevel(self)
         toplevel.grab_set()
         toplevel.title('Create Equipment')
@@ -73,7 +76,13 @@ class InventoryWidget(Tkinter.Frame):
     def equipModifyButtonClicked(self):
         if self.m_selectedEquipIdx == -1:
             return
+        if self.m_selectedEquipIdx in self.parent.m_inventory.m_equipped.values():
+            message = 'Can\'t. ' + self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_name + ' is equipped.'
+            tkMessageBox.showwarning('Invalid', message)
+            return
 
+        self.parent.tabEquip.reset()
+        
         def update(self):
             usesLib = {}
             usesLib.update(ScrollLib.m_lib)
@@ -335,6 +344,13 @@ class InventoryWidget(Tkinter.Frame):
 
     def equipDeleteButtonClicked(self):
         if self.m_selectedEquipIdx != -1:
+            if self.m_selectedEquipIdx in self.parent.m_inventory.m_equipped.values():
+                message = 'Can\'t. ' + self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].m_name + ' is equipped.'
+                tkMessageBox.showwarning('Invalid', message)
+                return
+            
+            self.parent.tabEquip.reset()
+            
             message = 'Are You Sure?\n\n' + 'Deleting: ' + self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip()
             result = tkMessageBox.askquestion("Delete", message, icon='warning', type='yesno')
             if result == 'yes':
@@ -418,19 +434,86 @@ class EquipWidget(Tkinter.Frame):
         Tkinter.Frame.__init__(self, parent)
         self.parent = parent
         self.initUI()
+        self.curEquipIdx = -1
+        self.selectEquipIdx = -1
 
     def reset(self):
-        pass
+        self.equipStatsContent.config(state=Tkinter.NORMAL)
+        self.equipStatsContent.delete('1.0', Tkinter.END)
+        self.equipStatsContent.config(state=Tkinter.DISABLED)
+        self.charStatsContent.config(state=Tkinter.NORMAL)
+        self.charStatsContent.delete('1.0', Tkinter.END)
+        self.charStatsContent.config(state=Tkinter.DISABLED)
+        self.chosenType.set('- Choose Slot -')
+        size = self.currentEquipListbox.size()
+        if size:
+            self.currentEquipListbox.delete(0, size-1)
+        size = self.equipListbox.size()
+        if size:
+            self.equipListbox.delete(0, size-1)
+        self.curEquipIdx = -1
+        self.selectEquipIdx = -1
 
     def currentEquipListboxSelect(self, event):
-        pass
+        if self.curEquipIdx != -1:
+            curEquipStats = self.parent.m_inventory.m_equip[self.curEquipIdx].showEquip()
+            self.equipStatsContent.config(state=Tkinter.NORMAL)
+            self.equipStatsContent.delete('1.0', Tkinter.END)
+            self.equipStatsContent.insert('insert', curEquipStats)
+            self.equipStatsContent.config(state=Tkinter.DISABLED)
     
     def equipListboxSelect(self, event):
-        pass
+        listbox = event.widget
+        choice = listbox.curselection()
+        if len(choice) != 0:
+            idx = choice[0]
+            value = listbox.get(choice[0])
+            self.selectEquipIdx = idx
+            equip = self.parent.m_inventory.m_equip[self.equipIdxList[idx]]
+            self.equipStatsContent.config(state=Tkinter.NORMAL)
+            self.equipStatsContent.delete('1.0', Tkinter.END)
+            self.equipStatsContent.insert('insert', equip.showEquip())
+            self.equipStatsContent.config(state=Tkinter.DISABLED)
+        else:
+            self.selectEquipIdx = -1
+
+    def updateEquipListbox(self, event):
+            size = self.currentEquipListbox.size()
+            if size:
+                self.currentEquipListbox.delete(0, size-1)
+            size = self.equipListbox.size()
+            if size:
+                self.equipListbox.delete(0, size-1)
+            self.curEquipIdx = self.parent.m_inventory.m_equipped[self.chosenType.get()]
+            if self.curEquipIdx != -1:
+                self.currentEquipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[self.curEquipIdx].m_name)
+            self.equipIdxList = self.parent.m_inventory.getEquipIdxListbySlot(self.chosenType.get())
+            for idx in self.equipIdxList:
+                self.equipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[idx].m_name)
+            self.equipStatsContent.config(state=Tkinter.NORMAL)
+            self.equipStatsContent.delete('1.0', Tkinter.END)
+            if self.curEquipIdx != -1:
+                self.equipStatsContent.insert('insert', self.parent.m_inventory.m_equip[self.curEquipIdx].showEquip())
+                self.currentEquipListbox.selection_set(0)
+            self.equipStatsContent.config(state=Tkinter.DISABLED)
+            self.selectEquipIdx = -1
+
+    def onEquip(self):
+        if self.curEquipIdx != -1 or self.selectEquipIdx == -1:
+            return INVALID
+        self.parent.m_inventory.onEquip(self.chosenType.get(), self.equipIdxList[self.selectEquipIdx])
+        self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]
+        self.currentEquipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[self.curEquipIdx].m_name)
+
+    def offEquip(self):
+        if self.curEquipIdx == -1:
+            return INVALID
+        self.parent.m_inventory.offEquip(self.chosenType.get())
+        self.currentEquipListbox.delete(0)
+        self.curEquipIdx = -1
     
     def initUI(self):
-        def update(self):
-            pass
+
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         
@@ -440,17 +523,17 @@ class EquipWidget(Tkinter.Frame):
         self.Frameright.rowconfigure(1, weight=1)
         self.Frameright.rowconfigure(5, weight=1)
         
-        types = ['dummy']
+        types = sorted(EquipSlot.m_lib.keys())
         self.chosenType = Tkinter.StringVar()
-        self.chosenType.set('- Choose Type -')
-        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *types, command=update)
+        self.chosenType.set('- Choose Slot -')
+        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *types, command=self.updateEquipListbox)
 
         self.currentEquipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single', height=1)
         self.equipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
         self.currentEquipListbox.bind('<<ListboxSelect>>', self.currentEquipListboxSelect)
         self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
-        self.equipButton = Tkinter.Button(self.Frameleft, text='Equip')
-        self.unequipButton = Tkinter.Button(self.Frameleft, text='Unequip')
+        self.equipButton = Tkinter.Button(self.Frameleft, text='Equip', command=self.onEquip)
+        self.unequipButton = Tkinter.Button(self.Frameleft, text='Unequip', command=self.offEquip)
 
         self.equipStatsContent = ScrolledText.ScrolledText(self.Frameright,
                                                            wrap=Tkinter.WORD,
@@ -601,6 +684,7 @@ class MainWidget(Tkinter.Frame):
             tkMessageBox.showinfo('Load', 'Progress loaded.')
             self.m_sysMessage.set('Progress loaded.')
             self.tabInventory.reset()
+            self.tabEquip.reset()
     
     def quitButtonClicked(self):
         message = 'Are You Sure?'
