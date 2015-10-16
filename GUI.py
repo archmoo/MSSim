@@ -5,6 +5,7 @@ from scrolllib import ScrollLib
 from speciallib import SpecialLib
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID
 from potential import rank_label
+import pickle
 
 class InventoryWidget(Tkinter.Frame):
 
@@ -16,6 +17,16 @@ class InventoryWidget(Tkinter.Frame):
         self.m_selectedEquipIdx = -1
         self.initUI()
 
+    def reset(self):
+        self.m_selectedEquipIdx = -1
+        self.equipListbox.delete(0, Tkinter.END)
+        for i in range(len(self.parent.m_inventory.m_equip)):
+            self.equipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[i].m_name)
+        self.equipStatsContent.config(state=Tkinter.NORMAL)
+        self.equipStatsContent.delete('1.0', Tkinter.END)
+        self.equipStatsContent.config(state=Tkinter.DISABLED)
+        
+        
     def equipCreateButtonClicked(self):
         def update(self):
             equips = EquipLib.m_lib[chosenType.get()].keys()
@@ -415,8 +426,28 @@ class MainWidget(Tkinter.Frame):
         self.parent = parent
         self.initUI()
 
+    def saveButtonClicked(self):
+        message = 'Save Progress?\n(Old savefiles will be overwritten.)'
+        result = tkMessageBox.askquestion("Save", message, icon='warning', type='yesno')
+        if result == 'yes':
+            with open('savedata', 'wb') as output:
+                pickle.dump(self.m_inventory, output, -1)
+            tkMessageBox.showinfo('Save', 'Progress saved.')
+            self.m_sysMessage.set('Progress saved.')
+
+    def loadButtonClicked(self):
+        message = 'Load Savedata?\n(Current progress will be overwritten.)'
+        result = tkMessageBox.askquestion("Load", message, icon='warning', type='yesno')
+        if result == 'yes':
+            with open('savedata', 'rb') as save:
+                oldapp = pickle.load(save)
+            self.m_inventory = oldapp
+            tkMessageBox.showinfo('Load', 'Progress loaded.')
+            self.m_sysMessage.set('Progress loaded.')
+            self.tabInventory.reset()
+    
     def quitButtonClicked(self):
-        message = 'Are You Sure?\n\nQuitting'
+        message = 'Are You Sure?'
         result = tkMessageBox.askquestion("Quit", message, icon='warning', type='yesno')
         if result == 'yes':
             self.destroy()
@@ -436,11 +467,17 @@ class MainWidget(Tkinter.Frame):
         self.sysMessage = Tkinter.Label(self,
                                         textvariable=self.m_sysMessage,
                                         justify=Tkinter.LEFT)
+        self.saveButton = Tkinter.Button(self, text='Save', command=self.saveButtonClicked)
+        self.loadButton = Tkinter.Button(self, text='Load', command=self.loadButtonClicked)
         self.quitButton = Tkinter.Button(self, text='Quit', command=self.quitButtonClicked)
         
         self.tabs.pack(fill=Tkinter.BOTH, expand=1)
         self.sysMessage.pack(padx=5, pady=5, side=Tkinter.LEFT)
         self.quitButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
+        self.loadButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
+        self.saveButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
+        
+        
         
 if __name__ == '__main__':
 

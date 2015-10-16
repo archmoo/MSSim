@@ -14,6 +14,8 @@ class Inventory:
     m_use = {}
 
     def __init__(self):
+        self.m_equip = []
+        self.m_use = {}
         for key in SpecialLib.m_lib.keys():
             self.m_use[key] = 0
         for key in ScrollLib.m_lib.keys():
