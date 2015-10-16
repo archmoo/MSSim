@@ -436,6 +436,7 @@ class EquipWidget(Tkinter.Frame):
         self.initUI()
         self.curEquipIdx = -1
         self.selectEquipIdx = -1
+        self.equipIdxList = []
 
     def reset(self):
         self.equipStatsContent.config(state=Tkinter.NORMAL)
@@ -453,6 +454,7 @@ class EquipWidget(Tkinter.Frame):
             self.equipListbox.delete(0, size-1)
         self.curEquipIdx = -1
         self.selectEquipIdx = -1
+        self.equipIdxList = []
 
     def currentEquipListboxSelect(self, event):
         if self.curEquipIdx != -1:
@@ -511,6 +513,11 @@ class EquipWidget(Tkinter.Frame):
         self.parent.m_inventory.offEquip(self.chosenType.get())
         self.currentEquipListbox.delete(0)
         self.curEquipIdx = -1
+
+    def offEquipAll(self):
+        for t in self.types:
+            self.parent.m_inventory.offEquip(t)
+            self.reset()
     
     def initUI(self):
 
@@ -523,10 +530,10 @@ class EquipWidget(Tkinter.Frame):
         self.Frameright.rowconfigure(1, weight=1)
         self.Frameright.rowconfigure(5, weight=1)
         
-        types = sorted(EquipSlot.m_lib.keys())
+        self.types = sorted(EquipSlot.m_lib.keys())
         self.chosenType = Tkinter.StringVar()
         self.chosenType.set('- Choose Slot -')
-        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *types, command=self.updateEquipListbox)
+        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *self.types, command=self.updateEquipListbox)
 
         self.currentEquipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single', height=1)
         self.equipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
@@ -534,6 +541,7 @@ class EquipWidget(Tkinter.Frame):
         self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
         self.equipButton = Tkinter.Button(self.Frameleft, text='Equip', command=self.onEquip)
         self.unequipButton = Tkinter.Button(self.Frameleft, text='Unequip', command=self.offEquip)
+        self.unequipAllButton = Tkinter.Button(self.Frameright, text='Unequip All', command=self.offEquipAll)
 
         self.equipStatsContent = ScrolledText.ScrolledText(self.Frameright,
                                                            wrap=Tkinter.WORD,
@@ -569,9 +577,10 @@ class EquipWidget(Tkinter.Frame):
                                     sticky=Tkinter.N+Tkinter.S+Tkinter.W)
         self.charStatsLabel.grid(row=4, column=0, padx=5, pady=5, sticky=Tkinter.W)
         self.charStatsContent.grid(row=5, column=0,
-                                    rowspan=3, columnspan=3,
+                                    rowspan=2, columnspan=3,
                                     padx=5, pady=5,
                                     sticky=Tkinter.N+Tkinter.S+Tkinter.W)
+        self.unequipAllButton.grid(row=8, column=2, padx=5, pady=5, sticky=Tkinter.E)
         
         self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
         self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
