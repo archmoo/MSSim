@@ -30,20 +30,20 @@ class Inventory:
             return INVALID
         if item not in self.m_use.keys():
             return INVALID
-        if self.m_use[item] == 0:
-            return INVALID
+        #if self.m_use[item] == 0:
+        #    return INVALID
         
         if item in ScrollLib.m_lib.keys():
             stat = ScrollLib.m_lib[item]
         elif item in SpecialLib.m_lib.keys():
             stat = SpecialLib.m_lib[item]
 
-        if stat['type'] == 'special':
+        if stat['type'] == 'Special':
             #TODO: condition check
             if (stat['effect'] == 'Clean Slate' and self.m_equip[equipIdx].m_total_slot == self.m_equip[equipIdx].m_remain_slot + self.m_equip[equipIdx].m_success) or\
                (stat['effect'] == 'Potential' and self.m_equip[equipIdx].m_pot.m_rank > 0) or\
-               (stat['effect'] == 'Epic Potential' and self.m_equip[equipIdx].m_pot.m_rank > 0) or\
-               (stat['effect'] == 'Unique Potential' and self.m_equip[equipIdx].m_pot.m_rank > 0) or\
+               (stat['effect'] == 'Epic Potential' and self.m_equip[equipIdx].m_pot.m_rank > 1) or\
+               (stat['effect'] == 'Unique Potential' and self.m_equip[equipIdx].m_pot.m_rank > 2) or\
                (stat['effect'] == 'Hammer' and self.m_equip[equipIdx].m_remain_hammer == 0) or\
                (stat['effect'] == 'Potential Stamp' and len(self.m_equip[equipIdx].m_pot.m_lines) == 3) or\
                (stat['effect'] == 'Protect' and self.m_equip[equipIdx].m_protect) or\
@@ -73,7 +73,9 @@ class Inventory:
                 self.m_guardian = False
                 return FAIL
                     
-        elif stat['type'] == 'hammer':
+        elif stat['type'] == 'Hammer':
+            if self.m_equip[equipIdx].m_remain_hammer == 0:
+                return INVALID
             if random.random() < stat['success rate']: # success
                 self.m_equip[equipIdx].applySpecial(stat['effect'])
                 self.m_use[item] -= 1
@@ -95,7 +97,7 @@ class Inventory:
                 self.m_equip[equipIdx].applySpecial(stat['effect'])
                 return FAIL
 
-        elif stat['type'] == 'scroll':
+        elif stat['type'] == 'Scroll':
             if self.m_equip[equipIdx].m_remain_slot <= 0:
                 return INVALID
             if random.random() < stat['success rate']: # success
@@ -129,7 +131,9 @@ class Inventory:
                 return FAIL
             
                 
-        elif stat['type'] == 'trace':
+        elif stat['type'] == 'Trace':
+            if self.m_equip[equipIdx].m_remain_slot <= 0:
+                return INVALID
             #TODO: spell trace etc logic
             if random.random() < stat['success rate']:
                 self.m_equip[equipIdx].applyScroll(stat['effect'])
@@ -141,7 +145,7 @@ class Inventory:
                 self.m_equip[equipIdx].m_safety = False
                 return FAIL
 
-        elif stat['type'] == 'cube':
+        elif stat['type'] == 'Cube':
             rank = self.m_equip[equipIdx].m_pot.m_rank
             if rank < 1:
                 return INVALID

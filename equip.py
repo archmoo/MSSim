@@ -99,7 +99,11 @@ class Equip:
 
     def showEquip(self):
         output = ''
-        output += self.m_name + '\n'
+        output += self.m_name
+        if self.m_success > 0:
+            output += ' (+' + str(self.m_success) + ')\n'
+        else:
+            output += '\n'
         output += 'Category: ' + self.m_type + '\n'
         output += 'REQ LVL: ' + str(self.m_level) + '\n'
         output += 'Class: ' + self.m_class + '\n'
@@ -127,8 +131,20 @@ class Equip:
             output += 'ACCURACY: +' + str(self.m_accuracy) + '\n'
         if self.m_avoid:
             output += 'AVOIDABILITY: +' + str(self.m_avoid) + '\n'
+        output += 'NUMBER OF UPGRADES AVAILABLE: ' + str(self.m_remain_slot) + '\n'
+        output += 'NUMBER OF HAMMER APPLIED: ' + str(self.m_remain_hammer) + '\n\n'
         if self.m_pot:
             output += self.m_pot.showPot()
+        subScrollInfo = ''
+        if self.m_protect:
+            subScrollInfo += 'Protect Scroll in effect.\n'
+        if self.m_guardian:
+            subScrollInfo += 'Guardian Scroll in effect.\n'
+        if self.m_safety:
+            subScrollInfo += 'Safety Scroll in effect.\n'
+        if subScrollInfo != '':
+            output += '----\n'
+            output += subScrollInfo
         return output
 
         

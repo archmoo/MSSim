@@ -4,19 +4,19 @@ class ScrollLib:
     '''scrolls'''
     m_lib = {
         'Prime Scroll for Weapon': {
-            'type': 'scroll',
+            'type': 'Scroll',
             'success rate': 0.4,
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Weapon',
             },
         'Prime Scroll for Armor': {
-            'type': 'scroll',
+            'type': 'Scroll',
             'success rate': 0.4,
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Armor',
             },
         '15% str for Weapon': {
-            'type': 'trace',
+            'type': 'Trace',
             'success rate': 0.15,
             'boom rate': 0,
             'effect': '15% str for Weapon'
