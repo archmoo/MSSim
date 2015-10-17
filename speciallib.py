@@ -2,155 +2,188 @@ class SpecialLib:
     'Special items library'
 
     m_lib = {
-        '50% Innocent Scroll' : {
+        'Innocent Scroll 50%' : {
             'type': 'Special',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Innocent',
+            'description': 'Resets all stats from an item except for its Potentials.\nSuccess Rate: 50%\n',
             },
-        'Perfect Innocent Scroll' : {
+        'Innocent Scroll 100%' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Innocent',
+            'description': 'Resets all stats from an item except for its Potentials.\nSuccess Rate: 100%\n',
             },
         'Potential Scroll' : {
             'type': 'Special',
             'success rate': 0.7,
             'boom rate': 1,
             'effect': 'Potential',
+            'description': 'Provides potentials for regular equip items.\nSuccess Rate: 70%\nIf it fails, the item will be destroyed.\n',
             },
         'Advanced Potential Scroll' : {
             'type': 'Special',
             'success rate': 0.9,
             'boom rate': 1,
             'effect': 'Potential',
+            'description': 'Provides potentials for regular equip items.\nSuccess Rate: 90%\nIf it fails, the item will be destroyed.\n',
             },
-        '50% Epic Potential Scroll' : {
+        'Special Potential Scroll' : {
+            'type': 'Special',
+            'success rate': 1,
+            'boom rate': 0,
+            'effect': 'Potential',
+            'description': 'Provides potentials for regular equip items.\nSuccess Rate: 100%\n',
+            },
+        'Epic Potential Scroll 50%' : {
             'type': 'Special',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Epic Potential',
+            'description': 'Gives Epic Potential to items that are ranked Rare or below.\nSuccess Rate: 50%\n',
             },
-        '80% Epic Potential Scroll' : {
+        'Epic Potential Scroll 80%' : {
             'type': 'Special',
             'success rate': 0.8,
             'boom rate': 0.2,
             'effect': 'Epic Potential',
+            'description': 'Gives Epic Potential to items that are ranked Rare or below.\nSuccess Rate: 80%\nIf it fails, the item has a 20% chance of being destroyed.\n',
             },
-        '100% Epic Potential Scroll' : {
+        'Epic Potential Scroll 100%' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Epic Potential',
+            'description': 'Gives Epic Potential to items that are ranked Rare or below.\nSuccess Rate: 100%\n',
             },
-        '60% Unique Potential Scroll' : {
+        'Unique Potential Scroll 60%' : {
             'type': 'Special',
             'success rate': 0.6,
             'boom rate': 0,
             'effect': 'Unique Potential',
+            'description': 'Gives Unique Potential to items that are ranked Epic or below.\nSuccess Rate: 60%\n',
             },
-        '80% Unique Potential Scroll' : {
+        'Unique Potential Scroll 80%' : {
             'type': 'Special',
             'success rate': 0.8,
             'boom rate': 0,
             'effect': 'Unique Potential',
+            'description': 'Gives Unique Potential to items that are ranked Epic or below.\nSuccess Rate: 80%\n',
             },
-        '10% Clean Slate Scroll' : {
+        'Clean Slate Scroll 10%' : {
             'type': 'Special',
             'success rate': 0.1,
             'boom rate': 0,
             'effect': 'Clean Slate',
+            'description': 'Recovers the lost number of upgrades due to failed scroll by 1.\nSuccess Rate: 10%\n',
             },
-        '1% Clean Slate Scroll' : {
+        'Clean Slate Scroll 1%' : {
             'type': 'Special',
             'success rate': 0.01,
             'boom rate': 0.02,
             'effect': 'Clean Slate',
+            'description': 'Recovers the lost number of upgrades due to failed scroll by 1.\nSuccess Rate: 1%\nIf failed, the item has a 2% chance of being destroyed.\n',
             },
-        '20% Clean Slate Scroll' : {
+        'Clean Slate Scroll 20%' : {
             'type': 'Special',
             'success rate': 0.2,
             'boom rate': 0,
             'effect': 'Clean Slate',
+            'description': 'Recovers the lost number of upgrades due to failed scroll by 1.\nSuccess Rate: 20%\n',
             },
-        '50% Golden Hammer' : {
+        'Golden Hammer 50%' : {
             'type': 'Hammer',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Hammer',
+            'description': 'Provides one additional chance to apply a scroll to your equipment.\nSuccess Rate: 50%\n',
             },
-        '100% Golden Hammer' : {
+        'Golden Hammer 100%' : {
             'type': 'Hammer',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Hammer',
+            'description': 'Provides one additional chance to apply a scroll to your equipment.\nSuccess Rate: 100%\n',
             },
         'Perfect Potential Stamp' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Potential Stamp',
+            'description': 'Add 1 additional line of Potential to a piece of equipment with less than 3 Potential lines.\nSuccess Rate: 100%\n',
             },
-        'Golden Potential Stamp' : {
+        'Gold Potential Stamp' : {
             'type': 'Special',
             'success rate': 0.8,
             'boom rate': 0,
             'effect': 'Potential Stamp',
+            'description': 'Adds 1 additional line of Potential to a piece of equipment with less than 3 Potential lines.\nSuccess Rate: 80%\n',
             },
         'Silver Potential Stamp' : {
             'type': 'Special',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Potential Stamp',
+            'description': 'Adds 1 additional line of Potential to a piece of equipment with less than 3 Potential lines.\nSuccess Rate: 50%\n',
             },
-        'Protect Scroll' : {
+        'Protection Scroll' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Protect',
+            'description': 'Protects a piece of equipment from being destroyed by a failed scroll 1 time. Effect disappears after a successful scroll use.\n'
             },
+        #TODO: 12+ enhancement not available
         'Guardian Scroll' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Guardian',
+            'description': 'Keeps a scroll from being destroyed if a scrolling attempt fails. Effect disappears after a successful scroll use.\n'
             },
-        'Safety Scroll' : {
+        'Shield Scroll' : {
             'type': 'Special',
             'success rate': 1,
             'boom rate': 0,
             'effect': 'Safety',
+            'description': 'Protects a piece of equipment from having its upgrade count reduced by a failed scroll 1 time. Effect disappears after a successful scroll use.\n'
             },
         'Red Cube' : {
             'type': 'Cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.2, 0.1, 0.04, 0),
             'effect': 'Reset Potential',
+            'description': 'Randomly reconfigures the Potential on a piece of equipment. Only usable on items from Rare to Legendary.\nMax Result: Legendary\nHas a chance to raise Potential rank.\n',
             },
         'Black Cube' : {
             'type': 'Cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.45, 0.25, 0.1, 0),
             'effect': 'Choose Potential',
+            'description': 'Randomly reconfigures the Potential on a piece of equipment. Offers the chance to decide whether or not to apply the new Potential to the item. Only usable on items from Rare to Legendary.\nMax Result: Legendary\nHas a higher chance to raise Potential rank.\n',
             },
         'Violet Cube' : {
             'type': 'Cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.45, 0.25, 0.1, 0),
             'effect': 'Pick Potential Lines',
+            'description': 'Randomly reconfigures the Potential on a piece of equipment. Gives twice the lines of its current number of Potential lines to choose from. Only usable on items from Rare to Legendary.\nMax Result: Legendary\nHas a higher chance to raise Potential rank.\n',
             },
         'Master Craftsman Cube' : {
             'type': 'Cube',
             'availability': (True, True, True, False),
             'tierup rate': (0.055, 0.01, 0, 0),
             'effect': 'Reset Potential',
+            'description': 'Randomly reconfigures the Potential on a piece of equipment. Only usable on items from Rare to Unique.\nMax Result: Unique\nHas a chance to raise Potential rank.\n',
             },
         'Meister Cube' : {
             'type': 'Cube',
             'availability': (True, True, True, True),
             'tierup rate': (0.1, 0.05, 0.01, 0),
             'effect': 'Reset Potential',
+            'description': 'Randomly reconfigures the Potential on a piece of equipment. Only usable on items from Rare to Legendary.\nMax Result: Legendary\nHas a chance to raise Potential rank.\n',
             },
         
         }

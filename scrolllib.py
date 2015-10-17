@@ -8,43 +8,50 @@ class ScrollLib:
             'success rate': 0.4,
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Weapon',
+            'description': 'Improves Weapon ATT and Magic ATT for weapons.\n',
             },
         'Prime Scroll for Armor': {
             'type': 'Scroll',
             'success rate': 0.4,
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Armor',
+            'description': 'Improves armor stats.\n'
             },
-        '60% Chaos Scroll': {
+        'Chaos Scroll 60%': {
             'type' : 'Scroll',
             'success rate': 0.6,
             'boom rate': 0,
             'effect': 'Chaos Scroll',
+            'description': 'Reconfigures equipment stats.\n'
             },
-        '30% Chaos Scroll of Goodness': {
+        'Chaos Scroll of Goodness 30%': {
             'type' : 'Scroll',
             'success rate': 0.3,
             'boom rate': 0,
             'effect': 'Chaos Scroll of Goodness',
+            'description': 'Reconfigures equipment stats. Equipment stats will not decrease.\n'
             },
-        '50% Incredible Chaos Scroll of Goodness': {
+        'Incredible Chaos Scroll of Goodness 50%': {
             'type' : 'Scroll',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Incredible Chaos Scroll of Goodness',
+            'description': 'Reconfigures equipment stats. Equipment stats will not decrease. Offers more improvement than Chaos Scroll of Goodness.\n'
             },
-        '60% Miraculous Chaos Scroll': {
+        'Miraculous Chaos Scroll 60%': {
             'type' : 'Scroll',
             'success rate': 0.6,
             'boom rate': 0,
             'effect': 'Miraculous Chaos Scroll',
+            'description': 'Reconfigures equipment stats. Offers options better or worse than Chaos Scroll.\n'
             },
         
-        '15% str for Weapon': {
+        'STR for Weapon 15%': {
             'type': 'Trace',
             'success rate': 0.15,
             'boom rate': 0,
-            'effect': '15% str for Weapon'
+            'effect': 'STR for Weapon',
+            'description': 'Improves Weapon ATT and STR for weapons.\n'
             },
         }
 
@@ -68,7 +75,7 @@ class ScrollLib:
                 'luk': 10,
                 },
             },
-        '15% str for Weapon': {
+        'STR for Weapon': {
             (150, 250): {
                 'str': 4,
                 'watt': 9
@@ -160,5 +167,54 @@ class ScrollLib:
                 high = lvlRange[1]
                 if low <= equip.m_level and high >= equip.m_level:
                     return ('chaos', cdf)
+    @staticmethod
+    def showScrollStat(name):
+        keyDisp = {
+            'str':'STR',
+            'dex':'DEX',
+            'int':'INT',
+            'luk':'LUK',
+            'watt':'Weapon ATT',
+            'matt':'Magic ATT',
+            'hp':'MaxHP',
+            'mp':'MaxHP',
+            'accuracy':'Accuracy',
+            'avoid':'Avoidability',
+            }
+        def sortFunc(key):
+            return {
+                'str':0,
+                'dex':1,
+                'int':2,
+                'luk':3,
+                'watt':4,
+                'matt':5,
+                'hp':6,
+                'mp':7,
+                'accuracy':8,
+                'avoid':9
+                }[key]
+        
+        effect = ScrollLib.m_lib[name]['effect']
+        description = ScrollLib.m_lib[name]['description']
+        description += 'Success Rate: ' + str(int(100*ScrollLib.m_lib[name]['success rate'])) + '%\n'
+        if ScrollLib.m_lib[name]['boom rate'] != 0:
+            description += 'If it fails, the item has a ' + str(int(ScrollLib.m_lib[name]['boom rate']*100)) + '% chance of it being destroyed.\n'
+        if effect in ScrollLib.m_decisive.keys():
+            options = ScrollLib.m_decisive[effect]
+            for lvlRange, stat in options.items():
+                low = lvlRange[0]
+                high = lvlRange[1]
+                if not (low == 0 and high == 250):
+                    description += '\nFor equipment level from ' + str(low) + ' to ' + str(high) + ' :\n'
+                else:
+                    description += '\n'
+                for key, value in sorted(stat.items(),key=lambda t: sortFunc(t[0])):
+                    description += keyDisp[key] + ': +' + str(value) + '\n'
+        return description
+                        
+                    
+        
+        
 
         

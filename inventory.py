@@ -9,6 +9,7 @@ SUCCESS = 0
 FAIL = 1
 BOOM = 2
 INVALID = -1
+NOITEM = -2
 
 class Inventory:
     m_equip = []
@@ -39,7 +40,7 @@ class Inventory:
         if item not in self.m_use.keys():
             return INVALID
         if self.m_use[item] <= 0:
-            return INVALID
+            return NOITEM
         
         if item in ScrollLib.m_lib.keys():
             stat = ScrollLib.m_lib[item]
@@ -159,6 +160,7 @@ class Inventory:
                 return INVALID
             if not stat['availability'][rank - 1]:
                 return INVALID
+            self.m_use[item] -= 1
             newPot = Potential(self.m_equip[equipIdx])
             if random.random() < stat['tierup rate'][rank - 1]:
                 newPot.m_rank += 1
@@ -284,3 +286,4 @@ if __name__ == '__main__':
 ##            raw_input('Continue ?')
     a.onEquip('Hat', 0)
     print a.m_equipped['Face']
+    print ScrollLib.showScrollStat('STR for Weapon 15%')
