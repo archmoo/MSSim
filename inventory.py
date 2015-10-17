@@ -38,8 +38,8 @@ class Inventory:
             return INVALID
         if item not in self.m_use.keys():
             return INVALID
-        #if self.m_use[item] == 0:
-        #    return INVALID
+        if self.m_use[item] <= 0:
+            return INVALID
         
         if item in ScrollLib.m_lib.keys():
             stat = ScrollLib.m_lib[item]

@@ -29,50 +29,50 @@ class InventoryWidget(Tkinter.Frame):
         self.equipStatsContent.config(state=Tkinter.DISABLED)
         
         
-    def equipCreateButtonClicked(self):
-        def update(self):
-            equips = EquipLib.m_lib[chosenType.get()].keys()
-            equipOptionMenu['menu'].delete(0, 'end')
-            for equip in equips:
-                equipOptionMenu['menu'].add_command(label=equip,
-                                                    command=Tkinter._setit(chosenEquip, equip))
-            chosenEquip.set('- Choose Equip -')
-
-        def select():
-            equip = chosenEquip.get()
-            if equip != '- Choose Equip -':
-                self.equipListbox.insert(Tkinter.END, equip)
-                self.parent.m_inventory.createEquip(equip)
-                self.parent.m_sysMessage.set(equip + ' created.')
-
-        self.parent.tabEquip.reset()
-        
-        toplevel = Tkinter.Toplevel(self)
-        toplevel.grab_set()
-        toplevel.title('Create Equipment')
-        toplevel.geometry('200x150+300+300')
-
-        equips = ['']
-        chosenEquip = Tkinter.StringVar()
-        chosenEquip.set('- Choose Equip -')
-
-        types = EquipLib.m_lib.keys()
-        chosenType = Tkinter.StringVar()
-        chosenType.set('- Choose Type -')
-        typeOptionMenu = Tkinter.OptionMenu(toplevel, chosenType, *types, command=update)
-        equipOptionMenu = Tkinter.OptionMenu(toplevel, chosenEquip, *equips)
-        equipOptionMenu['menu'].delete(0, 'end')        
-
-        selectButton = Tkinter.Button(toplevel, text='Select', command=select)
-        quitButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
-
-        toplevel.columnconfigure(0, weight=1)
-        toplevel.rowconfigure(2, weight=1)
-        
-        typeOptionMenu.grid(row=0, pady=5)
-        equipOptionMenu.grid(row=1)
-        selectButton.grid(row=3)
-        quitButton.grid(row=4, pady=5)
+##    def equipCreateButtonClicked(self):
+##        def update(self):
+##            equips = EquipLib.m_lib[chosenType.get()].keys()
+##            equipOptionMenu['menu'].delete(0, 'end')
+##            for equip in equips:
+##                equipOptionMenu['menu'].add_command(label=equip,
+##                                                    command=Tkinter._setit(chosenEquip, equip))
+##            chosenEquip.set('- Choose Equip -')
+##
+##        def select():
+##            equip = chosenEquip.get()
+##            if equip != '- Choose Equip -':
+##                self.equipListbox.insert(Tkinter.END, equip)
+##                self.parent.m_inventory.createEquip(equip)
+##                self.parent.m_sysMessage.set(equip + ' created.')
+##
+##        self.parent.tabEquip.reset()
+##        
+##        toplevel = Tkinter.Toplevel(self)
+##        toplevel.grab_set()
+##        toplevel.title('Create Equipment')
+##        toplevel.geometry('200x150+300+300')
+##
+##        equips = ['']
+##        chosenEquip = Tkinter.StringVar()
+##        chosenEquip.set('- Choose Equip -')
+##
+##        types = EquipLib.m_lib.keys()
+##        chosenType = Tkinter.StringVar()
+##        chosenType.set('- Choose Type -')
+##        typeOptionMenu = Tkinter.OptionMenu(toplevel, chosenType, *types, command=update)
+##        equipOptionMenu = Tkinter.OptionMenu(toplevel, chosenEquip, *equips)
+##        equipOptionMenu['menu'].delete(0, 'end')        
+##
+##        selectButton = Tkinter.Button(toplevel, text='Select', command=select)
+##        quitButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
+##
+##        toplevel.columnconfigure(0, weight=1)
+##        toplevel.rowconfigure(2, weight=1)
+##        
+##        typeOptionMenu.grid(row=0, pady=5)
+##        equipOptionMenu.grid(row=1)
+##        selectButton.grid(row=3)
+##        quitButton.grid(row=4, pady=5)
 
     def equipModifyButtonClicked(self):
         if self.m_selectedEquipIdx == -1:
@@ -277,7 +277,7 @@ class InventoryWidget(Tkinter.Frame):
 
         toplevel = Tkinter.Toplevel(self)
         toplevel.grab_set()
-        toplevel.title('Modify Equipment')
+        toplevel.title('Upgrade Equipment')
         toplevel.geometry('600x400+300+300')
 
         toplevel.columnconfigure(0, weight=1)
@@ -394,8 +394,8 @@ class InventoryWidget(Tkinter.Frame):
         self.equipListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
         self.equipListbox.bind('<<ListboxSelect>>', self.equipListboxSelect)
 
-        self.equipCreateButton = Tkinter.Button(self.Frameleft, text='Create', command=self.equipCreateButtonClicked)
-        self.equipModifyButton = Tkinter.Button(self.Frameleft, text='Modify', command=self.equipModifyButtonClicked)
+##        self.equipCreateButton = Tkinter.Button(self.Frameleft, text='Create', command=self.equipCreateButtonClicked)
+        self.equipModifyButton = Tkinter.Button(self.Frameleft, text='Upgrade', command=self.equipModifyButtonClicked)
         self.equipDeleteButton = Tkinter.Button(self.Frameleft, text='Delete', command=self.equipDeleteButtonClicked)
  
         self.equipStats = Tkinter.StringVar()
@@ -416,8 +416,8 @@ class InventoryWidget(Tkinter.Frame):
                                rowspan=5, columnspan=3,
                                padx=5, pady=5,
                                sticky=Tkinter.W+Tkinter.E+Tkinter.N+Tkinter.S)
-        self.equipCreateButton.grid(row=6, column=0, padx=5, pady=5, sticky=Tkinter.W)
-        self.equipModifyButton.grid(row=6, column=1, padx=5, pady=5)
+##        self.equipCreateButton.grid(row=6, column=0, padx=5, pady=5, sticky=Tkinter.W)
+        self.equipModifyButton.grid(row=6, column=0, padx=5, pady=5, sticky=Tkinter.W)
         self.equipDeleteButton.grid(row=6, column=2, padx=5, pady=5, sticky=Tkinter.E)
         self.equipStatsLabel.grid(row=0, column=0, rowspan=1, columnspan=3, padx=5, pady=5)
         self.equipStatsContent.grid(row=1, column=0,
@@ -701,6 +701,20 @@ class PurchaseWidget(Tkinter.Frame):
             
         
     def purchaseButtonClicked(self):
+        def purchase():
+            value = quantityEntry.get()
+            try: 
+                quantity = int(value)
+                assert quantity > 0
+                message = 'Are You Sure?\n\n' + 'Purchase ' + str(quantity) + ' ' + self.listboxList[self.curSelectIdx]
+                res = tkMessageBox.askquestion('Purchase', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_inventory.m_use[self.listboxList[self.curSelectIdx]] += quantity
+                    toplevel.destroy()
+                    print self.listboxList[self.curSelectIdx], self.parent.m_inventory.m_use[self.listboxList[self.curSelectIdx]]
+            except Exception:
+                tkMessageBox.showwarning('Invalid', 'Invalid input!')
+                
         if self.curSelectIdx == -1:
             return
         if self.curChosenType == 'Equip':
@@ -709,8 +723,23 @@ class PurchaseWidget(Tkinter.Frame):
                 self.parent.m_inventory.createEquip(self.listboxList[self.curSelectIdx])
                 self.parent.tabInventory.reset()
                 self.parent.tabEquip.reset()
+                
         elif self.curChosenType == 'Use':
-            pass
+            toplevel = Tkinter.Toplevel(self)
+            toplevel.geometry('300x100+300+300')
+            toplevel.rowconfigure(0, weight=1)
+            toplevel.columnconfigure(1, weight=1)
+            toplevel.columnconfigure(2, weight=1)
+            quantityLabel = Tkinter.Label(toplevel, text='Quantity:')
+            quantityEntry = Tkinter.Entry(toplevel)
+            purchaseButton = Tkinter.Button(toplevel, text='Purchase', command=purchase)
+            cancelButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
+
+            quantityLabel.grid(row=0, column=0, padx=5, pady=5)
+            quantityEntry.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
+            purchaseButton.grid(row=1, column=1, padx=5, pady=5)
+            cancelButton.grid(row=1, column=2, padx=5, pady=5)
+            
         elif self.curChosenType == 'Etc':
             pass
     
@@ -719,7 +748,7 @@ class PurchaseWidget(Tkinter.Frame):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         
-        self.Frameleft = Tkinter.Frame(self, padx=5, pady=5)
+        self.Frameleft = Tkinter.Frame(self, padx=5, pady=10)
         self.Frameleft.rowconfigure(2, weight=1)
         self.Frameright = Tkinter.Frame(self, padx=5, pady=5)
         self.Frameright.rowconfigure(1, weight=1)
@@ -761,8 +790,8 @@ class PurchaseWidget(Tkinter.Frame):
         self.marketInfoContent.config(state=Tkinter.DISABLED)
         self.purchaseButton = Tkinter.Button(self.Frameright, text='Purchase', command=self.purchaseButtonClicked)
 
-        self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
-        self.categoryOptionMenu.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
+        self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, sticky=Tkinter.W)
+        self.categoryOptionMenu.grid(row=1, column=0, columnspan=3, padx=5, sticky=Tkinter.W)
         self.itemListbox.grid(row=2, column=0, rowspan=6, columnspan=3, padx=5, pady=5, sticky=Tkinter.W+Tkinter.E+Tkinter.S+Tkinter.N)
         self.resourceLabel.grid(row=8, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
 
