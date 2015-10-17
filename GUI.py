@@ -131,6 +131,15 @@ class InventoryWidget(Tkinter.Frame):
                     useDescriptionContent.delete('1.0', Tkinter.END)
                     useDescriptionContent.insert('insert', description)
                     useDescriptionContent.config(state=Tkinter.DISABLED)
+                    try:
+                        if useItem == self.parent.tabPurchase.listboxList[self.parent.tabPurchase.curSelectIdx]:
+                            description = useItem + '\n\n' + description
+                            self.parent.tabPurchase.descriptionContent.config(state=Tkinter.NORMAL)
+                            self.parent.tabPurchase.descriptionContent.delete('1.0', Tkinter.END)
+                            self.parent.tabPurchase.descriptionContent.insert('insert', description)
+                            self.parent.tabPurchase.descriptionContent.config(state=Tkinter.DISABLED)
+                    except:
+                        pass
                     if res == FAIL:
                         sysMessage.set(useItem + ' failed.')
                         self.equipStats.set(self.parent.m_inventory.m_equip[self.m_selectedEquipIdx].showEquip())
