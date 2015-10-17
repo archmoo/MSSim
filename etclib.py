@@ -144,7 +144,7 @@ class EtcLib:
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Black CUbe Coin',
+            'etc': 'Black Cube Coin',
             'quantity': 1,
             },
         'Queen Coin': {
