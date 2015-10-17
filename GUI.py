@@ -1,5 +1,6 @@
 import Tkinter, ttk, tkMessageBox
 import ScrolledText
+from equip import Equip
 from equiplib import EquipLib
 from scrolllib import ScrollLib
 from speciallib import SpecialLib
@@ -87,7 +88,7 @@ class InventoryWidget(Tkinter.Frame):
             usesLib = {}
             usesLib.update(ScrollLib.m_lib)
             usesLib.update(SpecialLib.m_lib)
-            uses = [key for key in usesLib.keys() if usesLib[key]['type'] == chosenType.get()]
+            uses = sorted([key for key in usesLib.keys() if usesLib[key]['type'] == chosenType.get()])
             useOptionMenu['menu'].delete(0, 'end')
             for use in uses:
                 useOptionMenu['menu'].add_command(label=use,
@@ -590,12 +591,131 @@ class PurchaseWidget(Tkinter.Frame):
     def __init__(self, parent):
         Tkinter.Frame.__init__(self, parent)
         self.parent = parent
+        self.curChosenType = '- Choose Type -'
+        self.curChosenCategory = '- Choose Category -'
+        self.listboxList = []
+        self.curSelectIdx = -1
         self.initUI()
 
     def reset(self):
         pass
 
+    def updateType(self, event):
+        def setUpCategory(option):
+            self.chosenCategory.set(option)
+            self.updateCategory()
+            print self.curSelectIdx
+            
+        chosenType = self.chosenType.get()
+        if self.curChosenType == chosenType:
+            return
+        self.curChosenType = chosenType
+        self.chosenCategory.set('- Choose Category -')
+        self.curChosenCategory = '- Choose Category -'
+        self.descriptionContent.config(state=Tkinter.NORMAL)
+        self.descriptionContent.delete('1.0', Tkinter.END)
+        self.descriptionContent.config(state=Tkinter.DISABLED)
+        self.marketInfoContent.config(state=Tkinter.NORMAL)
+        self.marketInfoContent.delete('1.0', Tkinter.END)
+        self.marketInfoContent.config(state=Tkinter.DISABLED)
+        size = self.itemListbox.size()
+        if size:
+            self.itemListbox.delete(0, size-1)
+        self.listboxList = []
+        self.curSelectIdx = -1
+
+        if chosenType == 'Equip':
+            equipTypes = sorted(EquipLib.m_lib.keys())
+            self.categoryOptionMenu['menu'].delete(0, 'end')
+            for equipType in equipTypes:
+                self.categoryOptionMenu['menu'].add_command(label=equipType,
+                                                    command=lambda name=equipType: setUpCategory(name))
+        elif chosenType == 'Use':
+            useTypes = ['Special', 'Hammer', 'Cube', 'Scroll']
+            self.categoryOptionMenu['menu'].delete(0, 'end')
+            for useType in useTypes:
+                self.categoryOptionMenu['menu'].add_command(label=useType,
+                                                    command=lambda name=useType: setUpCategory(name))
+        elif chosenType == 'Etc':
+            etcTypes = ['Trace', 'Meso', 'NX', 'Coin']
+            self.categoryOptionMenu['menu'].delete(0, 'end')
+            for etcType in etcTypes:
+                self.categoryOptionMenu['menu'].add_command(label=etcType,
+                                                    command=lambda name=etcType: setUpCategory(name))
+
+    def updateCategory(self):
+            chosenCategory = self.chosenCategory.get()
+            if self.curChosenCategory == chosenCategory:
+                return
+            self.curChosenCategory = chosenCategory
+            self.descriptionContent.config(state=Tkinter.NORMAL)
+            self.descriptionContent.delete('1.0', Tkinter.END)
+            self.descriptionContent.config(state=Tkinter.DISABLED)
+            self.marketInfoContent.config(state=Tkinter.NORMAL)
+            self.marketInfoContent.delete('1.0', Tkinter.END)
+            self.marketInfoContent.config(state=Tkinter.DISABLED)
+            size = self.itemListbox.size()
+            if size:
+                self.itemListbox.delete(0, size-1)
+            self.listboxList = []
+            self.curSelectIdx = -1
+
+            if self.curChosenType == 'Equip':
+                self.listboxList = sorted(EquipLib.m_lib[chosenCategory].keys())
+                print self.listboxList
+                for equipName in self.listboxList:
+                    self.itemListbox.insert(Tkinter.END, equipName)
+            elif self.curChosenType == 'Use':
+                usesLib = {}
+                usesLib.update(ScrollLib.m_lib)
+                usesLib.update(SpecialLib.m_lib)
+                self.listboxList = sorted([key for key in usesLib.keys() if usesLib[key]['type'] == chosenCategory])
+                print self.listboxList
+                for useName in self.listboxList:
+                    self.itemListbox.insert(Tkinter.END, useName)
+            elif self.curChosenType == 'Etc':
+                pass
+
+    def itemListboxSelect(self, event):
+        listbox = event.widget
+        choice = listbox.curselection()
+        if len(choice) != 0:
+            idx = choice[0]
+            value = listbox.get(choice[0])
+            self.curSelectIdx = idx
+        else:
+            self.curSelectIdx = -1
+        if self.curSelectIdx == -1:
+            return
+        if self.curChosenType == 'Equip':
+            equip = Equip(self.listboxList[self.curSelectIdx])
+            equip.setClean()
+            self.descriptionContent.config(state=Tkinter.NORMAL)
+            self.descriptionContent.delete('1.0', Tkinter.END)
+            self.descriptionContent.insert('insert', equip.showEquip())
+            self.descriptionContent.config(state=Tkinter.DISABLED)
+        elif self.curChosenType == 'Use':
+            pass
+        elif self.curChosenType == 'Etc':
+            pass
+            
+        
+    def purchaseButtonClicked(self):
+        if self.curSelectIdx == -1:
+            return
+        if self.curChosenType == 'Equip':
+            res = tkMessageBox.askquestion('Purchase', 'Are You Sure?', type='yesno')
+            if res == 'yes':
+                self.parent.m_inventory.createEquip(self.listboxList[self.curSelectIdx])
+                self.parent.tabInventory.reset()
+                self.parent.tabEquip.reset()
+        elif self.curChosenType == 'Use':
+            pass
+        elif self.curChosenType == 'Etc':
+            pass
+    
     def initUI(self):
+
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         
@@ -610,14 +730,16 @@ class PurchaseWidget(Tkinter.Frame):
         self.chosenCategory = Tkinter.StringVar()
         self.chosenCategory.set('- Choose Category -')
         
-        self.types = ['']
+        self.types = ['Equip', 'Use', 'Etc']
         self.chosenType = Tkinter.StringVar()
         self.chosenType.set('- Choose Type -')
 
-        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *self.types)
+        self.typeOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenType, *self.types, command=self.updateType)
         self.categoryOptionMenu = Tkinter.OptionMenu(self.Frameleft, self.chosenCategory, *self.categories)
+        self.categoryOptionMenu['menu'].delete(0)
 
         self.itemListbox = Tkinter.Listbox(self.Frameleft, selectmode='single')
+        self.itemListbox.bind('<<ListboxSelect>>', self.itemListboxSelect)
 
         self.resourceContent = Tkinter.StringVar()
         self.resourceLabel = Tkinter.Label(self.Frameleft, textvariable=self.resourceContent, justify=Tkinter.LEFT)
@@ -637,7 +759,7 @@ class PurchaseWidget(Tkinter.Frame):
         self.marketInfoContent.config(font=('San Francisco', 13, 'normal'))
         self.marketInfoContent.insert('insert', '')
         self.marketInfoContent.config(state=Tkinter.DISABLED)
-        self.purchaseButton = Tkinter.Button(self.Frameright, text='Purchase')
+        self.purchaseButton = Tkinter.Button(self.Frameright, text='Purchase', command=self.purchaseButtonClicked)
 
         self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
         self.categoryOptionMenu.grid(row=1, column=0, columnspan=3, padx=5, pady=5, sticky=Tkinter.W)
@@ -694,6 +816,7 @@ class MainWidget(Tkinter.Frame):
             self.m_sysMessage.set('Progress loaded.')
             self.tabInventory.reset()
             self.tabEquip.reset()
+            self.tabPurchase.reset()
     
     def quitButtonClicked(self):
         message = 'Are You Sure?'

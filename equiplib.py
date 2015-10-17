@@ -429,14 +429,10 @@ class EquipLib:
         
     }
 
-    def __getitem__(self, typeName):
-        return self.m_lib[typeName]
-    
-    def getType(self, typeName):
-        return self.__getitem__(typeName)
 
-    def getEquip(self, equipName):
-        for equipType in self.m_lib.values():
+    @staticmethod
+    def getEquip(equipName):
+        for equipType in EquipLib.m_lib.values():
             if equipName in equipType.keys():
                 return equipType[equipName]
         return None
