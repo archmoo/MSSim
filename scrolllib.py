@@ -9,41 +9,77 @@ class ScrollLib:
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Weapon',
             'description': 'Improves Weapon ATT and Magic ATT for weapons.\n',
+            # market info
+            'cost': ['Meso','Event Coin'],
+            'value': [1, 1],
+            'stock': [5, 0],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         'Prime Scroll for Armor': {
             'type': 'Scroll',
             'success rate': 0.4,
             'boom rate': 0.3,
             'effect': 'Prime Scroll for Armor',
-            'description': 'Improves armor stats.\n'
+            'description': 'Improves armor stats.\n',
+            # market info
+            'cost': ['Meso','Event Coin'],
+            'value': [1, 1],
+            'stock': [5, 0],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         'Chaos Scroll 60%': {
             'type' : 'Scroll',
             'success rate': 0.6,
             'boom rate': 0,
             'effect': 'Chaos Scroll',
-            'description': 'Reconfigures equipment stats.\n'
+            'description': 'Reconfigures equipment stats.\n',
+            # market info
+            'cost': ['Meso','Elite Coin'],
+            'value': [1, 3],
+            'stock': [5, 5],
+            'max': [10, 5],
+            'supply': [5, 5],
             },
         'Chaos Scroll of Goodness 30%': {
             'type' : 'Scroll',
             'success rate': 0.3,
             'boom rate': 0,
             'effect': 'Chaos Scroll of Goodness',
-            'description': 'Reconfigures equipment stats. Equipment stats will not decrease.\n'
+            'description': 'Reconfigures equipment stats. Equipment stats will not decrease.\n',
+            # market info
+            'cost': ['Meso','Elite Coin'],
+            'value': [1, 3],
+            'stock': [5, 5],
+            'max': [10, 5],
+            'supply': [5, 5],
             },
         'Incredible Chaos Scroll of Goodness 50%': {
             'type' : 'Scroll',
             'success rate': 0.5,
             'boom rate': 0,
             'effect': 'Incredible Chaos Scroll of Goodness',
-            'description': 'Reconfigures equipment stats. Equipment stats will not decrease. Offers more improvement than Chaos Scroll of Goodness.\n'
+            'description': 'Reconfigures equipment stats. Equipment stats will not decrease. Offers more improvement than Chaos Scroll of Goodness.\n',
+            # market info
+            'cost': ['Meso','Event Coin'],
+            'value': [1, 1],
+            'stock': [5, 0],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         'Miraculous Chaos Scroll 60%': {
             'type' : 'Scroll',
             'success rate': 0.6,
             'boom rate': 0,
             'effect': 'Miraculous Chaos Scroll',
-            'description': 'Reconfigures equipment stats. Offers options better or worse than Chaos Scroll.\n'
+            'description': 'Reconfigures equipment stats. Offers options better or worse than Chaos Scroll.\n',
+            # market info
+            'cost': ['Meso','Event Coin'],
+            'value': [1, 1],
+            'stock': [5, 0],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         
         'STR for Weapon 15%': {
@@ -51,7 +87,13 @@ class ScrollLib:
             'success rate': 0.15,
             'boom rate': 0,
             'effect': 'STR for Weapon',
-            'description': 'Improves Weapon ATT and STR for weapons.\n'
+            'description': 'Improves Weapon ATT and STR for weapons.\n',
+            # market info
+            'cost': ['Trace'],
+            'value': [1],
+            'stock': [-1],
+            'max': [-1],
+            'supply': [-1],
             },
         }
 

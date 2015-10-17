@@ -15,11 +15,13 @@ class Inventory:
     m_equip = []
     m_equipped = {}
     m_use = {}
+    m_etc = {}
 
     def __init__(self):
         self.m_equip = []
         self.m_use = {}
         self.m_equipped = {}
+        
         for key in SpecialLib.m_lib.keys():
             self.m_use[key] = 0
         for key in ScrollLib.m_lib.keys():
@@ -27,7 +29,30 @@ class Inventory:
                 self.m_use[key] = 0
         for key in EquipSlot.m_lib.keys():
             self.m_equipped[key] = -1
-        
+        self.m_etc = {
+            'Meso': 100000,
+            'NX': 0,
+            'Trace': 0,
+            'Elite Coin': 0,
+            'Boss Coin': 0,
+            'Event Coin': 0,
+            'Red Cube Coin': 0,
+            'Black Cube Coin': 0,
+            'Queen Coin': 0,
+            'Pierre Coin': 0,
+            'VonBon Coin': 0,
+            'Vellum Coin': 0,
+            'Magnus Coin': 0,
+            'Magnus Coin 2': 0,
+            'Cygnus Coin': 0,
+            'Shadow Coin': 0,
+            'Denaro': 0,
+            'Gollux Coin': 0,
+            'Gollux Coin 1': 0,
+            'Gollux Coin 2': 0,
+            'Gollux Coin 3': 0,
+            'Gollux Coin 4': 0,
+            }
 
     def createItem(self, item, num):
         if item in self.m_use.keys():

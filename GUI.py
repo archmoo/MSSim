@@ -4,9 +4,11 @@ from equip import Equip
 from equiplib import EquipLib
 from scrolllib import ScrollLib
 from speciallib import SpecialLib
+from etclib import EtcLib
 from equipslot import EquipSlot
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID, NOITEM
 from potential import rank_label
+from marketinfo import MarketInfo
 import pickle
 
 class InventoryWidget(Tkinter.Frame):
@@ -633,7 +635,24 @@ class PurchaseWidget(Tkinter.Frame):
         self.initUI()
 
     def reset(self):
-        pass
+        self.curChosenType = '- Choose Type -'
+        self.chosenType.set('- Choose Type -')
+        self.curChosenCategory = '- Choose Category -'
+        self.chosenCategory.set('- Choose Category -')
+        self.listboxList = []
+        self.curSelectIdx = -1
+        size = self.itemListbox.size()
+        if size:
+            self.itemListbox.delete(0, size-1)
+        self.descriptionContent.config(state=Tkinter.NORMAL)
+        self.descriptionContent.delete('1.0', Tkinter.END)
+        self.descriptionContent.config(state=Tkinter.DISABLED)
+        self.marketInfoContent.config(state=Tkinter.NORMAL)
+        self.marketInfoContent.delete('1.0', Tkinter.END)
+        self.marketInfoContent.config(state=Tkinter.DISABLED)
+        message = 'Meso: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['Meso']) + '\n'
+        message += 'NX: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['NX'])
+        self.resourceContent.set(message)
 
     def updateType(self, event):
         def setUpCategory(option):
@@ -704,11 +723,15 @@ class PurchaseWidget(Tkinter.Frame):
                 usesLib.update(ScrollLib.m_lib)
                 usesLib.update(SpecialLib.m_lib)
                 self.listboxList = sorted([key for key in usesLib.keys() if usesLib[key]['type'] == chosenCategory])
-                print self.listboxList
                 for useName in self.listboxList:
                     self.itemListbox.insert(Tkinter.END, useName)
             elif self.curChosenType == 'Etc':
-                pass
+                etcLib = EtcLib.m_lib
+                self.listboxList = sorted([key for key in etcLib.keys() if etcLib[key]['type'] == chosenCategory])
+                for etcName in self.listboxList:
+                    self.itemListbox.insert(Tkinter.END, etcName)
+                
+                
 
     def itemListboxSelect(self, event):
         listbox = event.widget
@@ -728,10 +751,14 @@ class PurchaseWidget(Tkinter.Frame):
             self.descriptionContent.delete('1.0', Tkinter.END)
             self.descriptionContent.insert('insert', equip.showEquip())
             self.descriptionContent.config(state=Tkinter.DISABLED)
+            self.marketInfoContent.config(state=Tkinter.NORMAL)
+            self.marketInfoContent.delete('1.0', Tkinter.END)
+            self.marketInfoContent.insert('insert', self.parent.m_marketInfo.showMarketInfo(equip.m_name, self.parent.m_inventory.m_etc))
+            self.marketInfoContent.config(state=Tkinter.DISABLED)
         elif self.curChosenType == 'Use':
             scrollName = self.listboxList[self.curSelectIdx]
             description = scrollName + '\n\n'
-            description += 'Quantity in inventory: ' + str(self.parent.m_inventory.m_use[scrollName]) + '\n\n'
+            description += 'Quantity in inventory: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_use[scrollName]) + '\n\n'
             if self.curChosenCategory in ['Special', 'Hammer', 'Cube']:
                 description += SpecialLib.m_lib[scrollName]['description']
                 self.descriptionContent.config(state=Tkinter.NORMAL)
@@ -744,52 +771,201 @@ class PurchaseWidget(Tkinter.Frame):
                 self.descriptionContent.delete('1.0', Tkinter.END)
                 self.descriptionContent.insert('insert', description)
                 self.descriptionContent.config(state=Tkinter.DISABLED)
+            self.marketInfoContent.config(state=Tkinter.NORMAL)
+            self.marketInfoContent.delete('1.0', Tkinter.END)
+            self.marketInfoContent.insert('insert', self.parent.m_marketInfo.showMarketInfo(scrollName, self.parent.m_inventory.m_etc))
+            self.marketInfoContent.config(state=Tkinter.DISABLED)
                 
         elif self.curChosenType == 'Etc':
-            pass
+            etcName = self.listboxList[self.curSelectIdx]
+            description = etcName + '\n\n'
+            description += EtcLib.m_lib[etcName]['description']
+            self.descriptionContent.config(state=Tkinter.NORMAL)
+            self.descriptionContent.delete('1.0', Tkinter.END)
+            self.descriptionContent.insert('insert', description)
+            self.descriptionContent.config(state=Tkinter.DISABLED)
+            self.marketInfoContent.config(state=Tkinter.NORMAL)
+            self.marketInfoContent.delete('1.0', Tkinter.END)
+            self.marketInfoContent.insert('insert', self.parent.m_marketInfo.showMarketInfo(etcName, self.parent.m_inventory.m_etc))
+            self.marketInfoContent.config(state=Tkinter.DISABLED)
             
         
     def purchaseButtonClicked(self):
-        def purchase():
+        def purchaseEquip():
+            choiceIdx = radioButtonVar.get()
+            if choiceIdx == -1:
+                tkMessageBox.showwarning('Invalid', 'Please select payment type.')
+                return
+            marketInfo = self.parent.m_marketInfo.m_info[equipName]
+            availPay = self.parent.m_inventory.m_etc[marketInfo['cost'][choiceIdx]]
+            if marketInfo['stock'][choiceIdx] == 0:
+                tkMessageBox.showwarning('Invalid', 'Out of stock.')
+                return
+            elif marketInfo['value'][choiceIdx] > availPay:
+                message = 'Can not afford.\n\n'
+                message += 'Price: ' + EtcLib.dispLongNum(marketInfo['value'][choiceIdx]) + ' ' + marketInfo['cost'][choiceIdx] + '.\n'
+                message += 'You only have ' + EtcLib.dispLongNum(availPay) + ' ' + marketInfo['cost'][choiceIdx] + '.'
+                tkMessageBox.showwarning('Invalid', message)
+                return
+            else:
+                message = 'Are You Sure?\n\n'
+                message += 'Price: ' + EtcLib.dispLongNum(marketInfo['value'][choiceIdx]) + ' ' + marketInfo['cost'][choiceIdx] + '.\n'
+                message += 'You have ' + EtcLib.dispLongNum(availPay) + ' ' + marketInfo['cost'][choiceIdx] + '.'
+                res = tkMessageBox.askquestion('Purchase', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_inventory.m_etc[marketInfo['cost'][choiceIdx]] -= marketInfo['value'][choiceIdx]
+                    if marketInfo['stock'][choiceIdx] != -1:
+                        self.parent.m_marketInfo.m_info[equipName]['stock'][choiceIdx] -= 1
+                    self.parent.m_inventory.createEquip(self.listboxList[self.curSelectIdx])
+
+                    message = 'Meso: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['Meso']) + '\n'
+                    message += 'NX: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['NX'])
+                    self.resourceContent.set(message)
+                    self.marketInfoContent.config(state=Tkinter.NORMAL)
+                    self.marketInfoContent.delete('1.0', Tkinter.END)
+                    self.marketInfoContent.insert('insert', self.parent.m_marketInfo.showMarketInfo(equipName, self.parent.m_inventory.m_etc))
+                    self.marketInfoContent.config(state=Tkinter.DISABLED)
+                    self.parent.tabInventory.reset()
+                    self.parent.tabEquip.reset()
+                    toplevel.destroy()
+
+            
+        def purchaseUse():
+            choiceIdx = radioButtonVar.get()
+            if choiceIdx == -1:
+                tkMessageBox.showwarning('Invalid', 'Please select payment type.')
+                return
             value = quantityEntry.get()
             try: 
                 quantity = int(value)
                 assert quantity > 0
-                message = 'Are You Sure?\n\n' + 'Purchase ' + str(quantity) + ' ' + self.listboxList[self.curSelectIdx]
-                res = tkMessageBox.askquestion('Purchase', message, type='yesno')
-                if res == 'yes':
-                    self.parent.m_inventory.m_use[self.listboxList[self.curSelectIdx]] += quantity
-                    toplevel.destroy()
-                    print self.listboxList[self.curSelectIdx], self.parent.m_inventory.m_use[self.listboxList[self.curSelectIdx]]
             except Exception:
                 tkMessageBox.showwarning('Invalid', 'Invalid input!')
+                return
+            marketInfo = self.parent.m_marketInfo.m_info[scrollName]
+            availPay = self.parent.m_inventory.m_etc[marketInfo['cost'][choiceIdx]]
+            if marketInfo['stock'][choiceIdx] == 0:
+                tkMessageBox.showwarning('Invalid', 'Out of stock.')
+                return
+            elif marketInfo['stock'][choiceIdx] != -1 and marketInfo['stock'][choiceIdx] < quantity:
+                message = 'Only ' + EtcLib.dispLongNum(marketInfo['stock'][choiceIdx]) + ' in stock.\n'
+                tkMessageBox.showwarning('Invalid', message)
+                return
+            elif marketInfo['value'][choiceIdx] * quantity > availPay:
+                message = 'Can not afford.\n\n'
+                message += 'Price: ' + EtcLib.dispLongNum(marketInfo['value'][choiceIdx] * quantity) + ' ' + marketInfo['cost'][choiceIdx] + '.\n'
+                message += 'You only have ' + EtcLib.dispLongNum(availPay) + ' ' + marketInfo['cost'][choiceIdx] + '.'
+                tkMessageBox.showwarning('Invalid', message)
+                return
+            else:
+                message = 'Are You Sure?\n\n'
+                message += 'Purchasing ' + EtcLib.dispLongNum(quantity) + ' ' + self.listboxList[self.curSelectIdx] + '.\n'
+                message += 'Price: ' + EtcLib.dispLongNum(marketInfo['value'][choiceIdx] * quantity) + ' ' + marketInfo['cost'][choiceIdx] + '.\n'
+                message += 'You have ' + EtcLib.dispLongNum(availPay) + ' ' + marketInfo['cost'][choiceIdx] + '.'
+                res = tkMessageBox.askquestion('Purchase', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_inventory.m_etc[marketInfo['cost'][choiceIdx]] -= (marketInfo['value'][choiceIdx] * quantity)
+                    if marketInfo['stock'][choiceIdx] != -1:
+                        self.parent.m_marketInfo.m_info[scrollName]['stock'][choiceIdx] -= quantity
+                    self.parent.m_inventory.m_use[self.listboxList[self.curSelectIdx]] += quantity
+
+                    message = 'Meso: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['Meso']) + '\n'
+                    message += 'NX: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['NX'])
+                    self.resourceContent.set(message)
+                    self.marketInfoContent.config(state=Tkinter.NORMAL)
+                    self.marketInfoContent.delete('1.0', Tkinter.END)
+                    self.marketInfoContent.insert('insert', self.parent.m_marketInfo.showMarketInfo(scrollName, self.parent.m_inventory.m_etc))
+                    self.marketInfoContent.config(state=Tkinter.DISABLED)
+                    self.parent.tabInventory.reset()
+                    description = scrollName + '\n\n'
+                    description += 'Quantity in inventory: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_use[scrollName]) + '\n\n'
+                    if self.curChosenCategory in ['Special', 'Hammer', 'Cube']:
+                        description += SpecialLib.m_lib[scrollName]['description']
+                        self.descriptionContent.config(state=Tkinter.NORMAL)
+                        self.descriptionContent.delete('1.0', Tkinter.END)
+                        self.descriptionContent.insert('insert', description)
+                        self.descriptionContent.config(state=Tkinter.DISABLED)
+                    else:
+                        description += ScrollLib.showScrollStat(scrollName)
+                        self.descriptionContent.config(state=Tkinter.NORMAL)
+                        self.descriptionContent.delete('1.0', Tkinter.END)
+                        self.descriptionContent.insert('insert', description)
+                        self.descriptionContent.config(state=Tkinter.DISABLED)
+##                    self.parent.tabEquip.reset()
+                    toplevel.destroy()
                 
         if self.curSelectIdx == -1:
             return
         if self.curChosenType == 'Equip':
-            res = tkMessageBox.askquestion('Purchase', 'Are You Sure?', type='yesno')
-            if res == 'yes':
-                self.parent.m_inventory.createEquip(self.listboxList[self.curSelectIdx])
-                self.parent.tabInventory.reset()
-                self.parent.tabEquip.reset()
-                
-        elif self.curChosenType == 'Use':
+            equipName = self.listboxList[self.curSelectIdx]
+            choiceNum = self.parent.m_marketInfo.getPaymentTypeNum(equipName)
+            if choiceNum == 0:
+                tkMessageBox.showwarning('Not available', 'Not available for purchase.')
+                return
             toplevel = Tkinter.Toplevel(self)
             toplevel.title('Purchase')
-            toplevel.geometry('300x100+300+300')
+            height = choiceNum * 80 + 150
+            toplevel.geometry('300x'+str(height)+'+300+300')
             toplevel.grab_set()
-            toplevel.rowconfigure(0, weight=1)
+            choiceLabel = Tkinter.Label(toplevel, text='Choose Payment\n-------------------')
+            
+            radioButtons = []
+            radioButtonVar = Tkinter.IntVar()
+            radioButtonVar.set(-1)
+            for i in range(choiceNum):
+                choiceInfo = self.parent.m_marketInfo.showPurchaseChoice(equipName, i)
+                radioButton = Tkinter.Radiobutton(toplevel, text=choiceInfo, variable=radioButtonVar, value=i, justify=Tkinter.LEFT)
+                radioButtons.append(radioButton)
+                
+            purchaseButton = Tkinter.Button(toplevel, text='Purchase', command=purchaseEquip)
+            cancelButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
+
+            toplevel.columnconfigure(0, weight=1)
+            toplevel.columnconfigure(1, weight=1)
+            toplevel.columnconfigure(2, weight=1)
+            choiceLabel.grid(row=0, column=0, columnspan=3, padx=5, pady=5)
+            for i in range(choiceNum):
+                toplevel.rowconfigure(i+1, weight=1)
+                radioButtons[i].grid(row=i+1, column=1, columnspan=2, padx=5, pady=5, sticky=Tkinter.W)
+            purchaseButton.grid(row=choiceNum+1, column=0, columnspan=3, padx=5, pady=5)
+            cancelButton.grid(row=choiceNum+2, column=0, columnspan=3, padx=5, pady=5)
+                            
+        elif self.curChosenType == 'Use':
+            scrollName = self.listboxList[self.curSelectIdx]
+            choiceNum = self.parent.m_marketInfo.getPaymentTypeNum(scrollName)
+            toplevel = Tkinter.Toplevel(self)
+            toplevel.title('Purchase')
+            height = choiceNum * 80 + 150
+            toplevel.geometry('300x'+str(height)+'+300+300')
+            toplevel.grab_set()
+            toplevel.columnconfigure(0, weight=1)
             toplevel.columnconfigure(1, weight=1)
             toplevel.columnconfigure(2, weight=1)
             quantityLabel = Tkinter.Label(toplevel, text='Quantity:')
             quantityEntry = Tkinter.Entry(toplevel)
-            purchaseButton = Tkinter.Button(toplevel, text='Purchase', command=purchase)
+
+            choiceLabel = Tkinter.Label(toplevel, text='Choose Payment\n-------------------')
+            
+            radioButtons = []
+            radioButtonVar = Tkinter.IntVar()
+            radioButtonVar.set(-1)
+            for i in range(choiceNum):
+                choiceInfo = self.parent.m_marketInfo.showPurchaseChoice(scrollName, i)
+                radioButton = Tkinter.Radiobutton(toplevel, text=choiceInfo, variable=radioButtonVar, value=i, justify=Tkinter.LEFT)
+                radioButtons.append(radioButton)
+            
+            
+            purchaseButton = Tkinter.Button(toplevel, text='Purchase', command=purchaseUse)
             cancelButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
 
             quantityLabel.grid(row=0, column=0, padx=5, pady=5)
             quantityEntry.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
-            purchaseButton.grid(row=1, column=1, padx=5, pady=5)
-            cancelButton.grid(row=1, column=2, padx=5, pady=5)
+            choiceLabel.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+            for i in range(choiceNum):
+                toplevel.rowconfigure(i+2, weight=1)
+                radioButtons[i].grid(row=i+2, column=1, columnspan=2, padx=5, pady=5, sticky=Tkinter.W)
+            purchaseButton.grid(row=choiceNum+2, column=1, padx=5, pady=5)
+            cancelButton.grid(row=choiceNum+3, column=1, padx=5, pady=5)
             
         elif self.curChosenType == 'Etc':
             pass
@@ -823,7 +999,9 @@ class PurchaseWidget(Tkinter.Frame):
 
         self.resourceContent = Tkinter.StringVar()
         self.resourceLabel = Tkinter.Label(self.Frameleft, textvariable=self.resourceContent, justify=Tkinter.LEFT)
-        self.resourceContent.set('Meso: Unlimited\nNX: Unlimited')
+        message = 'Meso: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['Meso']) + '\n'
+        message += 'NX: ' + EtcLib.dispLongNum(self.parent.m_inventory.m_etc['NX'])
+        self.resourceContent.set(message)
 
         self.descriptionLabel = Tkinter.Label(self.Frameright, text='Description')
         self.descriptionContent = ScrolledText.ScrolledText(self.Frameright,
@@ -865,11 +1043,13 @@ class PurchaseWidget(Tkinter.Frame):
 class MainWidget(Tkinter.Frame):
 
     m_inventory = None
+    m_marketInfo = None
     m_sysMessage = None
     
     def __init__(self, parent):
 
         self.m_inventory = Inventory()
+        self.m_marketInfo = MarketInfo()
         self.m_sysMessage = Tkinter.StringVar()
         self.m_sysMessage.set('Welcome!')
         Tkinter.Frame.__init__(self, parent)
@@ -881,7 +1061,7 @@ class MainWidget(Tkinter.Frame):
         result = tkMessageBox.askquestion("Save", message, icon='warning', type='yesno')
         if result == 'yes':
             with open('savedata', 'wb') as output:
-                pickle.dump(self.m_inventory, output, -1)
+                pickle.dump([self.m_inventory, self.m_marketInfo], output, -1)
             tkMessageBox.showinfo('Save', 'Progress saved.')
             self.m_sysMessage.set('Progress saved.')
 
@@ -891,7 +1071,8 @@ class MainWidget(Tkinter.Frame):
         if result == 'yes':
             with open('savedata', 'rb') as save:
                 oldapp = pickle.load(save)
-            self.m_inventory = oldapp
+            self.m_inventory = oldapp[0]
+            self.m_marketInfo = oldapp[1]
             tkMessageBox.showinfo('Load', 'Progress loaded.')
             self.m_sysMessage.set('Progress loaded.')
             self.tabInventory.reset()

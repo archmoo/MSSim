@@ -23,6 +23,12 @@ class EquipLib:
             'pdr': 0.1,
             'slot': 11,
             'setId': 1,
+            # market info
+            'cost': ['Meso','Queen Coin'],
+            'value': [1, 5],
+            'stock': [-1, -1],
+            'max': [-1, -1],
+            'supply': [-1, -1],
             },
         'Royal Assassin Hood': {
             'name': 'Royal Assassin Hood',
@@ -45,6 +51,12 @@ class EquipLib:
             'pdr': 0.1,
             'slot': 11,
             'setId': 2,
+            # market info
+            'cost': ['Meso','Queen Coin'],
+            'value': [1, 5],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     
@@ -70,6 +82,12 @@ class EquipLib:
             'pdr': 0.05,
             'slot': 7,
             'setId': 1,
+            # market info
+            'cost': ['Meso','VonBon Coin'],
+            'value': [1, 5],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libBottom = {
@@ -94,6 +112,12 @@ class EquipLib:
             'pdr': 0.05,
             'slot': 7,
             'setId': 1,
+            # market info
+            'cost': ['Meso','Pierre Coin'],
+            'value': [1, 5],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libShoe = {
@@ -118,6 +142,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 2,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Magnus Coin'],
+            'value': [1, 70],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libCape = {
@@ -142,6 +172,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 2,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Magnus Coin 2'],
+            'value': [1, 1],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libBelt = {
@@ -166,6 +202,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 1,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Magnus Coin'],
+            'value': [1, 100],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libGlove = {
@@ -190,6 +232,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 1,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Shadow Coin'],
+            'value': [1, 400],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libEye = {
@@ -214,6 +262,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 5,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Denaro'],
+            'value': [1, 250],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libFace = {
@@ -238,6 +292,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 5,
             'setId': 0,
+            # market info
+            'cost': ['Meso','Denaro'],
+            'value': [1, 250],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
             },
         }
     m_libRing = {
@@ -263,6 +323,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 6,
             'setId': 5,
+            # market info
+            'cost': ['Meso','Gollux Coin'],
+            'value': [1, 160],
+            'stock': [5, 1],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         }
     m_libPendant = {
@@ -287,6 +353,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 6,
             'setId': 5,
+            # market info
+            'cost': ['Meso','Gollux Coin 4'],
+            'value': [1, 1],
+            'stock': [5, 1],
+            'max': [10, 1],
+            'supply': [5, 1],
             },
         }
     m_libEarring = {
@@ -311,6 +383,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 7,
             'setId': 5,
+            # market info
+            'cost': ['Meso','Gollux Coin'],
+            'value': [1, 170],
+            'stock': [5, 1],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         }
     m_libBadge = {
@@ -335,6 +413,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 1,
             'setId': 0,
+            # market info
+            'cost': ['Meso'],
+            'value': [0],
+            'stock': [1],
+            'max': [1],
+            'supply': [0],
             },
         }
     m_libWeapon = {
@@ -359,6 +443,12 @@ class EquipLib:
             'pdr': 0.1,
             'slot': 8,
             'setId': 1,
+            # market info
+            'cost': ['Meso','Vellum Coin'],
+            'value': [1, 5],
+            'stock': [5, 1],
+            'max': [10, 1],
+            'supply': [5, 0],
             },
         }
     m_libSecondary = {
@@ -383,6 +473,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 7,
             'setId': 0,
+            # market info
+            'cost': ['Meso'],
+            'value': [1],
+            'stock': [5],
+            'max': [10],
+            'supply': [5],
             },
         }
     m_libEmblem = {
@@ -407,6 +503,12 @@ class EquipLib:
             'pdr': 0,
             'slot': 0,
             'setId': 0,
+            # market info
+            'cost': ['Meso'],
+            'value': [0],
+            'stock': [-1],
+            'max': [-1],
+            'supply': [-1],
             },
         }
     m_lib = {
