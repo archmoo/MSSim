@@ -34,7 +34,7 @@ class EtcLib:
             'max': [-1],
             'supply': [-1],
             'etc': 'Meso',
-            'quantity': int(random.expovariate(0.2)*50000000),
+            'quantity': 0.2,
             },
         'Epic Meso Sack': {
             'type': 'Meso',
@@ -45,7 +45,7 @@ class EtcLib:
             'max': [-1],
             'supply': [-1],
             'etc': 'Meso',
-            'quantity': int(random.expovariate(0.5)*50000000),
+            'quantity': 0.5,
             },
         'Rare Meso Sack': {
             'type': 'Meso',
@@ -56,7 +56,7 @@ class EtcLib:
             'max': [-1],
             'supply': [-1],
             'etc': 'Meso',
-            'quantity': int(random.expovariate(1)*50000000),
+            'quantity': 1,
             },
         'NX 10,000': {
             'type': 'NX',
@@ -202,7 +202,7 @@ class EtcLib:
             'etc': 'Magnus Coin',
             'quantity': 1,
             },
-        'Magnus Coin 2': {
+        'Magnus Coin B': {
             'type': 'Coin',
             'description': 'Coins awarded for defeating Hard Magnus.\nCan be used to exchange for Tyrant Capes.\n',
             'cost': [],
@@ -210,7 +210,7 @@ class EtcLib:
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Magnus Coin 2',
+            'etc': 'Magnus Coin B',
             'quantity': 1,
             },
         'Cygnus Coin': {
@@ -257,7 +257,18 @@ class EtcLib:
             'etc': 'Gollux Coin',
             'quantity': 1,
             },
-        'Gollux Coin 1': {
+        'Gollux Penny': {
+            'type': 'Coin',
+            'description': 'Coins dropped by Gollux parts.\n',
+            'cost': [],
+            'value': [],
+            'stock': [],
+            'max': [],
+            'supply': [],
+            'etc': 'Gollux Penny',
+            'quantity': 1,
+            },
+        'Gollux Coin B': {
             'type': 'Coin',
             'description': 'Coins awarded for defeating Gollux under difficulty level 1.\n',
             'cost': [],
@@ -265,10 +276,10 @@ class EtcLib:
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Gollux Coin 1',
+            'etc': 'Gollux Coin B',
             'quantity': 1,
             },
-        'Gollux Coin 2': {
+        'Gollux Coin A': {
             'type': 'Coin',
             'description': 'Coins awarded for defeating Gollux under difficulty level 2.\n',
             'cost': [],
@@ -276,10 +287,10 @@ class EtcLib:
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Gollux Coin 2',
+            'etc': 'Gollux Coin A',
             'quantity': 1,
             },
-        'Gollux Coin 3': {
+        'Gollux Coin S': {
             'type': 'Coin',
             'description': 'Coins awarded for defeating Gollux under difficulty level 3.\n',
             'cost': [],
@@ -287,21 +298,23 @@ class EtcLib:
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Gollux Coin 3',
+            'etc': 'Gollux Coin S',
             'quantity': 1,
             },
-        'Gollux Coin 4': {
+        'Gollux Coin SS': {
             'type': 'Coin',
-            'description': 'Coins awarded for defeating Gollux under difficulty level 4.\n',
+            'description': 'Coins awarded for defeating Gollux under difficulty level MAX.\n',
             'cost': [],
             'value': [],
             'stock': [],
             'max': [],
             'supply': [],
-            'etc': 'Gollux Coin 4',
+            'etc': 'Gollux Coin SS',
             'quantity': 1,
             },
         }
+
+    
     @staticmethod
     def dispLongNum(num):
         locale.setlocale(locale.LC_ALL, 'en_US')

@@ -173,7 +173,7 @@ class EquipLib:
             'slot': 2,
             'setId': 0,
             # market info
-            'cost': ['Meso','Magnus Coin 2'],
+            'cost': ['Meso','Magnus Coin B'],
             'value': [1, 1],
             'stock': [5, -1],
             'max': [10, -1],
@@ -354,7 +354,7 @@ class EquipLib:
             'slot': 6,
             'setId': 5,
             # market info
-            'cost': ['Meso','Gollux Coin 4'],
+            'cost': ['Meso','Gollux Coin SS'],
             'value': [1, 1],
             'stock': [5, 1],
             'max': [10, 1],

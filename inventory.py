@@ -30,8 +30,8 @@ class Inventory:
         for key in EquipSlot.m_lib.keys():
             self.m_equipped[key] = -1
         self.m_etc = {
-            'Meso': 100000,
-            'NX': 0,
+            'Meso': 1000000000,
+            'NX': 10000,
             'Trace': 0,
             'Elite Coin': 0,
             'Boss Coin': 0,
@@ -43,15 +43,16 @@ class Inventory:
             'VonBon Coin': 0,
             'Vellum Coin': 0,
             'Magnus Coin': 0,
-            'Magnus Coin 2': 0,
+            'Magnus Coin B': 0,
             'Cygnus Coin': 0,
             'Shadow Coin': 0,
             'Denaro': 0,
             'Gollux Coin': 0,
-            'Gollux Coin 1': 0,
-            'Gollux Coin 2': 0,
-            'Gollux Coin 3': 0,
-            'Gollux Coin 4': 0,
+            'Gollux Penny': 0,
+            'Gollux Coin B': 0,
+            'Gollux Coin A': 0,
+            'Gollux Coin S': 0,
+            'Gollux Coin SS': 0,
             }
 
     def createItem(self, item, num):
