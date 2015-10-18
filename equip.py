@@ -187,7 +187,10 @@ class Equip:
         self.m_pdr = equip['pdr']
         self.m_total_slot = equip['slot']
         self.m_remain_slot = equip['slot']
-        self.m_remain_hammer = 2
+        if equip['slot'] == 0:
+            self.m_remain_hammer = 0
+        else:
+            self.m_remain_hammer = 2
         self.m_success = 0
         self.m_stars = 0
         self.m_setId = equip['setId']

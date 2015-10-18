@@ -90,6 +90,36 @@ class EquipLib:
             'supply': [5, -1],
             },
         }
+    m_libOverall = {
+        'Dragon Tail Mage Robe' : {
+            'name': 'Dragon Tail Mage Robe',
+            'type': 'Overall',
+            'class': 'Magician',
+            'level': 140,
+            'str': 0,
+            'dex': 0,
+            'int': 30,
+            'luk': 30,
+            'hp': 0,
+            'mp': 0,
+            'watt': 0,
+            'matt': 2,
+            'wdef': 200,
+            'mdef': 250,
+            'accuracy': 50,
+            'avoid': 50,
+            'boss': 0,
+            'pdr': 0,
+            'slot': 12,
+            'setId': 1,
+            # market info
+            'cost': ['Meso','Cygnus Coin'],
+            'value': [1, 5],
+            'stock': [5, -1],
+            'max': [10, -1],
+            'supply': [5, -1],
+            },
+        }
     m_libBottom = {
         'Trixter Dunwitch Pants' : {
             'name': 'Trixter Dunwitch Pants',
@@ -604,6 +634,7 @@ class EquipLib:
     m_lib = {
         'Hat': m_libHat,
         'Top': m_libTop,
+        'Overall': m_libOverall,
         'Bottom': m_libBottom,
         'Shoe': m_libShoe,
         'Cape': m_libCape,

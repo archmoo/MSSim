@@ -90,7 +90,12 @@ class EquipWidget(Tkinter.Frame):
             self.selectEquipIdx = -1
 
     def onEquip(self):
-        if self.curEquipIdx != -1 or self.selectEquipIdx == -1:
+        if self.curEquipIdx != -1:
+            tkMessageBox.showwarning('Invalid', 'Please unequip the equipped item.')
+            return INVALID
+
+        if self.selectEquipIdx == -1:
+            tkMessageBox.showwarning('Invalid', 'Please select a piece of equipment to equip.')
             return INVALID
 
         self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]

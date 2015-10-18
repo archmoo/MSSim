@@ -25,8 +25,7 @@ class Inventory:
         for key in SpecialLib.m_lib.keys():
             self.m_use[key] = 0
         for key in ScrollLib.m_lib.keys():
-            if ScrollLib.m_lib[key]['type'] != 'trace':
-                self.m_use[key] = 0
+            self.m_use[key] = 0
         for key in EquipSlotLib.m_lib.keys():
             self.m_equipped[key] = -1
         self.m_etc = {
@@ -75,12 +74,13 @@ class Inventory:
 
         if stat['type'] == 'Special':
             #TODO: condition check
+            #TODO: non-potable
             if (stat['effect'] == 'Clean Slate' and self.m_equip[equipIdx].m_total_slot == self.m_equip[equipIdx].m_remain_slot + self.m_equip[equipIdx].m_success) or\
                (stat['effect'] == 'Potential' and self.m_equip[equipIdx].m_pot.m_rank > 0) or\
                (stat['effect'] == 'Epic Potential' and self.m_equip[equipIdx].m_pot.m_rank > 1) or\
                (stat['effect'] == 'Unique Potential' and self.m_equip[equipIdx].m_pot.m_rank > 2) or\
                (stat['effect'] == 'Hammer' and self.m_equip[equipIdx].m_remain_hammer == 0) or\
-               (stat['effect'] == 'Potential Stamp' and len(self.m_equip[equipIdx].m_pot.m_lines) == 3) or\
+               (stat['effect'] == 'Potential Stamp' and (self.m_equip[equipIdx].m_pot.m_rank == 0 or len(self.m_equip[equipIdx].m_pot.m_lines) == 3)) or\
                (stat['effect'] == 'Protect' and self.m_equip[equipIdx].m_protect) or\
                (stat['effect'] == 'Guardian' and self.m_equip[equipIdx].m_guardian) or\
                (stat['effect'] == 'Safety' and self.m_equip[equipIdx].m_safety):
@@ -135,6 +135,13 @@ class Inventory:
         elif stat['type'] == 'Scroll':
             if self.m_equip[equipIdx].m_remain_slot <= 0:
                 return INVALID
+            if 'restriction' in stat.keys():
+                if self.m_equip[equipIdx].m_type not in stat['restriction']:
+                    return INVALID
+                if self.m_equip[equipIdx].m_type == 'Secondary':
+                    if self.m_equip[equipIdx].m_category not in stat['secondary']:
+                        return INVALID
+            
             if random.random() < stat['success rate']: # success
                 self.m_equip[equipIdx].applyScroll(stat['effect'])
                 self.m_use[item] -= 1
@@ -169,15 +176,27 @@ class Inventory:
         elif stat['type'] == 'Trace':
             if self.m_equip[equipIdx].m_remain_slot <= 0:
                 return INVALID
-            #TODO: spell trace etc logic
+            if 'restriction' in stat.keys():
+                if self.m_equip[equipIdx].m_type not in stat['restriction']:
+                    return INVALID
+                if self.m_equip[equipIdx].m_type == 'Secondary':
+                    if self.m_equip[equipIdx].m_category not in stat['secondary']:
+                        return INVALID
+            
             if random.random() < stat['success rate']:
+                if not self.m_equip[equipIdx].m_guardian:
+                    self.m_use[item] -= 1
                 self.m_equip[equipIdx].applyScroll(stat['effect'])
                 self.m_equip[equipIdx].m_safety = False
+                self.m_equip[equipIdx].m_guardian = False
                 return SUCCESS
             else:
+                if not self.m_equip[equipIdx].m_guardian:
+                    self.m_use[item] -= 1
                 if not self.m_equip[equipIdx].m_safety:
                     self.m_equip[equipIdx].m_remain_slot -= 1
                 self.m_equip[equipIdx].m_safety = False
+                self.m_equip[equipIdx].m_guardian = False
                 return FAIL
 
         elif stat['type'] == 'Cube':
