@@ -2,7 +2,7 @@ from joblib import JobLib
 
 class Character:
 
-    def __init__(self, job):
+    def __init__(self, job='dummy'):
         self.m_job = job
         self.m_interStat = {
             '# str': 0, '% str': 0,
@@ -66,6 +66,9 @@ class Character:
         else:
             self.m_stat[key] = value
 
+    def setJob(self, job):
+        self.m_job = job
+        
     def updateStats(self, equips):
         jobStats = JobLib.m_job[self.m_job]
         weaponCategory = 'None'
@@ -199,7 +202,7 @@ class Character:
         elif self.m_job == 'Xenon':
             statValue = 3.5 * (self['STR'] + self['DEX'] + self['LUK'])
         elif self.m_job == 'Demon Avenger':
-            statValue = self['Max HP'] / 7 + self['STR'] # TODO: really?
+            statValue = self['Max HP'] / 9 + self['STR'] # TODO: really?
 
         if jobStats['class'] == 'Magician':
             highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']))
@@ -208,10 +211,30 @@ class Character:
         lowRange = int(highRange * jobStats['% mastery'])
         self['ATT Stats'] = [lowRange, highRange]
 
+    def showCharacterStats(self):
+        output = ''
+        output += 'Class: ' + self.m_job + ' (' + JobLib.m_job[self.m_job]['class'] + ')\n\n'
+        output += 'STR: ' + str(self['STR']) + '\nDEX: ' + str(self['DEX']) + '\nINT: ' + str(self['INT']) + '\nLUK: ' + str(self['LUK']) + '\n\n'
+        output += 'ATT Stats: ' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1]) + '\n\n'
+        output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '%\n'
+        output += 'Minimum Critical: ' + str(int(self['Minimum Critical Damage']*100+100)) + '%\nMaximum Critical: ' + str(int(self['Maximum Critical Damage']*100+100)) + '%\n\n'
+        output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '%\nIgnore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '%\n'
+        output += 'Status Resistance: ' + str(int(self['Status Resistance']*100)) + '%\n\n'
+        output += 'Weapon DEF: ' + str(self['Weapon Defense']) + '\n'
+        output += 'Magic DEF: ' + str(self['Magic Defense']) + '\n'
+        output += 'Weapon ACC: ' + str(self['Weapon Accuracy']) + '\n'
+        output += 'Magic ACC: ' + str(self['Magic Accuracy']) + '\n'
+        output += 'Weapon Avoid: ' + str(self['Weapon Avoidability']) + '\n'
+        output += 'Magic Avoid: ' + str(self['Magic Avoidability']) + '\n\n'
+        output += 'Speed: ' + str(self['Speed']) + '%\nJump: ' + str(self['Jump']) + '%\n'
+        return output
+        
+        
 if __name__ == '__main__':
 
     a = Character('Bow Master')
-    a.updateStats('')
+    a.updateStats([])
+    print a.showCharacterStats()
         
             
             

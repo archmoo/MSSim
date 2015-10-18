@@ -9,6 +9,7 @@ from equipslot import EquipSlot
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID, NOITEM
 from potential import rank_label
 from marketinfo import MarketInfo
+from character import Character
 import pickle, random
 
 class InventoryWidget(Tkinter.Frame):
@@ -482,6 +483,8 @@ class EquipWidget(Tkinter.Frame):
         self.equipStatsContent.config(state=Tkinter.DISABLED)
         self.charStatsContent.config(state=Tkinter.NORMAL)
         self.charStatsContent.delete('1.0', Tkinter.END)
+        self.parent.m_charInfo.updateStats([self.parent.m_inventory.m_equip[i] for i in self.parent.m_inventory.m_equipped.values() if i != -1])
+        self.charStatsContent.insert('insert', self.parent.m_charInfo.showCharacterStats())
         self.charStatsContent.config(state=Tkinter.DISABLED)
         self.chosenType.set('- Choose Slot -')
         size = self.currentEquipListbox.size()
@@ -544,6 +547,11 @@ class EquipWidget(Tkinter.Frame):
         self.parent.m_inventory.onEquip(self.chosenType.get(), self.equipIdxList[self.selectEquipIdx])
         self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]
         self.currentEquipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[self.curEquipIdx].m_name)
+        self.charStatsContent.config(state=Tkinter.NORMAL)
+        self.charStatsContent.delete('1.0', Tkinter.END)
+        self.parent.m_charInfo.updateStats([self.parent.m_inventory.m_equip[i] for i in self.parent.m_inventory.m_equipped.values() if i != -1])
+        self.charStatsContent.insert('insert', self.parent.m_charInfo.showCharacterStats())
+        self.charStatsContent.config(state=Tkinter.DISABLED)
 
     def offEquip(self):
         if self.curEquipIdx == -1:
@@ -551,11 +559,16 @@ class EquipWidget(Tkinter.Frame):
         self.parent.m_inventory.offEquip(self.chosenType.get())
         self.currentEquipListbox.delete(0)
         self.curEquipIdx = -1
+        self.charStatsContent.config(state=Tkinter.NORMAL)
+        self.charStatsContent.delete('1.0', Tkinter.END)
+        self.parent.m_charInfo.updateStats([self.parent.m_inventory.m_equip[i] for i in self.parent.m_inventory.m_equipped.values() if i != -1])
+        self.charStatsContent.insert('insert', self.parent.m_charInfo.showCharacterStats())
+        self.charStatsContent.config(state=Tkinter.DISABLED)
 
     def offEquipAll(self):
         for t in self.types:
             self.parent.m_inventory.offEquip(t)
-            self.reset()
+        self.reset()
     
     def initUI(self):
 
@@ -592,7 +605,8 @@ class EquipWidget(Tkinter.Frame):
                                                            wrap=Tkinter.WORD,
                                                            width=35, height=10)
         self.charStatsContent.config(font=('San Francisco', 13, 'normal'))
-        self.charStatsContent.insert('insert', '')
+        self.parent.m_charInfo.updateStats([self.parent.m_inventory.m_equip[i] for i in self.parent.m_inventory.m_equipped.values() if i != -1])
+        self.charStatsContent.insert('insert', self.parent.m_charInfo.showCharacterStats())
         self.charStatsContent.config(state=Tkinter.DISABLED)
 
         self.currentEquipLabel = Tkinter.Label(self.Frameleft, text='Currently Equipped:')
@@ -1229,12 +1243,14 @@ class MainWidget(Tkinter.Frame):
 
     m_inventory = None
     m_marketInfo = None
+    m_charInfo = None
     m_sysMessage = None
     
     def __init__(self, parent):
 
         self.m_inventory = Inventory()
         self.m_marketInfo = MarketInfo()
+        self.m_charInfo = Character('Bow Master')
         self.m_sysMessage = Tkinter.StringVar()
         self.m_sysMessage.set('Welcome!')
         Tkinter.Frame.__init__(self, parent)
@@ -1246,7 +1262,7 @@ class MainWidget(Tkinter.Frame):
         result = tkMessageBox.askquestion("Save", message, icon='warning', type='yesno')
         if result == 'yes':
             with open('savedata', 'wb') as output:
-                pickle.dump([self.m_inventory, self.m_marketInfo], output, -1)
+                pickle.dump([self.m_inventory, self.m_marketInfo, self.m_charInfo], output, -1)
             tkMessageBox.showinfo('Save', 'Progress saved.')
             self.m_sysMessage.set('Progress saved.')
 
@@ -1258,6 +1274,7 @@ class MainWidget(Tkinter.Frame):
                 oldapp = pickle.load(save)
             self.m_inventory = oldapp[0]
             self.m_marketInfo = oldapp[1]
+            self.m_charInfo = oldapp[2]
             tkMessageBox.showinfo('Load', 'Progress loaded.')
             self.m_sysMessage.set('Progress loaded.')
             self.tabInventory.reset()
