@@ -37,7 +37,7 @@ class JobLib:
             'description':'Explorers who use bows. Bow Masters are well-known for their high hits per second with "Hurricane" and "Arrow Platter".\n\nClass: Bowman\nCategory: Explorer\n\nPrimary Weapon: Bow\nSecondary Weapon: Arrow Fletching\nPrimary Stat: DEX\nSecondary Stat: STR\n\nAdvancement Route:\nI:Archer -> II:Hunter -> III:Ranger -> IV:Bow Master\n',
             },
         'dummy': {
-            'class': 'dummy',
+            'class': 'Magician',
             'Weapon': ['dummy'],
             'Secondary': ['dummy'],
             'Emblem': ['dummy'],

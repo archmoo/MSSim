@@ -98,8 +98,7 @@ class EquipWidget(Tkinter.Frame):
             tkMessageBox.showwarning('Invalid', 'Please select a piece of equipment to equip.')
             return INVALID
 
-        self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]
-        equip = self.parent.m_inventory.m_equip[self.curEquipIdx]
+        equip = self.parent.m_inventory.m_equip[self.equipIdxList[self.selectEquipIdx]]
         try:
             if equip.m_class != 'All':
                 charClass = JobLib.m_job[self.parent.m_charInfo.m_job]['class']
@@ -117,9 +116,18 @@ class EquipWidget(Tkinter.Frame):
                     for s in JobLib.m_job[self.parent.m_charInfo.m_job][equip.m_type]:
                         message += s + '\n'
                     raise AssertionError(message)
+            if equip.m_type == 'Overall' and self.parent.m_inventory.m_equipped['Bottom'] != -1:
+                message = 'You can not equip an Overall item and a Bottom item at the same time.'
+                raise AssertionError(message)
+            if equip.m_type == 'Bottom' and self.parent.m_inventory.m_equipped['Top'] != -1:
+                if self.parent.m_inventory.m_equip[self.parent.m_inventory.m_equipped['Top']].m_type == 'Overall':
+                    message = 'You can not equip an Overall item and a Bottom item at the same time.'
+                    raise AssertionError(message)
         except AssertionError as e:
             tkMessageBox.showwarning('Invalid', 'Can not equip.\n\n' + message)
             return INVALID
+
+        self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]
         
         self.parent.m_inventory.onEquip(self.chosenType.get(), self.equipIdxList[self.selectEquipIdx])
         self.currentEquipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[self.curEquipIdx].m_name)
