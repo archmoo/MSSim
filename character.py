@@ -53,6 +53,22 @@ class Character:
             'Speed': 0,
             'Jump': 0,
             }
+        self.oneTimeAcquire = {
+            'Leafre Codex': -1,
+            'Demon Avenger Link Skill': -1,
+            'Kanna Link Skill': -1,
+            'Demon Slayer Link Skill': -1,
+            'Luminous Link Skill': -1,
+            'Xenon Link Skill': -1,
+            'Phantom Link Skill': -1,
+            'Zero Link Skill': -1,
+            'Kaiser Link Skill': -1,
+            'Beast Tamer Link Skill': -1,
+            'Hayato Link Skill': -1,
+            'Cannoneer Link Skill': -1,
+            'Cygnus Knight Link Skill': -1,
+            }
+            
 
     def __getitem__(self, key):
         if key[0] == '%' or key[0] == '#':
@@ -156,8 +172,8 @@ class Character:
         self['DEX'] = int((self['# dex'] + self['# all stats']) * (1 + self['% dex'] + self['% all stats']))
         self['INT'] = int((self['# int'] + self['# all stats']) * (1 + self['% int'] + self['% all stats']))
         self['LUK'] = int((self['# luk'] + self['# all stats']) * (1 + self['% luk'] + self['% all stats']))
-        self['Max HP'] = min(50000000, int(self['# hp'] * (1 + self['% hp'])))
-        self['Max MP'] = min(50000000, int(self['# mp'] * (1 + self['% mp'])))
+        self['Max HP'] = min(500000, int(self['# hp'] * (1 + self['% hp'])))
+        self['Max MP'] = min(500000, int(self['# mp'] * (1 + self['% mp'])))
         maxDefense = 9999
         if self.m_job == 'Paladin':
             maxDefense = 19999
@@ -174,7 +190,7 @@ class Character:
                                       int((self['DEX'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid'])))
         self['Magic Avoidability'] = min(9999,
                                       int((self['INT'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid'])))
-        self['Critical Rate'] = self['% Crit Rate']
+        self['Critical Rate'] = min(1, self['% Crit Rate'])
         self['Minimum Critical Damage'] = min(self['% Min Crit'], self['% Max Crit'])
         self['Maximum Critical Damage'] = max(self['% Min Crit'], self['% Max Crit'])
         self['Boss Damage'] = self['% Boss Damage']
@@ -213,7 +229,7 @@ class Character:
 
     def showCharacterStats(self):
         output = ''
-        output += 'Class: ' + self.m_job + ' (' + JobLib.m_job[self.m_job]['class'] + ')\n\n'
+        output += 'Job: ' + self.m_job + ' (' + JobLib.m_job[self.m_job]['class'] + ')\nLevel: 210\n\n'
         output += 'STR: ' + str(self['STR']) + '\nDEX: ' + str(self['DEX']) + '\nINT: ' + str(self['INT']) + '\nLUK: ' + str(self['LUK']) + '\n\n'
         output += 'ATT Stats: ' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1]) + '\n\n'
         output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '%\n'
