@@ -2,9 +2,9 @@ class JobLib:
     m_job = {
         'Bow Master': {
             'class': 'Bowman',
-            'weapon': ['Bow'],
-            'secondary': ['Arrow Fletching'],
-            'emblem': ['Explorer'],
+            'Weapon': ['Bow'],
+            'Secondary': ['Arrow Fletching'],
+            'Emblem': ['Explorer', 'Boss Arena'],
             '# str': 34, '% str': 0,
             '# dex': 1309, '% dex': 0,
             '# int': 4, '% int': 0,
@@ -37,9 +37,9 @@ class JobLib:
             },
         'dummy': {
             'class': 'Bowman',
-            'weapon': ['Bow'],
-            'secondary': ['Arrow Fletching'],
-            'emblem': ['Explorer'],
+            'Weapon': ['Bow'],
+            'Secondary': ['Arrow Fletching'],
+            'Emblem': ['Explorer'],
             '# str': 4, '% str': 0,
             '# dex': 1239, '% dex': 0,
             '# int': 4, '% int': 0,

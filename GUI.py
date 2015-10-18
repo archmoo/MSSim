@@ -5,6 +5,7 @@ from equiplib import EquipLib
 from scrolllib import ScrollLib
 from speciallib import SpecialLib
 from etclib import EtcLib
+from joblib import JobLib
 from equipslot import EquipSlot
 from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID, NOITEM
 from potential import rank_label
@@ -544,8 +545,31 @@ class EquipWidget(Tkinter.Frame):
     def onEquip(self):
         if self.curEquipIdx != -1 or self.selectEquipIdx == -1:
             return INVALID
-        self.parent.m_inventory.onEquip(self.chosenType.get(), self.equipIdxList[self.selectEquipIdx])
+
         self.curEquipIdx = self.equipIdxList[self.selectEquipIdx]
+        equip = self.parent.m_inventory.m_equip[self.curEquipIdx]
+        try:
+            if equip.m_class != 'All':
+                charClass = JobLib.m_job[self.parent.m_charInfo.m_job]['class']
+                if charClass == 'Thief, Pirate':
+                    if equip.m_class not in ['Thief, Pirate']:
+                        message = 'You can only equip Thief or Pirate equipments.'
+                        raise AssertionError(message)
+                else:
+                    if equip.m_class != charClass:
+                        message = 'You can only equip ' + charClass + ' equipments.'
+                        raise AssertionError(message)
+            if equip.m_type in ['Weapon', 'Secondary', 'Emblem']:
+                if equip.m_category not in JobLib.m_job[self.parent.m_charInfo.m_job][equip.m_type]:
+                    message = 'You can only equip certain types of equipment as your ' + equip.m_type + ':\n\n'
+                    for s in JobLib.m_job[self.parent.m_charInfo.m_job][equip.m_type]:
+                        message += s + '\n'
+                    raise AssertionError(message)
+        except AssertionError as e:
+            tkMessageBox.showwarning('Invalid', 'Can not equip.\n\n' + message)
+            return INVALID
+        
+        self.parent.m_inventory.onEquip(self.chosenType.get(), self.equipIdxList[self.selectEquipIdx])
         self.currentEquipListbox.insert(Tkinter.END, self.parent.m_inventory.m_equip[self.curEquipIdx].m_name)
         self.charStatsContent.config(state=Tkinter.NORMAL)
         self.charStatsContent.delete('1.0', Tkinter.END)
