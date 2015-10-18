@@ -425,6 +425,7 @@ class EquipLib:
         'Fafnir Mana Crown' : {
             'name': 'Fafnir Mana Crown',
             'type': 'Weapon',
+            'category': 'Staff',
             'class': 'All',
             'level': 150,
             'str': 0,
@@ -455,6 +456,7 @@ class EquipLib:
         'VIP Magician Shield' : {
             'name': 'VIP Magician Shield',
             'type': 'Secondary',
+            'category': 'Shield',
             'class': 'Magician',
             'level': 127,
             'str': 0,
@@ -485,6 +487,7 @@ class EquipLib:
         'Gold Maple Leaf Emblem' : {
             'name': 'Gold Maple Leaf Emblem',
             'type': 'Emblem',
+            'category': 'Explorer',
             'class': 'All',
             'level': 100,
             'str': 10,

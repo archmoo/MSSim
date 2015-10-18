@@ -1353,14 +1353,15 @@ class PotentialLib:
                 '# Magic ATT per 10 levels',
                 ] + m_libTypeCommon['generic'],
         }            
-    
-    def roll(self, pot, rank):
-        lineTypes = self.m_libType[pot.m_type]
+
+    @staticmethod
+    def roll(pot, rank):
+        lineTypes = PotentialLib.m_libType[pot.m_type]
         options = []
-        for key, value in self.m_values.items():
+        for key, value in PotentialLib.m_values.items():
             if key not in lineTypes:
                 continue
-            weight = self.m_values[key]['weight']
+            weight = PotentialLib.m_values[key]['weight']
             if key == '% Boss Damage':
                 count = 0
                 if [line[0] for line in pot.m_lines].count('% Boss Damage') >= 2:

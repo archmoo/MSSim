@@ -262,8 +262,8 @@ class Inventory:
 if __name__ == '__main__':
     a = Inventory()
 ##    a.createItem('Prime Scroll for Armor', 100)
-##    a.createItem('Protect Scroll', 100)
-##    a.createItem('Guardian Scroll', 100)
+    a.createItem('Protect Scroll', 100)
+    a.createItem('Guardian Scroll', 100)
 ##    a.createItem('Safety Scroll', 100)
 ##    a.createItem('10% Clean Slate Scroll', 1000)
 ##    a.createItem('100% Golden Hammer', 2)
@@ -294,22 +294,20 @@ if __name__ == '__main__':
 ##            elif res == INVALID:
 ##                break
 ##    print a.m_use['10% Clean Slate Scroll'], a.m_equip[0].m_remain_slot, a.m_equip[0].m_total_slot, a.m_equip[0].m_success, a.m_equip[0]['int']
-##    a.createItem('Advanced Potential Scroll', 1)
-##    a.createItem('Perfect Potential Stamp', 1)
-##    a.createItem('Meister Cube', 1000)
-##    while a.m_equip[0].m_pot.m_rank < 1:
-##        a.useItem('Protect Scroll', 0)
-##        a.useItem('Guardian Scroll', 0)
-##        res = a.useItem('Advanced Potential Scroll', 0)
-##        if res == SUCCESS:
-##            a.useItem('Perfect Potential Stamp', 0)
-##            print 'pot pass'
-##            print a.m_equip[0].m_pot.m_rank, a.m_equip[0].m_pot.m_lines
-##    for i in range(300):
-##        if a.m_equip[0].m_pot.m_rank < 5:
-##            a.useItem('Meister Cube', 0)
-##            print a.m_equip[0].m_pot.showPot()
-##            raw_input('Continue ?')
-    a.onEquip('Hat', 0)
-    print a.m_equipped['Face']
-    print ScrollLib.showScrollStat('STR for Weapon 15%')
+    a.createItem('Advanced Potential Scroll', 1)
+    a.createItem('Perfect Potential Stamp', 1)
+    a.createItem('Meister Cube', 1000)
+    while a.m_equip[0].m_pot.m_rank < 1:
+        a.useItem('Protect Scroll', 0)
+        a.useItem('Guardian Scroll', 0)
+        res = a.useItem('Advanced Potential Scroll', 0)
+        if res == SUCCESS:
+            a.useItem('Perfect Potential Stamp', 0)
+            print 'pot pass'
+            print a.m_equip[0].m_pot.m_rank, a.m_equip[0].m_pot.m_lines
+    for i in range(300):
+        if a.m_equip[0].m_pot.m_rank < 5:
+            a.useItem('Meister Cube', 0)
+            print a.m_equip[0].m_pot.m_lines
+            raw_input('Continue ?')
+

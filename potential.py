@@ -6,7 +6,6 @@ rank_label = ['','RARE', 'EPIC', 'UNIQUE', 'LEGENDARY']
 
 class Potential:
     'Potential class'
-    potLib = PotentialLib()
 
     m_rank = 0
     m_type = ''
@@ -90,12 +89,12 @@ class Potential:
                     ranks.append(max(0, self.m_rank - 1))
         self.m_lines = []
         for i in range(numLines):
-            line = rng.weighted_choice(Potential.potLib.roll(self, ranks[i]))
+            line = rng.weighted_choice(PotentialLib.roll(self, ranks[i]))
             self.m_lines.append(line)
             
 
     def expand(self):
-        self.m_lines.append(rng.weighted_choice(Potential.potLib.roll(self, max(0, self.m_rank - 1))))
+        self.m_lines.append(rng.weighted_choice(PotentialLib.roll(self, max(0, self.m_rank - 1))))
         
         
         

@@ -14,6 +14,7 @@ class Equip:
     
     m_name = ''
     m_type = ''
+    m_category = ''
     m_level = 0
     m_class = ''
     
@@ -69,6 +70,8 @@ class Equip:
             'mdef': self.m_mdef,
             'accuracy': self.m_accuracy,
             'avoid': self.m_avoid,
+            'boss': self.m_boss,
+            'pdr': self.m_pdr,
             }[string]
 
     def __setitem__(self, string, value):
@@ -96,6 +99,10 @@ class Equip:
             self.m_accuracy = value
         elif string == 'avoid':
             self.m_avoid = value
+        elif string == 'boss':
+            self.m_boss =value
+        elif string == 'pdr':
+            self.m_pdr = value
 
     def showEquip(self):
         output = ''
@@ -104,7 +111,10 @@ class Equip:
             output += ' (+' + str(self.m_success) + ')\n'
         else:
             output += '\n'
-        output += 'Category: ' + self.m_type + '\n'
+        if self.m_type in ['Weapon', 'Secondary']:
+            output += 'Category: ' + self.m_type + ' (' + self.m_category + ')\n'
+        else:
+            output += 'Category: ' + self.m_type + '\n'
         output += 'REQ LVL: ' + str(self.m_level) + '\n'
         output += 'Class: ' + self.m_class + '\n'
         if self.m_str:
@@ -131,6 +141,10 @@ class Equip:
             output += 'ACCURACY: +' + str(self.m_accuracy) + '\n'
         if self.m_avoid:
             output += 'AVOIDABILITY: +' + str(self.m_avoid) + '\n'
+        if self.m_boss:
+            output += 'Boss Damage: +' + str(int(self.m_boss*100)) + '%\n'
+        if self.m_pdr:
+            output += 'Ignore Enemy Defense: +' + str(int(self.m_pdr*100)) + '%\n'
         output += 'NUMBER OF UPGRADES AVAILABLE: ' + str(self.m_remain_slot) + '\n'
         output += 'NUMBER OF HAMMER APPLIED: ' + str(self.m_remain_hammer) + '\n\n'
         if self.m_pot:
@@ -153,6 +167,8 @@ class Equip:
         if equip is None:
             return False
         self.m_type = equip['type']
+        if equip['type'] in ['Weapon', 'Secondary', 'Emblem']:
+            self.m_category = equip['category']
         self.m_level = equip['level']
         self.m_class = equip['class']
         self.m_str = equip['str']
