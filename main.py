@@ -95,6 +95,14 @@ class MainWidget(Tkinter.Frame):
             self.destroy()
             self.parent.destroy()
 
+    def nextDayButtonClicked(self):
+        message = 'Are You Sure?\n\nCertain items on the market will restock.'
+        result = tkMessageBox.askquestion("Next Day", message, type='yesno')
+        if result == 'yes':
+            self.m_marketInfo.nextDay()
+            self.tabPurchase.reset()
+
+        
     def init(self):
         
         self.parent.title('MapleStory Simulator')
@@ -233,6 +241,7 @@ class MainWidget(Tkinter.Frame):
         self.sysMessage = Tkinter.Label(self,
                                         textvariable=self.m_sysMessage,
                                         justify=Tkinter.LEFT)
+        self.nextdayButton = Tkinter.Button(self, text='Next Day', command=self.nextDayButtonClicked)
         self.saveButton = Tkinter.Button(self, text='Save', command=self.saveButtonClicked)
         self.loadButton = Tkinter.Button(self, text='Load', command=self.loadButtonClicked)
         self.quitButton = Tkinter.Button(self, text='Quit', command=self.quitClicked)
@@ -242,6 +251,7 @@ class MainWidget(Tkinter.Frame):
         self.quitButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
         self.loadButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
         self.saveButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
+        self.nextdayButton.pack(padx=5, pady=5, side=Tkinter.RIGHT)
         
         
         
