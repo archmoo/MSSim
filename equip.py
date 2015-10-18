@@ -1,7 +1,7 @@
-from equiplib import EquipLib
+from lib.equiplib import EquipLib
 from potential import Potential
-from potentiallib import PotentialLib
-from scrolllib import ScrollLib
+from lib.potentiallib import PotentialLib
+from lib.scrolllib import ScrollLib
 import random
 
 class Equip:

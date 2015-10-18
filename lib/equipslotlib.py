@@ -1,4 +1,4 @@
-class EquipSlot:
+class EquipSlotLib:
 
     m_lib = {
         'Hat': ['Hat'],

@@ -1,6 +1,6 @@
-from speciallib import SpecialLib
-from scrolllib import ScrollLib
-from equipslot import EquipSlot
+from lib.speciallib import SpecialLib
+from lib.scrolllib import ScrollLib
+from lib.equipslotlib import EquipSlotLib
 from equip import Equip
 from potential import Potential
 import random
@@ -27,7 +27,7 @@ class Inventory:
         for key in ScrollLib.m_lib.keys():
             if ScrollLib.m_lib[key]['type'] != 'trace':
                 self.m_use[key] = 0
-        for key in EquipSlot.m_lib.keys():
+        for key in EquipSlotLib.m_lib.keys():
             self.m_equipped[key] = -1
         self.m_etc = {
             'Meso': 1000000000,
@@ -243,7 +243,7 @@ class Inventory:
 
     def onEquip(self, slot, idx):
         equipType = self.m_equip[idx].m_type
-        if equipType not in EquipSlot.m_lib[slot]:
+        if equipType not in EquipSlotLib.m_lib[slot]:
             return INVALID
         self.m_equipped[slot] = idx
         return SUCCESS
@@ -254,7 +254,7 @@ class Inventory:
     def getEquipIdxListbySlot(self, slot):
         res = []
         for i in range(len(self.m_equip)):
-            if self.m_equip[i].m_type in EquipSlot.m_lib[slot]:
+            if self.m_equip[i].m_type in EquipSlotLib.m_lib[slot]:
                 res.append(i)
         return res
             

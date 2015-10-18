@@ -1,4 +1,4 @@
-from potentiallib import PotentialLib
+from lib.potentiallib import PotentialLib
 import random
 import rng
 

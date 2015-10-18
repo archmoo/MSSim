@@ -1,7 +1,7 @@
-from equiplib import EquipLib
-from speciallib import SpecialLib
-from scrolllib import ScrollLib
-from etclib import EtcLib
+from lib.equiplib import EquipLib
+from lib.speciallib import SpecialLib
+from lib.scrolllib import ScrollLib
+from lib.etclib import EtcLib
 
 class MarketInfo:
     m_info = {}

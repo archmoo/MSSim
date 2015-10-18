@@ -1,4 +1,4 @@
-from joblib import JobLib
+from lib.joblib import JobLib
 
 class Character:
 
