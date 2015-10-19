@@ -44,6 +44,7 @@ class Character:
             'Weapon Avoidability': 0,
             'Magic Avoidability': 0,
             'ATT Stats': [0, 0],
+            'ATT Stats Reinforce': [0, 0],
             'Critical Rate': 0,
             'Minimum Critical Damage': 0,
             'Maximum Critical Damage': 0,
@@ -196,8 +197,8 @@ class Character:
         self['Boss Damage'] = self['% Boss Damage']
         self['Ignore Enemy Defense'] = self['% Ignore Defense']
         self['Status Resistance'] = self['% Status Resistance']
-        self['Speed'] = self['# speed']
-        self['Jump'] = self['# jump']
+        self['Speed'] = min(self['# speed']+100, jobStats['# max speed'])
+        self['Jump'] = min(self['# jump']+100, 123)
 
         
         multiplier = JobLib.m_weaponMultiplier[weaponCategory]
@@ -219,22 +220,56 @@ class Character:
             statValue = 3.5 * (self['STR'] + self['DEX'] + self['LUK'])
         elif self.m_job == 'Demon Avenger':
             statValue = self['Max HP'] / 9 + self['STR'] # TODO: really?
-
-        if jobStats['class'] == 'Magician':
-            highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']))
+        if jobStats['% Hyper Reinforce'] == 0:
+            if jobStats['class'] == 'Magician':
+                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+            else:
+                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+            lowRange = int(highRange * jobStats['% mastery'])
+            self['ATT Stats'] = [lowRange, highRange]
         else:
-            highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']))
-        lowRange = int(highRange * jobStats['% mastery'])
-        self['ATT Stats'] = [lowRange, highRange]
+            if jobStats['class'] == 'Magician':
+                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+            else:
+                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+            lowRange = int(highRange * jobStats['% mastery'])
+            self['ATT Stats'] = [lowRange, highRange]
+            if jobStats['class'] == 'Magician':
+                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage']))
+            else:
+                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage']))
+            lowRange = int(highRange * jobStats['% mastery'])
+            self['ATT Stats Reinforce'] = [lowRange, highRange]
 
     def showCharacterStats(self):
+        jobStats = JobLib.m_job[self.m_job]
         output = ''
         output += 'Job: ' + self.m_job + ' (' + JobLib.m_job[self.m_job]['class'] + ')\nLevel: 210\n\n'
         output += 'STR: ' + str(self['STR']) + '\nDEX: ' + str(self['DEX']) + '\nINT: ' + str(self['INT']) + '\nLUK: ' + str(self['LUK']) + '\n\n'
-        output += 'ATT Stats: ' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1]) + '\n\n'
-        output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '%\n'
+        
+        output += 'ATT Stats: ' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1])
+        if jobStats['% Hyper Reinforce'] != 0:
+            output += ' (' + str(self['ATT Stats Reinforce'][0]) + ' ~ ' + str(self['ATT Stats Reinforce'][1]) + ')'
+        output += '\n\n'
+        if jobStats['% Hyper Critical'] != 0:
+            output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '% (' + str(int(min(1,jobStats['% Hyper Critical'] + self['Critical Rate'])*100)) + '%)\n'
+        else:
+            output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '%\n'
+
         output += 'Minimum Critical: ' + str(int(self['Minimum Critical Damage']*100+100)) + '%\nMaximum Critical: ' + str(int(self['Maximum Critical Damage']*100+100)) + '%\n\n'
-        output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '%\nIgnore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '%\n'
+
+        if jobStats['% Hyper Boss Rush'] != 0:
+            output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '% (' + str(int((self['Boss Damage'] + jobStats['% Hyper Boss Rush'])*100)) + '%)\n'
+        else:
+            output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '%\n'
+        if jobStats['% Hyper Guard Break'] != 0:
+            pdr = self['Ignore Enemy Defense'] + (1 - self['Ignore Enemy Defense']) * jobStats['% Hyper Guard Break']
+            print pdr, pdr*100, str(int(pdr*100))
+            output += 'Ignore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '% (' + str(int(pdr*100)) + '%)\n'
+        else:
+            output += 'Ignore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '%\n'
+
+        output += 'Ignore Elemental Resistance: ' + str(int(100*jobStats['% Ignore Resistance'])) + '%\n'        
         output += 'Status Resistance: ' + str(int(self['Status Resistance']*100)) + '%\n\n'
         output += 'Weapon DEF: ' + str(self['Weapon Defense']) + '\n'
         output += 'Magic DEF: ' + str(self['Magic Defense']) + '\n'
@@ -242,7 +277,12 @@ class Character:
         output += 'Magic ACC: ' + str(self['Magic Accuracy']) + '\n'
         output += 'Weapon Avoid: ' + str(self['Weapon Avoidability']) + '\n'
         output += 'Magic Avoid: ' + str(self['Magic Avoidability']) + '\n\n'
-        output += 'Speed: ' + str(self['Speed']) + '%\nJump: ' + str(self['Jump']) + '%\n'
+        output += 'Speed: ' + str(self['Speed']) + '%\nJump: ' + str(self['Jump']) + '%\n\n'
+        output += '--------\nWhen in combat, characters may gain additional stats due to certain skills. Final stats are shown in parentheses. Some temporary boosts are not included in calculation.'
+        if 'Hyper related' in jobStats.keys():
+            output += '\n\nRelative skills:\n\n'
+            for skill in sorted(jobStats['Hyper related']):
+                output += skill + '\n'
         return output
         
         

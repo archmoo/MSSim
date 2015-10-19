@@ -127,7 +127,7 @@ class MainWidget(Tkinter.Frame):
             size = jobListbox.size()
             if size:
                 jobListbox.delete(0, size-1)
-            self.classList = sorted([key for key in JobLib.m_job.keys() if JobLib.m_job[key]['class'] == curClass])
+            self.classList = sorted([key for key in JobLib.m_job.keys() if JobLib.m_job[key]['class'] == curClass], key=lambda key=key: (JobLib.m_job[key]['category'], key))
             if curClass in ['Thief', 'Pirate']:
                 self.classList.append('Xenon')
             for className in self.classList:
