@@ -167,30 +167,30 @@ class Character:
 
         # TODO: set effect
         
-        self['Weapon ATT'] = int(self['# watt'] * (1 + self['% watt']))
-        self['Magic ATT'] = int(self['# matt'] * (1 + self['% matt']))
-        self['STR'] = int((self['# str'] + self['# all stats']) * (1 + self['% str'] + self['% all stats']))
-        self['DEX'] = int((self['# dex'] + self['# all stats']) * (1 + self['% dex'] + self['% all stats']))
-        self['INT'] = int((self['# int'] + self['# all stats']) * (1 + self['% int'] + self['% all stats']))
-        self['LUK'] = int((self['# luk'] + self['# all stats']) * (1 + self['% luk'] + self['% all stats']))
-        self['Max HP'] = min(500000, int(self['# hp'] * (1 + self['% hp'])))
-        self['Max MP'] = min(500000, int(self['# mp'] * (1 + self['% mp'])))
+        self['Weapon ATT'] = int(round(self['# watt'] * (1 + self['% watt'])))
+        self['Magic ATT'] = int(round(self['# matt'] * (1 + self['% matt'])))
+        self['STR'] = int(round((self['# str'] + self['# all stats']) * (1 + self['% str'] + self['% all stats'])))
+        self['DEX'] = int(round((self['# dex'] + self['# all stats']) * (1 + self['% dex'] + self['% all stats'])))
+        self['INT'] = int(round((self['# int'] + self['# all stats']) * (1 + self['% int'] + self['% all stats'])))
+        self['LUK'] = int(round((self['# luk'] + self['# all stats']) * (1 + self['% luk'] + self['% all stats'])))
+        self['Max HP'] = min(500000, int(round(self['# hp'] * (1 + self['% hp']))))
+        self['Max MP'] = min(500000, int(round(self['# mp'] * (1 + self['% mp']))))
         maxDefense = 9999
         if self.m_job == 'Paladin':
             maxDefense = 19999
         self['Weapon Defense'] = min(maxDefense,
-                                     int((self['STR'] * 1.2 + (self['DEX'] + self['LUK']) * 0.5 + self['INT'] * 0.4 + self['# wdef']) * (1 + self['% wdef'])))
+                                     int(round((self['STR'] * 1.2 + (self['DEX'] + self['LUK']) * 0.5 + self['INT'] * 0.4 + self['# wdef']) * (1 + self['% wdef']))))
         self['Magic Defense'] = min(maxDefense,
-                                     int((self['STR'] * 0.4 + (self['DEX'] + self['LUK']) * 0.5 + self['INT'] * 1.2 + self['# mdef']) * (1 + self['% mdef'])))
-        maxAccuracy = int(9999 * (1 + jobStats['% accuracy']))
+                                     int(round((self['STR'] * 0.4 + (self['DEX'] + self['LUK']) * 0.5 + self['INT'] * 1.2 + self['# mdef']) * (1 + self['% mdef']))))
+        maxAccuracy = int(round(9999 * (1 + jobStats['% accuracy'])))
         self['Weapon Accuracy'] = min(maxAccuracy,
-                                      int((self['DEX'] * 1.2 + self['LUK'] + self['# accuracy']) * (1 + self['% accuracy'])))
+                                      int(round((self['DEX'] * 1.2 + self['LUK'] + self['# accuracy']) * (1 + self['% accuracy']))))
         self['Magic Accuracy'] = min(maxAccuracy,
-                                      int((self['INT'] + self['LUK'] * 1.2 + self['# accuracy']) * (1 + self['% accuracy'])))
+                                      int(round((self['INT'] + self['LUK'] * 1.2 + self['# accuracy']) * (1 + self['% accuracy']))))
         self['Weapon Avoidability'] = min(9999,
-                                      int((self['DEX'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid'])))
+                                      int(round((self['DEX'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid']))))
         self['Magic Avoidability'] = min(9999,
-                                      int((self['INT'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid'])))
+                                      int(round((self['INT'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid']))))
         self['Critical Rate'] = min(1, self['% Crit Rate'])
         self['Minimum Critical Damage'] = min(self['% Min Crit'], self['% Max Crit'])
         self['Maximum Critical Damage'] = max(self['% Min Crit'], self['% Max Crit'])
@@ -202,6 +202,11 @@ class Character:
 
         
         multiplier = JobLib.m_weaponMultiplier[weaponCategory]
+        if weaponCategory in ['Wand', 'Staff']:
+            if jobStats['category'] == 0: # Explorer
+                multiplier = 1.2
+            else:
+                multiplier = 1
         statValue = 0
         if jobStats['class'] == 'Magician':
             statValue = self['INT'] * 4 + self['LUK']
@@ -219,26 +224,26 @@ class Character:
         elif self.m_job == 'Xenon':
             statValue = 3.5 * (self['STR'] + self['DEX'] + self['LUK'])
         elif self.m_job == 'Demon Avenger':
-            statValue = self['Max HP'] / 9 + self['STR'] # TODO: really?
+            statValue = self['Max HP'] / 9 + self['STR']
         if jobStats['% Hyper Reinforce'] == 0:
             if jobStats['class'] == 'Magician':
-                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+                highRange = int(round(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage'])))
             else:
-                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
-            lowRange = int(highRange * jobStats['% mastery'])
+                highRange = int(round(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage'])))
+            lowRange = int(round(highRange * jobStats['% mastery']))
             self['ATT Stats'] = [lowRange, highRange]
         else:
             if jobStats['class'] == 'Magician':
-                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
+                highRange = int(round(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage'])))
             else:
-                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage']))
-            lowRange = int(highRange * jobStats['% mastery'])
+                highRange = int(round(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage']) * (1 + jobStats['% Final Damage'])))
+            lowRange = int(round(highRange * jobStats['% mastery']))
             self['ATT Stats'] = [lowRange, highRange]
             if jobStats['class'] == 'Magician':
-                highRange = int(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage']))
+                highRange = int(round(0.01 * multiplier * statValue * self['Magic ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage'])))
             else:
-                highRange = int(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage']))
-            lowRange = int(highRange * jobStats['% mastery'])
+                highRange = int(round(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage'])))
+            lowRange = int(round(highRange * jobStats['% mastery']))
             self['ATT Stats Reinforce'] = [lowRange, highRange]
 
     def showCharacterStats(self):
@@ -247,7 +252,7 @@ class Character:
         output += 'Job: ' + self.m_job + ' (' + JobLib.m_job[self.m_job]['class'] + ')\nLevel: 210\n\n'
         output += 'STR: ' + str(self['STR']) + '\nDEX: ' + str(self['DEX']) + '\nINT: ' + str(self['INT']) + '\nLUK: ' + str(self['LUK']) + '\n\n'
         
-        output += 'ATT Stats: ' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1])
+        output += 'ATT Stats:\n' + str(self['ATT Stats'][0]) + ' ~ ' + str(self['ATT Stats'][1])
         if jobStats['% Hyper Reinforce'] != 0:
             output += ' (' + str(self['ATT Stats Reinforce'][0]) + ' ~ ' + str(self['ATT Stats Reinforce'][1]) + ')'
         output += '\n\n'
@@ -264,10 +269,9 @@ class Character:
             output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '%\n'
         if jobStats['% Hyper Guard Break'] != 0:
             pdr = self['Ignore Enemy Defense'] + (1 - self['Ignore Enemy Defense']) * jobStats['% Hyper Guard Break']
-            print pdr, pdr*100, str(int(pdr*100))
-            output += 'Ignore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '% (' + str(int(pdr*100)) + '%)\n'
+            output += 'Ignore DEF: ' + str(int(round(self['Ignore Enemy Defense']*100))) + '% (' + str(int(round(pdr*100))) + '%)\n'
         else:
-            output += 'Ignore DEF: ' + str(int(self['Ignore Enemy Defense']*100)) + '%\n'
+            output += 'Ignore DEF: ' + str(int(round(self['Ignore Enemy Defense']*100))) + '%\n'
 
         output += 'Ignore Elemental Resistance: ' + str(int(100*jobStats['% Ignore Resistance'])) + '%\n'        
         output += 'Status Resistance: ' + str(int(self['Status Resistance']*100)) + '%\n\n'
