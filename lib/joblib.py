@@ -872,7 +872,7 @@
             'class': 'Magician',
             'category': 2,
             'Weapon': ['Shining Rod'],
-            'Secondary': ['Light Orb'],
+            'Secondary': ['Orb'],
             'Emblem': ['Boss Arena'],
             '# str': 4, '% str': 0,
             '# dex': 4, '% dex': 0,
@@ -905,7 +905,7 @@
             '% Hyper Critical': 1,
             '# Skill Delay': [1],
             'Hyper related': ['Ender', 'Ender - Reinforce', 'Dark Crescendo'],
-            'description':'Luminous is one of the six Heroes who sealed away the Black Mage and is part of the Magician branch. He uses a Shining Rod and an Orb for his weapons.\nAs the last of the six legendary Heroes, Luminous dealt the final blow to the Black Mage once and for all. However, upon doing so, he became tainted with the Black Mage\'s Dark power. He wields the power of both Light and Dark, and reaches his maximum potential in the state of Equilibrium.\n\nClass: Magician\nCategory: Hero\n\nPrimary Weapon: Shining Rod\nSecondary Weapon: Light Orb\nPrimary Stat: INT\nSecondary Stat: LUK\n\nAdvancement Route:\nI:Luminous -> II:Luminous -> III:Luminous -> IV:Luminous\n',
+            'description':'Luminous is one of the six Heroes who sealed away the Black Mage and is part of the Magician branch. He uses a Shining Rod and an Orb for his weapons.\nAs the last of the six legendary Heroes, Luminous dealt the final blow to the Black Mage once and for all. However, upon doing so, he became tainted with the Black Mage\'s Dark power. He wields the power of both Light and Dark, and reaches his maximum potential in the state of Equilibrium.\n\nClass: Magician\nCategory: Hero\n\nPrimary Weapon: Shining Rod\nSecondary Weapon: Orb\nPrimary Stat: INT\nSecondary Stat: LUK\n\nAdvancement Route:\nI:Luminous -> II:Luminous -> III:Luminous -> IV:Luminous\n',
             },
         'Mercedes': {
             'class': 'Bowman',
