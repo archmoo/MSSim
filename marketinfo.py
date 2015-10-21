@@ -49,6 +49,7 @@ class MarketInfo:
         for key, data in self.m_info.items():
             for i in range(len(data['max'])):
                 if data['cost'][i] == 'Meso':
+                    self.m_info[key]['orig'][i] = int(round(data['orig'][i] * (1+(random.random()-0.5)*0.1)))
                     self.m_info[key]['value'][i] = int(round(data['orig'][i] * (1+max(-0.5, random.normalvariate(0, 0.1)))))
 
     def nextDay(self):

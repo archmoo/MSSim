@@ -88,6 +88,17 @@ class PurchaseWidget(Tkinter.Frame):
                                                     command=lambda name=etcType: setUpCategory(name))
 
     def updateCategory(self):
+            def equipsort(equip):
+                classSort = {
+                    'All': 0,
+                    'Warrior':1,
+                    'Bowman':2,
+                    'Magician':3,
+                    'Thief':4,
+                    'Pirate':5,
+                    }
+                equipStats = EquipLib.m_lib[chosenCategory][equip]
+                return (-1*equipStats['level'], classSort[equipStats['class']], equip)
             chosenCategory = self.chosenCategory.get()
             if self.curChosenCategory == chosenCategory:
                 return
@@ -105,7 +116,7 @@ class PurchaseWidget(Tkinter.Frame):
             self.curSelectIdx = -1
 
             if self.curChosenType == 'Equip':
-                self.listboxList = sorted(EquipLib.m_lib[chosenCategory].keys())
+                self.listboxList = sorted(EquipLib.m_lib[chosenCategory].keys(), key=equipsort)
 ##                print self.listboxList
                 for equipName in self.listboxList:
                     self.itemListbox.insert(Tkinter.END, equipName)
