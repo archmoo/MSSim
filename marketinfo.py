@@ -2,6 +2,7 @@ from lib.equiplib import EquipLib
 from lib.speciallib import SpecialLib
 from lib.scrolllib import ScrollLib
 from lib.etclib import EtcLib
+import random
 
 class MarketInfo:
     m_info = {}
@@ -15,7 +16,8 @@ class MarketInfo:
                     'value': data['value'],
                     'stock': data['stock'],
                     'max': data['max'],
-                    'supply': data['supply']
+                    'supply': data['supply'],
+                    'orig': data['value'],
                     }
         for scrollName, data in ScrollLib.m_lib.items():
             self.m_info[scrollName] = {
@@ -23,7 +25,8 @@ class MarketInfo:
                     'value': data['value'],
                     'stock': data['stock'],
                     'max': data['max'],
-                    'supply': data['supply']
+                    'supply': data['supply'],
+                    'orig': data['value'],
                     }
         for specialName, data in SpecialLib.m_lib.items():
             self.m_info[specialName] = {
@@ -31,7 +34,8 @@ class MarketInfo:
                     'value': data['value'],
                     'stock': data['stock'],
                     'max': data['max'],
-                    'supply': data['supply']
+                    'supply': data['supply'],
+                    'orig': data['value'],
                     }
         for etcName, data in EtcLib.m_lib.items():
             self.m_info[etcName] = {
@@ -39,8 +43,13 @@ class MarketInfo:
                     'value': data['value'],
                     'stock': data['stock'],
                     'max': data['max'],
-                    'supply': data['supply']
+                    'supply': data['supply'],
+                    'orig': data['value'],
                     }
+        for key, data in self.m_info.items():
+            for i in range(len(data['max'])):
+                if data['cost'][i] == 'Meso':
+                    self.m_info[key]['value'][i] = int(round(data['orig'][i] * (1+(random.random()-0.5)/5)))
 
     def nextDay(self):
         for key, data in self.m_info.items():
@@ -50,6 +59,9 @@ class MarketInfo:
                     if newStock > data['max'][i]:
                         newStock = data['max'][i]
                     self.m_info[key]['stock'][i] = newStock
+                if data['cost'][i] == 'Meso':
+                    self.m_info[key]['value'][i] = int(round(data['orig'][i] * (1+(random.random()-0.5)/5)))
+
                     
     def getPaymentTypeNum(self, itemName):
         data = self.m_info[itemName]
