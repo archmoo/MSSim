@@ -17,6 +17,7 @@ class EquipSlotLib:
         'Pendant 1': ['Pendant'],
         'Pendant 2': ['Pendant'],
         'Earring': ['Earring'],
+        'Shoulder': ['Shoulder'],
         'Badge': ['Badge'],
         'Weapon': ['Weapon'],
         'Secondary': ['Secondary'],
