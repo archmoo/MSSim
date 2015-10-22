@@ -2,6 +2,7 @@ from lib.equiplib import EquipLib
 from potential import Potential
 from lib.potentiallib import PotentialLib
 from lib.scrolllib import ScrollLib
+from lib.equipsetlib import EquipSetLib
 import random
 
 class Equip:
@@ -149,6 +150,8 @@ class Equip:
         output += 'NUMBER OF HAMMER APPLIED: ' + str(self.m_remain_hammer) + '\n\n'
         if self.m_pot:
             output += self.m_pot.showPot()
+        if self.m_setId:
+            output += EquipSetLib.showSetEffect(self.m_setId)
         subScrollInfo = ''
         if self.m_protect:
             subScrollInfo += 'Protect Scroll in effect.\n'

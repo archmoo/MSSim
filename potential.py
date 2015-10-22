@@ -68,8 +68,7 @@ class Potential:
                     output.append(str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + line[1][1])
                 else:
                     output.append(str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(line[1][1]))
-        return output
-        
+        return output      
             
     def setRank(self, rank):
         self.m_rank = rank

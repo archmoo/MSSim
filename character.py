@@ -1,4 +1,5 @@
 from lib.joblib import JobLib
+from lib.equipsetlib import EquipSetLib
 
 class Character:
 
@@ -69,6 +70,7 @@ class Character:
             'Cannoneer Link Skill': -1,
             'Cygnus Knight Link Skill': -1,
             }
+        self.equipSet = {}
             
 
     def __getitem__(self, key):
@@ -93,7 +95,16 @@ class Character:
             if key in self.m_interStat.keys():
                self[key] = jobStats[key]
 
+        self.equipSet = {}
+
         for equip in equips:
+
+            if equip.m_setId:
+                if equip.m_setId in self.equipSet.keys():
+                    self.equipSet[equip.m_setId] += 1
+                else:
+                    self.equipSet[equip.m_setId] = 1
+            
             self['# str'] += equip['str']
             self['# dex'] += equip['dex']
             self['# int'] += equip['int']
@@ -165,8 +176,63 @@ class Character:
                 else:
                     pass # TODO: decent skills, drop rate
 
-        # TODO: set effect
-        
+        #set effect
+        for key, value in self.equipSet.items():
+            equipSet = EquipSetLib.m_lib[key]
+##            print equipSet['name'], value
+            effect = equipSet['effect']
+            for num, pots in effect.items():
+                if num <= value:
+                    for pot in pots:
+                        stat, val = pot
+
+                        mapping = {
+                            '% STR': '% str',
+                            '% DEX': '% dex',
+                            '% INT': '% int',
+                            '% LUK': '% luk',
+                            '% All Stats': '% all stats',
+                            '% Avoid': '% avoid',
+                            '% Accuracy': '% accuracy',
+                            '% Max HP': '% hp',
+                            '% Max MP': '% mp',
+                            '% Weapon DEF': '% wdef',
+                            '% Magic DEF': '% mdef',
+                            '% Min Crit Damage': '% Min Crit',
+                            '% Max Crit Damage': '% Max Crit',
+                            '% Abnormal Status Resistance': '% Status Resistance',
+                            '% Boss Damage': '% Boss Damage',
+                            '% Weapon ATT': '% watt',
+                            '% Magic ATT': '% matt',
+                            '% Total Damage': '% Total Damage',
+                            '% Crit Rate': '% Crit Rate',
+                            '# STR': '# str',
+                            '# DEX': '# dex',
+                            '# INT': '# int',
+                            '# LUK': '# luk',
+                            '# All Stats': '# all stats',
+                            '# Avoid': '# avoid',
+                            '# Accuracy': '# accuracy',
+                            '# Max HP': '# hp',
+                            '# Max MP': '# mp',
+                            '# Weapon ATT': '# watt',
+                            '# Magic ATT': '# matt',
+                            '# Weapon DEF': '# wdef',
+                            '# Magic DEF': '# mdef',
+                            '# Speed': '# speed',
+                            '# Jump': '# jump',
+                            }
+                        if stat in mapping.keys():
+                            self[mapping[stat]] += val
+                        elif stat == '% Ignore Defense':
+                            self['% Ignore Defense'] = self['% Ignore Defense'] + (1 - self['% Ignore Defense']) * val
+                        elif stat == '# Weapon ATT per 10 levels':
+                            self['# watt'] += 21
+                        elif stat == '# Magic ATT per 10 levels':
+                            self['# matt'] += 21
+                        else:
+                            pass # TODO: decent skills, drop rate
+
         self['Weapon ATT'] = int(round(self['# watt'] * (1 + self['% watt'])))
         self['Magic ATT'] = int(round(self['# matt'] * (1 + self['% matt'])))
         self['STR'] = int(round((self['# str'] + self['# all stats']) * (1 + self['% str'] + self['% all stats'])))

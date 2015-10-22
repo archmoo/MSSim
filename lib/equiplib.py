@@ -22,7 +22,7 @@
             'boss': 0,
             'pdr': 0.1,
             'slot': 11,
-            'setId': 1,
+            'setId': 3,
             # market info
             'cost': ['Meso','Queen Coin'],
             'value': [50000000, 5],
@@ -50,7 +50,7 @@
             'boss': 0,
             'pdr': 0.1,
             'slot': 11,
-            'setId': 2,
+            'setId': 4,
             # market info
             'cost': ['Meso','Queen Coin'],
             'value': [74000000, 5],
@@ -78,7 +78,7 @@
             'boss': 0,
             'pdr': 0.1,
             'slot': 11,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Queen Coin'],
             'value': [57000000, 5],
@@ -134,7 +134,7 @@
             'boss': 0,
             'pdr': 0.1,
             'slot': 11,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Queen Coin'],
             'value': [24000000, 5],
@@ -162,7 +162,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13000000, 5],
@@ -190,7 +190,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13500000, 5],
@@ -218,7 +218,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 2,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [11000000, 5],
@@ -246,7 +246,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 2,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [5000000, 5],
@@ -274,7 +274,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6000000, 5],
@@ -302,7 +302,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 9,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [1650000],
@@ -330,7 +330,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 9,
-            'setId': 2,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [1880000],
@@ -358,7 +358,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 9,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [1780000],
@@ -386,7 +386,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 9,
-            'setId': 2,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1000000],
@@ -414,7 +414,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 9,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [580000],
@@ -446,7 +446,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 3,
             # market info
             'cost': ['Meso','VonBon Coin'],
             'value': [25000000, 5],
@@ -474,7 +474,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 4,
             # market info
             'cost': ['Meso','VonBon Coin'],
             'value': [31000000, 5],
@@ -530,7 +530,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 2,
             # market info
             'cost': ['Meso','VonBon Coin'],
             'value': [16000000, 5],
@@ -558,7 +558,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 5,
             # market info
             'cost': ['Meso','VonBon Coin'],
             'value': [29000000, 5],
@@ -588,7 +588,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 12,
-            'setId': 1,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13500000, 5],
@@ -616,7 +616,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 12,
-            'setId': 1,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [12500000, 5],
@@ -644,7 +644,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 12,
-            'setId': 1,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6500000, 5],
@@ -672,7 +672,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 12,
-            'setId': 1,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13500000, 5],
@@ -700,7 +700,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 12,
-            'setId': 1,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [8000000, 5],
@@ -728,7 +728,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 1,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [2000000],
@@ -756,7 +756,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 1,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [1240000],
@@ -784,7 +784,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 1,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [1400000],
@@ -812,7 +812,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 1,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1130000],
@@ -840,7 +840,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 10,
-            'setId': 1,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [1300000],
@@ -870,7 +870,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 3,
             # market info
             'cost': ['Meso','Pierre Coin'],
             'value': [74000000, 5],
@@ -926,7 +926,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 4,
             # market info
             'cost': ['Meso','Pierre Coin'],
             'value': [112500000, 5],
@@ -954,7 +954,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 2,
             # market info
             'cost': ['Meso','Pierre Coin'],
             'value': [34500000, 5],
@@ -982,7 +982,7 @@
             'boss': 0,
             'pdr': 0.05,
             'slot': 7,
-            'setId': 1,
+            'setId': 5,
             # market info
             'cost': ['Meso','Pierre Coin'],
             'value': [31000000, 5],
@@ -1152,7 +1152,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [15000000, 5],
@@ -1180,7 +1180,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6000000, 5],
@@ -1208,7 +1208,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [11000000, 5],
@@ -1236,7 +1236,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13000000, 5],
@@ -1264,7 +1264,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [7000000, 5],
@@ -1292,7 +1292,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [2700000],
@@ -1320,7 +1320,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [3330000],
@@ -1348,7 +1348,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [2200000],
@@ -1376,7 +1376,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [2700000],
@@ -1404,7 +1404,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [1300000],
@@ -1574,7 +1574,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [19500000, 5],
@@ -1602,38 +1602,10 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [10000000, 5],
-            'stock': [10, -1],
-            'max': [20, -1],
-            'supply': [10, -1],
-            },
-        'Lionheart Battle Cape' : {
-            'name': 'Lionheart Battle Cape',
-            'type': 'Cape',
-            'class': 'Warrior',
-            'level': 140,
-            'str': 7,
-            'dex': 7,
-            'int': 0,
-            'luk': 0,
-            'hp': 0,
-            'mp': 0,
-            'watt': 1,
-            'matt': 0,
-            'wdef': 200,
-            'mdef': 100,
-            'accuracy': 0,
-            'avoid': 0,
-            'boss': 0,
-            'pdr': 0,
-            'slot': 7,
-            'setId': 0,
-            # market info
-            'cost': ['Meso','Cygnus Coin'],
-            'value': [19500000, 5],
             'stock': [10, -1],
             'max': [20, -1],
             'supply': [10, -1],
@@ -1658,7 +1630,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [18500000, 5],
@@ -1686,7 +1658,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [19500000, 5],
@@ -1714,7 +1686,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [12000000, 5],
@@ -1742,7 +1714,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [3500000],
@@ -1770,7 +1742,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [1500000],
@@ -1798,7 +1770,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [2500000],
@@ -1826,7 +1798,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1800000],
@@ -1854,7 +1826,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [3000000],
@@ -2024,7 +1996,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 0,
+            'setId': 16,
             # market info
             'cost': ['Meso','Gollux Coin SS'],
             'value': [451500000, 1],
@@ -2052,7 +2024,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 0,
+            'setId': 17,
             # market info
             'cost': ['Meso','Gollux Coin S'],
             'value': [37000000, 1],
@@ -2080,7 +2052,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 0,
+            'setId': 18,
             # market info
             'cost': ['Meso','Gollux Coin A'],
             'value': [5900000, 1],
@@ -2108,7 +2080,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 0,
+            'setId': 19,
             # market info
             'cost': ['Meso','Gollux Coin B'],
             'value': [2720000, 1],
@@ -2278,7 +2250,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [12500000, 5],
@@ -2306,7 +2278,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6500000, 5],
@@ -2334,7 +2306,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [12000000, 5],
@@ -2362,7 +2334,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [14000000, 5],
@@ -2390,7 +2362,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 0,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [7500000, 5],
@@ -2418,7 +2390,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [5000000],
@@ -2446,7 +2418,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [2700000],
@@ -2474,7 +2446,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [3400000],
@@ -2502,7 +2474,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1400000],
@@ -2530,7 +2502,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 0,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [3500000],
@@ -2589,7 +2561,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 0,
+            'setId': 20,
             # market info
             'cost': ['Meso','Boss Coin'],
             'value': [1980000, 1],
@@ -2647,7 +2619,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 5,
-            'setId': 0,
+            'setId': 20,
             # market info
             'cost': ['Meso','Boss Coin'],
             'value': [2230000, 1],
@@ -2678,7 +2650,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 5,
+            'setId': 16,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [973000000, 160],
@@ -2707,7 +2679,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 4,
-            'setId': 5,
+            'setId': 17,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [860500000, 110],
@@ -2736,7 +2708,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 2,
-            'setId': 5,
+            'setId': 18,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [366500000, 50],
@@ -2765,7 +2737,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 5,
+            'setId': 19,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [127000000, 15],
@@ -2794,7 +2766,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 2,
-            'setId': 5,
+            'setId': 20,
             # market info
             'cost': ['Meso','Boss Coin'],
             'value': [7600000, 4],
@@ -2853,7 +2825,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 5,
+            'setId': 16,
             # market info
             'cost': ['Meso','Gollux Coin SS'],
             'value': [1023500000, 2],
@@ -2881,7 +2853,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 5,
-            'setId': 5,
+            'setId': 17,
             # market info
             'cost': ['Meso','Gollux Coin S'],
             'value': [26200000, 1],
@@ -2909,7 +2881,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 4,
-            'setId': 5,
+            'setId': 18,
             # market info
             'cost': ['Meso','Gollux Coin A'],
             'value': [4300000, 1],
@@ -2937,7 +2909,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 5,
+            'setId': 19,
             # market info
             'cost': ['Meso','Gollux Coin B'],
             'value': [1900000, 1],
@@ -2965,7 +2937,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 5,
+            'setId': 20,
             # market info
             'cost': ['Boss Coin'],
             'value': [10],
@@ -2993,7 +2965,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 3,
-            'setId': 5,
+            'setId': 20,
             # market info
             'cost': ['Boss Coin'],
             'value': [5],
@@ -3021,7 +2993,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 5,
-            'setId': 5,
+            'setId': 20,
             # market info
             'cost': ['Boss Coin'],
             'value': [20],
@@ -3051,7 +3023,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 5,
+            'setId': 16,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [984000000, 150],
@@ -3079,7 +3051,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 5,
+            'setId': 17,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [605000000, 90],
@@ -3107,7 +3079,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 5,
+            'setId': 18,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [180000000, 40],
@@ -3135,7 +3107,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 5,
+            'setId': 19,
             # market info
             'cost': ['Meso','Gollux Coin'],
             'value': [73500000, 10],
@@ -3163,7 +3135,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 6,
-            'setId': 5,
+            'setId': 20,
             # market info
             'cost': ['Meso','Boss Coin'],
             'value': [3700000, 2],
@@ -3221,7 +3193,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 0,
-            'setId': 0,
+            'setId': 20,
             # market info
             'cost': ['Meso', 'Boss Coin'],
             'value': [13600000, 7],
@@ -3252,7 +3224,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 1,
+            'setId': 3,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [99500000, 5],
@@ -3339,7 +3311,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [10000000, 5],
@@ -3368,7 +3340,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [9500000, 5],
@@ -3397,7 +3369,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [18500000, 5],
@@ -3426,7 +3398,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 4,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [42500000, 5],
@@ -3455,7 +3427,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 4,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [112000000, 5],
@@ -3484,7 +3456,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [65000000, 5],
@@ -3542,7 +3514,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [14500000, 5],
@@ -3571,7 +3543,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 3,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [36000000, 5],
@@ -3600,7 +3572,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [9000000, 5],
@@ -3629,7 +3601,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [20000000, 5],
@@ -3658,7 +3630,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 3,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [52000000, 5],
@@ -3687,7 +3659,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 3,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [71500000, 5],
@@ -3716,7 +3688,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [13000000, 5],
@@ -3745,7 +3717,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [28500000, 5],
@@ -3774,7 +3746,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [91000000, 5],
@@ -3803,7 +3775,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [77000000, 5],
@@ -3832,7 +3804,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [39000000, 5],
@@ -3861,7 +3833,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 4,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [453500000, 5],
@@ -3890,7 +3862,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 3,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [16500000, 5],
@@ -3919,7 +3891,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [25500000, 5],
@@ -3948,7 +3920,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 4,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [19500000, 5],
@@ -3977,7 +3949,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 1,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [12000000, 5],
@@ -4006,7 +3978,7 @@
             'boss': 0.3,
             'pdr': 0.1,
             'slot': 8,
-            'setId': 2,
+            'setId': 5,
             # market info
             'cost': ['Meso','Vellum Coin'],
             'value': [29000000, 5],
@@ -4035,7 +4007,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [1700000, 15],
@@ -4064,7 +4036,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3700000, 15],
@@ -4093,7 +4065,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [7500000, 15],
@@ -4122,7 +4094,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [2000000, 15],
@@ -4151,7 +4123,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3300000, 15],
@@ -4180,7 +4152,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3500000, 15],
@@ -4209,7 +4181,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3700000, 15],
@@ -4238,7 +4210,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6300000, 15],
@@ -4267,7 +4239,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [4300000, 15],
@@ -4296,7 +4268,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 6,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [4500000, 15],
@@ -4325,7 +4297,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [8100000, 15],
@@ -4354,7 +4326,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3300000, 15],
@@ -4383,7 +4355,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 7,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6900000, 15],
@@ -4412,7 +4384,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [7000000, 15],
@@ -4441,7 +4413,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [4400000, 15],
@@ -4470,7 +4442,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [8500000, 15],
@@ -4499,7 +4471,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [9300000, 15],
@@ -4528,7 +4500,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 8,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [2800000, 15],
@@ -4557,7 +4529,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [13000000, 15],
@@ -4586,7 +4558,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [7500000, 15],
@@ -4615,7 +4587,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3800000, 15],
@@ -4644,7 +4616,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 9,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [26000000, 15],
@@ -4673,7 +4645,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [4800000, 15],
@@ -4702,7 +4674,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [5200000, 15],
@@ -4731,7 +4703,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [2900000, 15],
@@ -4760,7 +4732,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [3500000, 15],
@@ -4789,7 +4761,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 10,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [8400000, 15],
@@ -4818,7 +4790,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1900000],
@@ -4847,7 +4819,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [3000000],
@@ -4876,7 +4848,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [880000],
@@ -4905,7 +4877,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [2400000],
@@ -4934,7 +4906,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1900000],
@@ -4963,7 +4935,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [2000000],
@@ -4992,7 +4964,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [950000],
@@ -5021,7 +4993,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [950000],
@@ -5050,7 +5022,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 12,
             # market info
             'cost': ['Meso'],
             'value': [1400000],
@@ -5079,7 +5051,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [1700000],
@@ -5108,7 +5080,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [1700000],
@@ -5137,7 +5109,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [1000000],
@@ -5166,7 +5138,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 14,
             # market info
             'cost': ['Meso'],
             'value': [2300000],
@@ -5195,7 +5167,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [500000],
@@ -5224,7 +5196,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [5000000],
@@ -5253,7 +5225,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [1500000],
@@ -5282,7 +5254,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [1700000],
@@ -5311,7 +5283,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [2300000],
@@ -5340,7 +5312,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [3200000],
@@ -5369,7 +5341,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 15,
             # market info
             'cost': ['Meso'],
             'value': [1900000],
@@ -5398,7 +5370,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [3200000],
@@ -5427,7 +5399,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [2700000],
@@ -5456,7 +5428,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [1000000],
@@ -5464,8 +5436,8 @@
             'max': [10],
             'supply': [5],
             },
-        'Utgard Two-handed Axe' : {
-            'name': 'Utgard Two-handed Axe',
+        'Utgard Two-handed Hammer' : {
+            'name': 'Utgard Two-handed Hammer',
             'type': 'Weapon',
             'category': 'Two-handed Mace',
             'class': 'Warrior',
@@ -5485,7 +5457,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [75000],
@@ -5514,7 +5486,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 11,
             # market info
             'cost': ['Meso'],
             'value': [2000000],
@@ -5543,7 +5515,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 13,
             # market info
             'cost': ['Meso'],
             'value': [3000000],
@@ -5574,7 +5546,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 7,
-            'setId': 2,
+            'setId': 0,
             # market info
             'cost': ['Meso','Cygnus Coin'],
             'value': [6500000, 15],
@@ -5603,7 +5575,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 8,
-            'setId': 2,
+            'setId': 0,
             # market info
             'cost': ['Meso'],
             'value': [4300000],
@@ -6707,7 +6679,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 20,
             # market info
             'cost': ['Meso', 'Boss Coin'],
             'value': [8000000, 4],
@@ -6763,7 +6735,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 6,
             # market info
             'cost': ['Meso'],
             'value': [288000000],
@@ -6791,7 +6763,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 9,
             # market info
             'cost': ['Meso'],
             'value': [275000000],
@@ -6819,7 +6791,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 8,
             # market info
             'cost': ['Meso'],
             'value': [240000000],
@@ -6847,7 +6819,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 7,
             # market info
             'cost': ['Meso'],
             'value': [172000000],
@@ -6875,7 +6847,7 @@
             'boss': 0,
             'pdr': 0,
             'slot': 1,
-            'setId': 0,
+            'setId': 10,
             # market info
             'cost': ['Meso'],
             'value': [200000000],
