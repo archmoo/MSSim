@@ -17,6 +17,7 @@ from inventory import Inventory, SUCCESS, FAIL, BOOM, INVALID, NOITEM
 from inventorywidget import InventoryWidget
 from equipwidget import EquipWidget
 from purchasewidget import PurchaseWidget
+from activitywidget import ActivityWidget
 
 class MainWidget(Tkinter.Frame):
 
@@ -58,6 +59,7 @@ class MainWidget(Tkinter.Frame):
             self.tabInventory.reset()
             self.tabEquip.reset()
             self.tabPurchase.reset()
+            self.tabActivity.reset()
             
     def initLoadClicked(self):
         message = 'Load Savedata?'
@@ -68,25 +70,21 @@ class MainWidget(Tkinter.Frame):
                 return
 
             self.initFrame.destroy()
-            
-            self.m_inventory = Inventory()
-            self.m_marketInfo = MarketInfo()
-            self.m_charInfo = Character()
-            self.m_sysMessage = Tkinter.StringVar()
-            self.m_sysMessage.set('Welcome!')
 
-            self.initMainUI()
             
             with open('savedata', 'rb') as save:
                 oldapp = pickle.load(save)
             self.m_inventory = oldapp[0]
             self.m_marketInfo = oldapp[1]
             self.m_charInfo = oldapp[2]
-            tkMessageBox.showinfo('Load', 'Progress loaded.')
+            self.m_sysMessage = Tkinter.StringVar()
             self.m_sysMessage.set('Progress loaded.')
+            self.initMainUI()
             self.tabInventory.reset()
             self.tabEquip.reset()
             self.tabPurchase.reset()
+            self.tabActivity.reset()
+            tkMessageBox.showinfo('Load', 'Progress loaded.')
     
     def quitClicked(self):
         message = 'Are You Sure?'
@@ -177,6 +175,7 @@ class MainWidget(Tkinter.Frame):
             self.tabInventory.reset()
             self.tabEquip.reset()
             self.tabPurchase.reset()
+            self.tabActivity.reset()
             
         def cancel():
             self.startFrame.destroy()
@@ -239,9 +238,11 @@ class MainWidget(Tkinter.Frame):
         self.tabInventory = InventoryWidget(self)
         self.tabEquip = EquipWidget(self)
         self.tabPurchase = PurchaseWidget(self)
+        self.tabActivity = ActivityWidget(self)
         self.tabs.add(self.tabInventory, text='Inventory')
         self.tabs.add(self.tabEquip, text='Equip')
         self.tabs.add(self.tabPurchase, text='Purchase')
+        self.tabs.add(self.tabActivity, text='Activity')
 
         self.sysMessage = Tkinter.Label(self,
                                         textvariable=self.m_sysMessage,

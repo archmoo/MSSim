@@ -56,19 +56,33 @@ class Character:
             'Jump': 0,
             }
         self.oneTimeAcquire = {
-            'Leafre Codex': -1,
-            'Demon Avenger Link Skill': -1,
-            'Kanna Link Skill': -1,
-            'Demon Slayer Link Skill': -1,
-            'Luminous Link Skill': -1,
-            'Xenon Link Skill': -1,
-            'Phantom Link Skill': -1,
-            'Zero Link Skill': -1,
-            'Kaiser Link Skill': -1,
-            'Beast Tamer Link Skill': -1,
-            'Hayato Link Skill': -1,
-            'Cannoneer Link Skill': -1,
-            'Cygnus Knight Link Skill': -1,
+            'Codex': {
+                'chosen': None,
+                'Leafre': (0, 0),
+                },
+            'Link Skill': {                               
+                'Demon Avenger': (0, 0),
+                'Kanna': (0, 0),
+                'Demon Slayer': (0, 0),
+                'Luminous': (0, 0),
+                'Xenon': (0, 0),
+                'Phantom': (0, 0),
+                'Zero': (0, 0),
+                'Kaiser': (0, 0),
+                'Beast Tamer': (0, 0),
+                'Hayato': (0, 0),
+                'Cannoneer': (0, 0),
+                'Cygnus Knight': (0, 0),
+                },
+            'Traits': {
+                'Diligence': (0, 0),
+                'Insight': (0, 0),
+                'Empathy': (0, 0),
+                'Charm': (0, 0),
+                'Ambition': (0, 0),
+                'Willpower': (0, 0),
+                },
+            
             }
         self.equipSet = {}
             
