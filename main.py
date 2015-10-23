@@ -157,6 +157,7 @@ class MainWidget(Tkinter.Frame):
                 tkMessageBox.showwarning('Invalid', 'Please choose a job.')
                 return
             chosenJob = self.classList[self.startFrame.curSelectIdx]
+            curClass = chosenClass.get()
             message = 'Are You Sure?\n\n'
             message += 'Starting as: ' + chosenJob + '\n'
             message += 'Funding level: ' + chosenResource.get()
@@ -168,10 +169,14 @@ class MainWidget(Tkinter.Frame):
             self.m_inventory = Inventory()
             self.m_marketInfo = MarketInfo()
             self.m_charInfo = Character(chosenJob)
+            self.m_inventory.initBasicEquips(chosenJob, curClass)
             self.m_sysMessage = Tkinter.StringVar()
             self.m_sysMessage.set('Welcome!')
 
             self.initMainUI()
+            self.tabInventory.reset()
+            self.tabEquip.reset()
+            self.tabPurchase.reset()
             
         def cancel():
             self.startFrame.destroy()

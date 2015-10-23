@@ -103,7 +103,7 @@ class EquipWidget(Tkinter.Frame):
             if equip.m_class != 'All':
                 charClass = JobLib.m_job[self.parent.m_charInfo.m_job]['class']
                 if charClass == 'Thief, Pirate':
-                    if equip.m_class not in ['Thief, Pirate']:
+                    if equip.m_class not in ['Thief', 'Pirate']:
                         message = 'You can only equip Thief or Pirate equipments.'
                         raise AssertionError(message)
                 else:

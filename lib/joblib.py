@@ -557,7 +557,7 @@
         'Blaze Wizard': {
             'class': 'Magician',
             'category': 1,
-            'Weapon': ['Wand'],
+            'Weapon': ['Wand', 'Staff'],
             'Secondary': ['Jewel'],
             'Emblem': ['Boss Arena'],
             '# str': 4, '% str': 0,
@@ -1443,7 +1443,7 @@
         'Fan': 1.35,
         'Long Sword': 1.34,
         'Great Sword': 1.49,
-        'Dual Bowguns': 1.32,
+        'Dual Bowgun': 1.32,
         }
 
 if __name__ == '__main__':

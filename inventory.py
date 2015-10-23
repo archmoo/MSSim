@@ -54,6 +54,102 @@ class Inventory:
             'Gollux Coin SS': 0,
             }
 
+    def initBasicEquips(self, jobName, className):
+        hat = {
+            'Warrior': 'Pensalir Battle Helm',
+            'Bowman': 'Pensalir Sentinel Cap',
+            'Magician': 'Pensalir Mage Sallet',
+            'Thief': 'Pensalir Chaser Hat',
+            'Pirate': 'Pensalir Skipper Hat',
+            }
+        overall = {
+            'Warrior': 'Pensalir Battle Mail',
+            'Bowman': 'Pensalir Sentinel Suit',
+            'Magician': 'Pensalir Mage Robe',
+            'Thief': 'Pensalir Chaser Armor',
+            'Pirate': 'Pensalir Skipper Coat',
+            }
+        shoe = {
+            'Warrior': 'Pensalir Battle Boots',
+            'Bowman': 'Pensalir Sentinel Boots',
+            'Magician': 'Pensalir Mage Boots',
+            'Thief': 'Pensalir Chaser Boots',
+            'Pirate': 'Pensalir Skipper Boots',
+            }
+        cape = {
+            'Warrior': 'Pensalir Battle Cape',
+            'Bowman': 'Pensalir Sentinel Cape',
+            'Magician': 'Pensalir Mage Cape',
+            'Thief': 'Pensalir Chaser Cape',
+            'Pirate': 'Pensalir Skipper Cape',
+            }
+        glove = {
+            'Warrior': 'Pensalir Battle Gloves',
+            'Bowman': 'Pensalir Sentinel Gloves',
+            'Magician': 'Pensalir Mage Gloves',
+            'Thief': 'Pensalir Chaser Gloves',
+            'Pirate': 'Pensalir Skipper Gloves',
+            }
+        weapon = {
+            'Bow Master': 'Utgard Bow',
+            'Wind Archer': 'Utgard Bow',
+            'Phantom': 'Utgard Cane',
+            'Buccaneer': 'Utgard Claw',
+            'Shade': 'Utgard Claw',
+            'Thunder Breaker': 'Utgard Claw',
+            'Marksman': 'Utgard Crossbow',
+            'Wild Hunter': 'Utgard Crossbow',
+            'Blade Master': 'Utgard Dagger',
+            'Shadower': 'Utgard Dagger',
+            'Demon Avenger': 'Utgard Desperado',
+            'Angelic Buster': 'Utgard Dragon Soul',
+            'Mercedes': 'Utgard Dual Bowguns',
+            'Xenon': {
+                'Thief': 'Utgard Energy Chain (Thief)',
+                'Pirate': 'Utgard Energy Chain (Pirate)',
+                },
+            'Kanna': 'Utgard Fan',
+            'Night Lord': 'Utgard Guards',
+            'Night Walker': 'Utgard Guards',
+            'Aran': 'Utgard Hellslayer',
+            'Hayato': 'Utgard Katana',
+            'Mechanic': 'Utgard Pistol',
+            'Corsair': 'Utgard Pistol',
+            'Mihile': 'Utgard Saber',
+            'Paladin': 'Utgard Saber',
+            'Luminous': 'Utgard Shining Rod',
+            'Beast Tamer': 'Utgard Shining Stick',
+            'Cannoneer': 'Utgard Siege Gun',
+            'Dark Knight': 'Utgard Spear',
+            'Battle Mage': 'Utgard Staff',
+            'Blaze Wizard': 'Utgard Staff',
+            'Evan': 'Utgard Staff',
+            'Arch Mage (Fire, Poison)': 'Utgard Staff',
+            'Arch Mage (Ice, Lightning)': 'Utgard Staff',
+            'Bishop': 'Utgard Staff',
+            'Dawn Warrior': 'Utgard Two-handed Sword',
+            'Kaiser': 'Utgard Two-handed Sword',
+            'Hero': 'Utgard Two-handed Sword',
+            'Demon Slayer': 'Utgard Hair',
+            }
+        self.createEquip(hat[className])
+        self.createEquip(overall[className])
+        self.createEquip(cape[className])
+        self.createEquip(glove[className])
+        self.createEquip(shoe[className])
+        if jobName != 'Xenon':
+            self.createEquip(weapon[jobName])
+        else:
+            self.createEquip(weapon[jobName][className])
+
+        self.m_equipped['Hat'] = 0
+        self.m_equipped['Top'] = 1
+        self.m_equipped['Cape'] = 2
+        self.m_equipped['Glove'] = 3
+        self.m_equipped['Shoe'] = 4
+        self.m_equipped['Weapon'] = 5
+        
+    
     def createItem(self, item, num):
         if item in self.m_use.keys():
             self.m_use[item] += num
