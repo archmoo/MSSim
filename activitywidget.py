@@ -83,12 +83,11 @@ class ActivityWidget(Tkinter.Frame):
             self.curSelectIdx = -1
         if self.curSelectIdx == -1:
             return
+        description = ''
         if self.curChosenType == 'Upgrade':
             entry = self.listboxList[self.curSelectIdx]
-            print entry
             minorType, minorEntry = entry.split(': ')
             info = UpgradeLib.m_lib[minorType][minorEntry]
-            description = ''
             if minorType == 'Link Skill':
                 description += 'Link skill can give your character extra boost, which is acquired by leveling up a new character to a certain level. Most link skills have 2 or 3 levels, acquired at Lv. 70, 120 and 210.\n\n'
                 description += entry + '\n\n'
@@ -128,14 +127,31 @@ class ActivityWidget(Tkinter.Frame):
                 description += '\n'
                 description += 'EXP for next level: ' + str(UpgradeLib.m_traitsEXP[level+1]) + '\n'
                 description += 'Next level progress: ' + str(int(round(characterStats[1]*100))) + '%\n'
-                description += 'Upgrade cost: 10 EXP per AP\n'
+                description += 'Upgrade cost: 1 Action Point per 10 EXP\n'
+        elif self.curChosenType == 'Boss':
+            entry = self.listboxList[self.curSelectIdx]
+            info = BossLib.m_lib[entry]
+            description += entry + '\n\n'
+            description += info['description'] + '\n\n'
+            description += 'DPS requirement: ' + str(info['dps']) + '\n'
+            description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+            description += 'Attempt: ' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
+            description += 'Defeat: ' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
+            description += 'Attempt cost: ' + str(info['AP cost']) + ' Action Points\n'
+        elif self.curChosenType == 'Farming':
+            entry = self.listboxList[self.curSelectIdx]
+            info = FarmingLib.m_lib[entry]
+            description += entry + '\n\n'
+            description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+            description += 'Limit: ' + (str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
+            description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
                 
                 
                 
-            self.descriptionContent.config(state=Tkinter.NORMAL)
-            self.descriptionContent.delete('1.0', Tkinter.END)
-            self.descriptionContent.insert('insert', description)
-            self.descriptionContent.config(state=Tkinter.DISABLED)
+        self.descriptionContent.config(state=Tkinter.NORMAL)
+        self.descriptionContent.delete('1.0', Tkinter.END)
+        self.descriptionContent.insert('insert', description)
+        self.descriptionContent.config(state=Tkinter.DISABLED)
             
     def startButtonClicked(self):
         pass

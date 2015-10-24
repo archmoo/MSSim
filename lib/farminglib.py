@@ -7,12 +7,14 @@ class FarmingLib:
             },
         'Commerci': {
             'limit': 1,
-            'reward': {'Denaro': (45, 1)},
+            'reward': {'Denaro': (45, 1),
+                       'Meso': (10000000, 0.1)
+                       },
             'AP cost': 25,
             },
         'Kritias': {
             'limit': 1,
-            'reward': {'Shadow Coin', (1, 1)},
+            'reward': {'Shadow Coin': (1, 1)},
             'AP cost': 40,
             },
         }
