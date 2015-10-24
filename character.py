@@ -1,5 +1,7 @@
 from lib.joblib import JobLib
 from lib.equipsetlib import EquipSetLib
+from lib.bosslib import BossLib
+from lib.farminglib import FarmingLib
 
 class Character:
 
@@ -54,6 +56,7 @@ class Character:
             'Status Resistance': 0,
             'Speed': 0,
             'Jump': 0,
+            'DPS': [90, 100],
             }
         self.oneTimeAcquire = {
             'Crusader Codex': {
@@ -75,15 +78,23 @@ class Character:
                 'Cygnus Knight': (0, 0),
                 },
             'Traits': {
-                'Diligence': (0, 0),
-                'Insight': (0, 0),
-                'Empathy': (0, 0),
-                'Charm': (0, 0),
-                'Ambition': (0, 0),
-                'Willpower': (0, 0),
+                'Diligence': (0, 0, 0),
+                'Insight': (0, 0, 0),
+                'Empathy': (0, 0, 0),
+                'Charm': (0, 0, 0),
+                'Ambition': (0, 0, 0),
+                'Willpower': (0, 0, 0),
                 },
             
             }
+        self.bossCounter = {}
+        self.farmCounter = {}
+        self.actionPoint = 500
+        for boss in BossLib.m_lib.keys():
+            self.bossCounter[boss] = (0, 0)
+        for farmOption in FarmingLib.m_lib.keys():
+            self.farmCounter[farmOption] = 0
+        
         self.equipSet = {}
             
 

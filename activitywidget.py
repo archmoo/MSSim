@@ -1,4 +1,4 @@
-import pickle, random, os.path
+import pickle, random, os.path, math
 import Tkinter, ttk, tkMessageBox
 import ScrolledText
 
@@ -39,7 +39,7 @@ class ActivityWidget(Tkinter.Frame):
         self.descriptionContent.config(state=Tkinter.NORMAL)
         self.descriptionContent.delete('1.0', Tkinter.END)
         self.descriptionContent.config(state=Tkinter.DISABLED)
-        message = 'Action Point: '
+        message = 'Action Point: ' + str(int(round(self.parent.m_charInfo.actionPoint)))
         self.APContent.set(message)
 
     def updateType(self, event):          
@@ -58,7 +58,7 @@ class ActivityWidget(Tkinter.Frame):
 
         if self.curChosenType == 'Upgrade':
             for key, lib in UpgradeLib.m_lib.items():
-                print key, lib
+##                print key, lib
                 for entry in lib.keys():
                     self.listboxList.append(key + ': ' + entry)
                     self.actionListbox.insert(Tkinter.END, key + ': ' + entry)
@@ -96,7 +96,7 @@ class ActivityWidget(Tkinter.Frame):
                 description += '\n'
                 characterStats = self.parent.m_charInfo.oneTimeAcquire[minorType][minorEntry]
                 description += 'Current level: ' + str(characterStats[0]) + '\n'
-                description += 'Next level progress: ' + str(int(round(characterStats[1]*100))) + '%\n\n'
+                description += 'Next level progress: ' + str(float(characterStats[1]*100)) + '%\n\n'
             elif minorType == 'Crusader Codex':
                 description += 'The Crusader Codex is a collection of Monster Book Cards, which gives your character extra boost when a certain set is chosen.\n\n'
                 description += entry + '\n\n'
@@ -109,25 +109,26 @@ class ActivityWidget(Tkinter.Frame):
                 description += 'Effect:\n'
                 for i in range(len(info['effect'])):
                     maxstat = max(info['table'][i])
-                    description += '+ ' + info['effect'][i] + ' (Up to ' + (str(maxstat) if maxstat > 1 else (str(int(round(maxstat*100))) + '%')) + ')\n'
+                    print maxstat
+                    description += '+ ' + info['effect'][i] + ' (Up to ' + (str(maxstat) if maxstat > 1 else (str(float(maxstat*100)) + '%')) + ')\n'
                 description += '\n'
                 characterStats = self.parent.m_charInfo.oneTimeAcquire[minorType][minorEntry]
                 level = characterStats[0]
-                description += 'Current level: ' + str(level) + '\n'
                 description += 'Current Effect:\n'
                 for i in range(len(info['effect'])):
                     stat = info['table'][i][int(level / 5)]
                     if stat == 0:
                         stat = '0'
                     elif stat < 1:
-                        stat = str(int(round(stat*100))) + '%'
+                        stat = str(float(stat*100)) + '%'
                     else:
                         stat = str(stat)
                     description += '+ ' + info['effect'][i] + ': ' + stat + '\n'
                 description += '\n'
-                description += 'EXP for next level: ' + str(UpgradeLib.m_traitsEXP[level+1]) + '\n'
-                description += 'Next level progress: ' + str(int(round(characterStats[1]*100))) + '%\n'
-                description += 'Upgrade cost: 1 Action Point per 10 EXP\n'
+                description += 'Current level: ' + str(level) + '\n'
+                description += 'EXP for next level: ' + str(UpgradeLib.m_traitsEXP[level+1]-UpgradeLib.m_traitsEXP[level]) + '\n'
+                description += 'Next level progress: ' + '%.1f' % float(characterStats[1]*100) + '%\n'
+                description += 'Upgrade cost: 1 Action Point per 5 EXP\n'
         elif self.curChosenType == 'Boss':
             entry = self.listboxList[self.curSelectIdx]
             info = BossLib.m_lib[entry]
@@ -146,15 +147,221 @@ class ActivityWidget(Tkinter.Frame):
             description += 'Limit: ' + (str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
             description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
                 
-                
-                
         self.descriptionContent.config(state=Tkinter.NORMAL)
         self.descriptionContent.delete('1.0', Tkinter.END)
         self.descriptionContent.insert('insert', description)
         self.descriptionContent.config(state=Tkinter.DISABLED)
             
-    def startButtonClicked(self):
-        pass
+    def chooseButtonClicked(self):
+        def upgradeLinkSkill():
+            def updateDescription():
+                description = ''
+                description += 'Link skill can give your character extra boost, which is acquired by leveling up a new character to a certain level. Most link skills have 2 or 3 levels, acquired at Lv. 70, 120 and 210.\n\n'
+                description += 'Link Skill: ' + minorEntry + '\n\n'
+                info = UpgradeLib.m_lib['Link Skill'][minorEntry]
+                for i in info.keys():
+                    description += 'Level ' + str(i) + ':\nEffect: ' + PotentialLib.showPotList(info[i]['effect'], ', ') + 'Upgrade cost: ' + str(info[i]['AP cost']) + ' Action Points\n'
+                description += '\n'
+                characterStats = self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry]
+                description += 'Current level: ' + str(characterStats[0]) + '\n'
+                description += 'Next level progress: ' + str(float(characterStats[1]*100)) + '%\n\n'
+                self.descriptionContent.config(state=Tkinter.NORMAL)
+                self.descriptionContent.delete('1.0', Tkinter.END)
+                self.descriptionContent.insert('insert', description)
+                self.descriptionContent.config(state=Tkinter.DISABLED)
+                message = 'Action Point: ' + str(self.parent.m_charInfo.actionPoint)
+                self.APContent.set(message)
+                return
+            
+            value = quantityEntry.get()
+            try: 
+                quantity = int(value)
+                assert quantity > 0
+            except Exception:
+                tkMessageBox.showwarning('Invalid', 'Invalid input!')
+                return
+            if quantity > self.parent.m_charInfo.actionPoint:
+                tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Point.')
+                return
+            progress = curProgress
+            level = curLevel
+            q = quantity
+            while q > 0.5 and level < max(info.keys()):
+                levelCost = int(round((1 - progress) * info[level + 1]['AP cost']))
+                if levelCost > q:
+                    progress += float(q) / info[level + 1]['AP cost']
+                    message = 'Are You Sure?\nYou will reach Level ' + str(level) + ', with ' + str(float(progress*100)) + '% progress towards next level.'
+                    res = tkMessageBox.askquestion('Upgrade', message, type='yesno')
+                    if res == 'yes':
+                        self.parent.m_charInfo.actionPoint -= quantity
+                        self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry] = (level, progress)
+                        updateDescription()
+                        self.parent.tabEquip.reset()
+                        toplevel.destroy()
+                    return
+                else:
+                    q -= int(round(levelCost))
+                    level += 1
+                    progress = 0
+                    if q == 0:
+                        message = 'Are You Sure?\nYou will reach Level ' + str(level) + ', with ' + str(float(progress*100)) + '% progress towards next level.'
+                        res = tkMessageBox.askquestion('Upgrade', message, type='yesno')
+                        if res == 'yes':
+                            self.parent.m_charInfo.actionPoint -= quantity
+                            self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry] = (level, progress)
+                            updateDescription()
+                            self.parent.tabEquip.reset()
+                            toplevel.destroy()
+                        return
+            if q > 0.5:
+                message = 'Are You Sure?\nYou will reach Level ' + str(level) + ', with ' + str(float(progress*100)) + '% progress towards next level.\n'
+                message += 'You only need ' + str(quantity - q) + ' Action Points to level up to max level. ' + str(q) + ' Action Points will be saved.\n'
+                res = tkMessageBox.askquestion('Upgrade', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_charInfo.actionPoint -= (quantity - q)
+                    self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry] = (level, progress)
+                    updateDescription()
+                    self.parent.tabEquip.reset()
+                    toplevel.destroy()
+                return
+                
+            
+        def upgradeTraits():
+            def updateDescription():
+                description = ''
+                info = UpgradeLib.m_lib['Traits'][minorEntry]
+                description += 'Traits give your character extra benefit or stats boost.\n\n'
+                description += entry + '\n\n'
+                description += 'Effect:\n'
+                for i in range(len(info['effect'])):
+                    maxstat = max(info['table'][i])
+                    print maxstat
+                    description += '+ ' + info['effect'][i] + ' (Up to ' + (str(maxstat) if maxstat > 1 else (str(float(maxstat*100)) + '%')) + ')\n'
+                description += '\n'
+                characterStats = self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry]
+                level = characterStats[0]
+                description += 'Current Effect:\n'
+                for i in range(len(info['effect'])):
+                    stat = info['table'][i][int(level / 5)]
+                    if stat == 0:
+                        stat = '0'
+                    elif stat < 1:
+                        stat = str(float(stat*100)) + '%'
+                    else:
+                        stat = str(stat)
+                    description += '+ ' + info['effect'][i] + ': ' + stat + '\n'
+                description += '\n'
+                description += 'Current level: ' + str(level) + '\n'
+                description += 'EXP for next level: ' + str(UpgradeLib.m_traitsEXP[level+1]-UpgradeLib.m_traitsEXP[level]) + '\n'
+                description += 'Next level progress: ' + '%.1f' % float(characterStats[1]*100) + '%\n'
+                description += 'Upgrade cost: 1 Action Point per 5 EXP\n'
+                self.descriptionContent.config(state=Tkinter.NORMAL)
+                self.descriptionContent.delete('1.0', Tkinter.END)
+                self.descriptionContent.insert('insert', description)
+                self.descriptionContent.config(state=Tkinter.DISABLED)
+                message = 'Action Point: ' + str(self.parent.m_charInfo.actionPoint)
+                self.APContent.set(message)
+                return
+            
+            value = quantityEntry.get()
+            try: 
+                quantity = int(value)
+                assert quantity > 0
+            except Exception:
+                tkMessageBox.showwarning('Invalid', 'Invalid input!')
+                return
+            if quantity > self.parent.m_charInfo.actionPoint:
+                tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Point.')
+                return
+
+            table = UpgradeLib.m_traitsEXP
+            curEXP = self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry][2]
+ 
+            if math.ceil(float(table[100] - curEXP)/5) < quantity:
+                q = int(round(math.ceil(float(table[100] - curEXP)/5)))
+                message = 'Are You Sure?\nYou will reach Level 100 with 0.0% progress towards next level.\n'
+                message += 'You only need ' + str(q) + ' Action Points to level up to max level. ' + str(quantity - q) + ' Action Points will be saved.\n'
+                res = tkMessageBox.askquestion('Upgrade', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_charInfo.actionPoint -= q
+                    self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry] = (100, 0, table[100])
+                    updateDescription()
+                    self.parent.tabEquip.reset()
+                    toplevel.destroy()
+                return
+            else:
+                curEXP += quantity * 5
+                curLevel = -1
+                for i in range(1, 101):
+                    if table[i] > curEXP:
+                        curLevel = i - 1
+                        break
+                if curLevel == -1:
+                    curLevel = 100
+                    curProgress = 0
+                else:
+                    curProgress = float(curEXP - table[curLevel]) / (table[curLevel + 1] - table[curLevel])
+                message = 'Are You Sure?\nYou will reach Level ' + str(curLevel) + ' with ' + '%.1f' % float(curProgress*100) + '% progress towards next level.\n'
+                res = tkMessageBox.askquestion('Upgrade', message, type='yesno')
+                if res == 'yes':
+                    self.parent.m_charInfo.actionPoint -= quantity
+                    self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry] = (curLevel, curProgress, curEXP)
+                    updateDescription()
+                    self.parent.tabEquip.reset()
+                    toplevel.destroy()
+                return
+
+        if self.curChosenType == '- Choose Type -':
+            tkMessageBox.showwarning('Invalid', 'Please choose a type.')
+            return
+        if self.curSelectIdx == -1:
+            tkMessageBox.showwarning('Invalid', 'Please select an action.')
+        entry = self.listboxList[self.curSelectIdx]
+        if self.curChosenType == 'Upgrade':
+            minorType, minorEntry = entry.split(': ')
+            if minorType == 'Link Skill':
+                curLevel = self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry][0]
+                curProgress = self.parent.m_charInfo.oneTimeAcquire['Link Skill'][minorEntry][1]
+                info = UpgradeLib.m_linklib[minorEntry]
+                if curLevel == max(info.keys()):
+                    tkMessageBox.showwarning('Invalid', 'You have reached max level!')
+                    return
+                toplevel = Tkinter.Toplevel(self)
+                toplevel.title('Upgrade Link Skill')
+                toplevel.geometry('350x120+300+300')
+                toplevel.grab_set()
+                quantityLabel = Tkinter.Label(toplevel, text='Spend Action Point:')
+                quantityEntry = Tkinter.Entry(toplevel)
+                startButton = Tkinter.Button(toplevel, text='Start', command=upgradeLinkSkill)
+                cancelButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
+                quantityLabel.grid(row=0, column=0, padx=5, pady=5)
+                quantityEntry.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
+                startButton.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+                cancelButton.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
+            elif minorType == 'Traits':
+                curLevel = self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry][0]
+                curProgress = self.parent.m_charInfo.oneTimeAcquire['Traits'][minorEntry][1]
+                
+                if curLevel == 100:
+                    tkMessageBox.showwarning('Invalid', 'You have reached max level!')
+                    return
+                toplevel = Tkinter.Toplevel(self)
+                toplevel.title('Upgrade Traits')
+                toplevel.geometry('350x120+300+300')
+                quantityLabel = Tkinter.Label(toplevel, text='Spend Action Point:')
+                quantityEntry = Tkinter.Entry(toplevel)
+                startButton = Tkinter.Button(toplevel, text='Start', command=upgradeTraits)
+                cancelButton = Tkinter.Button(toplevel, text='Cancel', command=toplevel.destroy)
+                quantityLabel.grid(row=0, column=0, padx=5, pady=5)
+                quantityEntry.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
+                startButton.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
+                cancelButton.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
+            elif minorType == 'Boss':
+                print 'boss'
+        elif self.curChosenType == 'Boss':
+            pass
+        elif self.curChosenType == 'Farming':
+            pass
     
     def initUI(self):
 
@@ -179,7 +386,7 @@ class ActivityWidget(Tkinter.Frame):
 
         self.APContent = Tkinter.StringVar()
         self.APLabel = Tkinter.Label(self.Frameleft, textvariable=self.APContent, justify=Tkinter.LEFT)
-        message = 'Action Point: '
+        message = 'Action Point: ' + str(int(round(self.parent.m_charInfo.actionPoint)))
         self.APContent.set(message)
 
         self.descriptionLabel = Tkinter.Label(self.Frameright, text='Description')
@@ -190,7 +397,7 @@ class ActivityWidget(Tkinter.Frame):
         self.descriptionContent.insert('insert', '')
         self.descriptionContent.config(state=Tkinter.DISABLED)
         
-        self.startButton = Tkinter.Button(self.Frameright, text='Start', command=self.startButtonClicked)
+        self.chooseButton = Tkinter.Button(self.Frameright, text='Choose', command=self.chooseButtonClicked)
 
         self.typeOptionMenu.grid(row=0, column=0, columnspan=3, padx=5, sticky=Tkinter.W)
         self.actionListbox.grid(row=1, column=0, rowspan=7, columnspan=3, padx=5, pady=5, sticky=Tkinter.W+Tkinter.E+Tkinter.S+Tkinter.N)
@@ -201,7 +408,7 @@ class ActivityWidget(Tkinter.Frame):
                                     rowspan=7, columnspan=3,
                                     padx=5, pady=5,
                                     sticky=Tkinter.N+Tkinter.S+Tkinter.W)
-        self.startButton.grid(row=8, column=2, padx=5, pady=5, sticky=Tkinter.E)
+        self.chooseButton.grid(row=8, column=2, padx=5, pady=5, sticky=Tkinter.E)
         
         self.Frameleft.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.LEFT)
         self.Frameright.pack(fill=Tkinter.BOTH, expand=1, side=Tkinter.RIGHT)
