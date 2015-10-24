@@ -56,8 +56,8 @@ class Character:
             'Jump': 0,
             }
         self.oneTimeAcquire = {
-            'Codex': {
-                'chosen': None,
+            'Crusader Codex': {
+                'chosen': 'None',
                 'Leafre': (0, 0),
                 },
             'Link Skill': {                               

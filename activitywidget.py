@@ -11,6 +11,7 @@ from lib.joblib import JobLib
 from lib.upgradelib import UpgradeLib
 from lib.bosslib import BossLib
 from lib.farminglib import FarmingLib
+from lib.potentiallib import PotentialLib
 
 from marketinfo import MarketInfo
 from character import Character
@@ -59,7 +60,7 @@ class ActivityWidget(Tkinter.Frame):
             for key, lib in UpgradeLib.m_lib.items():
                 print key, lib
                 for entry in lib.keys():
-                    self.listboxList.append((key, entry))
+                    self.listboxList.append(key + ': ' + entry)
                     self.actionListbox.insert(Tkinter.END, key + ': ' + entry)
         elif self.curChosenType == 'Boss':
             for boss in BossLib.m_lib.keys():
@@ -82,10 +83,58 @@ class ActivityWidget(Tkinter.Frame):
             self.curSelectIdx = -1
         if self.curSelectIdx == -1:
             return
-        if self.curChosenType == '':
+        if self.curChosenType == 'Upgrade':
+            entry = self.listboxList[self.curSelectIdx]
+            print entry
+            minorType, minorEntry = entry.split(': ')
+            info = UpgradeLib.m_lib[minorType][minorEntry]
+            description = ''
+            if minorType == 'Link Skill':
+                description += 'Link skill can give your character extra boost, which is acquired by leveling up a new character to a certain level. Most link skills have 2 or 3 levels, acquired at Lv. 70, 120 and 210.\n\n'
+                description += entry + '\n\n'
+                for i in info.keys():
+                    description += 'Level ' + str(i) + ':\nEffect: ' + PotentialLib.showPotList(info[i]['effect'], ', ') + 'Upgrade cost: ' + str(info[i]['AP cost']) + ' Action Points\n'
+                description += '\n'
+                characterStats = self.parent.m_charInfo.oneTimeAcquire[minorType][minorEntry]
+                description += 'Current level: ' + str(characterStats[0]) + '\n'
+                description += 'Next level progress: ' + str(int(round(characterStats[1]*100))) + '%\n\n'
+            elif minorType == 'Crusader Codex':
+                description += 'The Crusader Codex is a collection of Monster Book Cards, which gives your character extra boost when a certain set is chosen.\n\n'
+                description += entry + '\n\n'
+                description += 'Effect: ' + PotentialLib.showPotList(info['effect'], ', ') + 'Upgrade cost: ' + str(info['AP cost']) + ' Action Points\n\n'
+                description += 'Status: ' + ('Acquired' if self.parent.m_charInfo.oneTimeAcquire['Crusader Codex'][minorEntry][0] == 1 else 'Not acquired') + '\n'
+                description += 'Current Codex set: ' + self.parent.m_charInfo.oneTimeAcquire['Crusader Codex']['chosen'] + '\n'
+            elif minorType == 'Traits':
+                description += 'Traits give your character extra benefit or stats boost.\n\n'
+                description += entry + '\n\n'
+                description += 'Effect:\n'
+                for i in range(len(info['effect'])):
+                    maxstat = max(info['table'][i])
+                    description += '+ ' + info['effect'][i] + ' (Up to ' + (str(maxstat) if maxstat > 1 else (str(int(round(maxstat*100))) + '%')) + ')\n'
+                description += '\n'
+                characterStats = self.parent.m_charInfo.oneTimeAcquire[minorType][minorEntry]
+                level = characterStats[0]
+                description += 'Current level: ' + str(level) + '\n'
+                description += 'Current Effect:\n'
+                for i in range(len(info['effect'])):
+                    stat = info['table'][i][int(level / 5)]
+                    if stat == 0:
+                        stat = '0'
+                    elif stat < 1:
+                        stat = str(int(round(stat*100))) + '%'
+                    else:
+                        stat = str(stat)
+                    description += '+ ' + info['effect'][i] + ': ' + stat + '\n'
+                description += '\n'
+                description += 'EXP for next level: ' + str(UpgradeLib.m_traitsEXP[level+1]) + '\n'
+                description += 'Next level progress: ' + str(int(round(characterStats[1]*100))) + '%\n'
+                description += 'Upgrade cost: 10 EXP per AP\n'
+                
+                
+                
             self.descriptionContent.config(state=Tkinter.NORMAL)
             self.descriptionContent.delete('1.0', Tkinter.END)
-            self.descriptionContent.insert('insert', '')
+            self.descriptionContent.insert('insert', description)
             self.descriptionContent.config(state=Tkinter.DISABLED)
             
     def startButtonClicked(self):

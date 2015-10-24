@@ -25,26 +25,7 @@ class Potential:
         output = ''
         if self.m_rank > 0:
             output = '('+ rank_label[self.m_rank] + ')\n'
-        for line in self.m_lines:
-            if type(line[1]) is not tuple:
-                if line[1] >= 0:
-                    sign = '+'
-                else:
-                    sign = '-'
-                if line[0][0] == '%':
-                    output += line[0][2:] + ': ' + sign + str(int(line[1]*100)) + '%'
-                elif type(line[1]) is str:
-                    output += line[0][2:] + ': ' + line[1]
-                else:
-                    output += line[0][2:] + ': ' + sign + str(line[1])
-            else:
-                if line[0][0] == '%':
-                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(int(line[1][1]*100)) + '%'
-                elif type(line[1]) is str:
-                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + line[1][1]
-                else:
-                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(line[1][1])
-            output += '\n'
+        output += PotentialLib.showPotList(self.m_lines, '\n')
         return output
 
     def getShowPotList(self):

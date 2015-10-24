@@ -1355,6 +1355,31 @@ class PotentialLib:
         }            
 
     @staticmethod
+    def showPotList(lines, split_char):
+        output = ''
+        for line in lines:
+            if type(line[1]) is not tuple:
+                if line[1] >= 0:
+                    sign = '+'
+                else:
+                    sign = '-'
+                if line[0][0] == '%':
+                    output += line[0][2:] + ': ' + sign + str(int(line[1]*100)) + '%'
+                elif type(line[1]) is str:
+                    output += line[0][2:] + ': ' + line[1]
+                else:
+                    output += line[0][2:] + ': ' + sign + str(line[1])
+            else:
+                if line[0][0] == '%':
+                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(int(line[1][1]*100)) + '%'
+                elif type(line[1]) is str:
+                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + line[1][1]
+                else:
+                    output += str(int(line[1][0]*100)) + '% ' + line[0][2:] + ': ' + str(line[1][1])
+            output += split_char
+        return output[:-1*len(split_char)] + '\n'
+
+    @staticmethod
     def roll(pot, rank):
         lineTypes = PotentialLib.m_libType[pot.m_type]
         options = []
