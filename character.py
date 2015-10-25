@@ -363,31 +363,31 @@ class Character:
         modifier = JobLib.m_classModifier[self.m_job]
         lowRange *= modifier
         highRange *= modifier
-#### Code for calculating DPS on each boss
-##        classMulti = multiplier
-##        statValue = [4 * 1500, 4 * 5000, 4 * 10000, 4 * 15000, 4 * 25000]
-##        baseAtt = [200, 400, 750, 1000, 1500]
-##        percAtt = [0, 0.2, 0.4, 0.6, 0.9]
-##        bossDmg = [0, 0.6, 1.1, 2.3, 3]
-##        totDmg = [0, 0.1, 0.2, 0.3, 0.4]
-##        pdr = 0.8
-##        crit = 1
-##        for i in range(5):
-##            if jobStats['class'] == 'Magician':
-##                att = baseAtt[i] * (1 + percAtt[i] + self['% matt'])
-##            else:
-##                att = baseAtt[i] * (1 + percAtt[i] + self['% watt'])
-##            for boss, info in BossLib.m_lib.items():
-##                highRange = 0.01 * classMulti * statValue[i] * att
-##                multiplier = 1
-##                multiplier *= (1 + crit * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
-##                multiplier *= (1 + self['Boss Damage'] + bossDmg[i] + self['Total Damage'] + totDmg[i]) * (1 + self['Final Damage'])
-##                multiplier *= max(0, (1-info['defense']*(1-pdr)))
-##                multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
-##                highRange *= modifier * multiplier
-##                lowdps = int(round(highRange * jobStats['% mastery']))
-##                highdps = int(round(highRange))
-##                print str('%.1f' % (float(lowdps+highdps)/2)) + ',',
+## Code for calculating DPS on each boss
+        classMulti = multiplier
+        statValue = [4 * 1500, 4 * 5000, 4 * 10000, 4 * 15000, 4 * 25000]
+        baseAtt = [200, 400, 750, 1000, 1500]
+        percAtt = [0, 0.2, 0.4, 0.6, 0.9]
+        bossDmg = [0, 0.6, 1.1, 2.3, 3]
+        totDmg = [0, 0.1, 0.2, 0.3, 0.4]
+        pdr = 0.8
+        crit = 1
+        for i in range(5):
+            if jobStats['class'] == 'Magician':
+                att = baseAtt[i] * (1 + percAtt[i] + self['% matt'])
+            else:
+                att = baseAtt[i] * (1 + percAtt[i] + self['% watt'])
+            for boss, info in BossLib.m_lib.items():
+                highRange = 0.01 * classMulti * statValue[i] * att
+                multiplier = 1
+                multiplier *= (1 + crit * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
+                multiplier *= (1 + self['Boss Damage'] + bossDmg[i] + self['Total Damage'] + totDmg[i]) * (1 + self['Final Damage'])
+                multiplier *= max(0, (1-info['defense']*(1-pdr)))
+                multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
+                highRange *= modifier * multiplier
+                lowdps = int(round(highRange * jobStats['% mastery']))
+                highdps = int(round(highRange))
+                print str('%.1f' % (float(lowdps+highdps)/2)) + ',',
 
         self['DPS'] = [lowRange, highRange]
 
