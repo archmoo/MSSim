@@ -267,4 +267,15 @@ if __name__ == '__main__':
     root.geometry('680x600+200+200')
     app = MainWidget(root)
     root.mainloop()
+##    for job in JobLib.m_job.keys():
+##        cls = JobLib.m_job[job]['class']
+##        print job + ',',
+##        if job == 'Xenon':
+##            cls = 'Thief'
+##        app.m_charInfo = Character(job)
+##        app.m_inventory.initBasicEquips(job, cls)
+##        app.m_charInfo.updateStats([app.m_inventory.m_equip[i] for i in app.m_inventory.m_equipped.values() if i != -1])
+##        print 
+##        print app.m_charInfo.m_stat['DPS'][0], ',', app.m_charInfo.m_stat['DPS'][1]
+       
     

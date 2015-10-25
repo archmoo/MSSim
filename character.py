@@ -285,13 +285,13 @@ class Character:
                                       int(round((self['DEX'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid']))))
         self['Magic Avoidability'] = min(9999,
                                       int(round((self['INT'] + self['LUK'] * 2 + self['# avoid']) * (1 + self['% avoid']))))
-        self['Critical Rate'] = min(1, self['% Crit Rate'])
+        self['Critical Rate'] = min(1, self['% Crit Rate'] + jobStats['% Hyper Critical'])
         self['Minimum Critical Damage'] = min(self['% Min Crit'], self['% Max Crit'])
         self['Maximum Critical Damage'] = max(self['% Min Crit'], self['% Max Crit'])
-        self['Boss Damage'] = self['% Boss Damage']
-        self['Total Damage'] = self['% Total Damage']
+        self['Boss Damage'] = self['% Boss Damage'] + jobStats['% Hyper Boss Rush']
+        self['Total Damage'] = self['% Total Damage'] + jobStats['% Hyper Reinforce']
         self['Final Damage'] = jobStats['% Final Damage']
-        self['Ignore Enemy Defense'] = self['% Ignore Defense']
+        self['Ignore Enemy Defense'] = self['% Ignore Defense'] + (1 - self['% Ignore Defense']) * jobStats['% Hyper Guard Break']
         self['Ignore Enemy Resistance'] = jobStats['% Ignore Resistance']
         self['Status Resistance'] = self['% Status Resistance']
         self['Speed'] = min(self['# speed']+100, jobStats['# max speed'])
@@ -342,6 +342,54 @@ class Character:
                 highRange = int(round(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage'])))
             lowRange = int(round(highRange * jobStats['% mastery']))
             self['ATT Stats Reinforce'] = [lowRange, highRange]
+        
+        if jobStats['class'] == 'Magician':
+            highRange = 0.01 * multiplier * statValue * self['Magic ATT']
+        else:
+            highRange = 0.01 * multiplier * statValue * self['Weapon ATT']
+
+#### Code for calculating class modifiers
+##        highRange = 0.01 * multiplier * 60000
+##        if jobStats['class'] == 'Magician':
+##            highRange *= 1000 * (1 + self['% matt'] + 0.6)
+##        else:
+##            highRange *= 1000 * (1 + self['% watt'] + 0.6)
+##        highRange *= (self['Minimum Critical Damage'] + self['Maximum Critical Damage'])/ 2 + 1
+##        highRange *= (1 + self['Boss Damage'] + 2.3 + self['Total Damage'] + 0.3)
+##        highRange *= (1 + self['Final Damage'])
+##        highRange *= (1 - 0.5*(1-self['Ignore Enemy Resistance']))
+##        highRange = int(round(highRange))
+        lowRange = highRange * jobStats['% mastery']
+        modifier = JobLib.m_classModifier[self.m_job]
+        lowRange *= modifier
+        highRange *= modifier
+#### Code for calculating DPS on each boss
+##        classMulti = multiplier
+##        statValue = [4 * 1500, 4 * 5000, 4 * 10000, 4 * 15000, 4 * 25000]
+##        baseAtt = [200, 400, 750, 1000, 1500]
+##        percAtt = [0, 0.2, 0.4, 0.6, 0.9]
+##        bossDmg = [0, 0.6, 1.1, 2.3, 3]
+##        totDmg = [0, 0.1, 0.2, 0.3, 0.4]
+##        pdr = 0.8
+##        crit = 1
+##        for i in range(5):
+##            if jobStats['class'] == 'Magician':
+##                att = baseAtt[i] * (1 + percAtt[i] + self['% matt'])
+##            else:
+##                att = baseAtt[i] * (1 + percAtt[i] + self['% watt'])
+##            for boss, info in BossLib.m_lib.items():
+##                highRange = 0.01 * classMulti * statValue[i] * att
+##                multiplier = 1
+##                multiplier *= (1 + crit * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
+##                multiplier *= (1 + self['Boss Damage'] + bossDmg[i] + self['Total Damage'] + totDmg[i]) * (1 + self['Final Damage'])
+##                multiplier *= max(0, (1-info['defense']*(1-pdr)))
+##                multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
+##                highRange *= modifier * multiplier
+##                lowdps = int(round(highRange * jobStats['% mastery']))
+##                highdps = int(round(highRange))
+##                print str('%.1f' % (float(lowdps+highdps)/2)) + ',',
+
+        self['DPS'] = [lowRange, highRange]
 
     def showCharacterStats(self):
         jobStats = JobLib.m_job[self.m_job]
@@ -354,19 +402,18 @@ class Character:
             output += ' (' + str(self['ATT Stats Reinforce'][0]) + ' ~ ' + str(self['ATT Stats Reinforce'][1]) + ')'
         output += '\n\n'
         if jobStats['% Hyper Critical'] != 0:
-            output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '% (' + str(int(min(1,jobStats['% Hyper Critical'] + self['Critical Rate'])*100)) + '%)\n'
+            output += 'Critical Chance: ' + str(int(self['% Crit Rate']*100)) + '% (' + str(int(self['Critical Rate']*100)) + '%)\n'
         else:
             output += 'Critical Chance: ' + str(int(self['Critical Rate']*100)) + '%\n'
 
         output += 'Minimum Critical: ' + str(int(self['Minimum Critical Damage']*100+100)) + '%\nMaximum Critical: ' + str(int(self['Maximum Critical Damage']*100+100)) + '%\n\n'
 
         if jobStats['% Hyper Boss Rush'] != 0:
-            output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '% (' + str(int((self['Boss Damage'] + jobStats['% Hyper Boss Rush'])*100)) + '%)\n'
+            output += 'Boss ATT: ' + str(int(self['% Boss Damage']*100)) + '% (' + str(int(self['Boss Damage']*100)) + '%)\n'
         else:
             output += 'Boss ATT: ' + str(int(self['Boss Damage']*100)) + '%\n'
         if jobStats['% Hyper Guard Break'] != 0:
-            pdr = self['Ignore Enemy Defense'] + (1 - self['Ignore Enemy Defense']) * jobStats['% Hyper Guard Break']
-            output += 'Ignore DEF: ' + str(int(round(self['Ignore Enemy Defense']*100))) + '% (' + str(int(round(pdr*100))) + '%)\n'
+            output += 'Ignore DEF: ' + str(int(round(self['% Ignore Defense']*100))) + '% (' + str(int(round(self['Ignore Enemy Defense']*100))) + '%)\n'
         else:
             output += 'Ignore DEF: ' + str(int(round(self['Ignore Enemy Defense']*100))) + '%\n'
 

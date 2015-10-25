@@ -8,7 +8,7 @@ class BossLib:
             'counter': 'Zakum',
             'dps': 0,
             'defense': 0.2,
-            'resistance': 0,
+            'resistance': 0.5,
             'reward': {
                 'Boss Coin': (10, 0.1),
                 'Meso': (10000000, 0.1),
