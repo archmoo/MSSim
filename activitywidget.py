@@ -42,7 +42,7 @@ class ActivityWidget(Tkinter.Frame):
         message = 'Action Point: ' + str(int(round(self.parent.m_charInfo.actionPoint)))
         self.APContent.set(message)
 
-    def updateType(self, event):          
+    def updateType(self, event):
         chosenType = self.chosenType.get()
         if self.curChosenType == chosenType:
             return
@@ -63,7 +63,7 @@ class ActivityWidget(Tkinter.Frame):
                     self.listboxList.append(key + ': ' + entry)
                     self.actionListbox.insert(Tkinter.END, key + ': ' + entry)
         elif self.curChosenType == 'Boss':
-            for boss in BossLib.m_lib.keys():
+            for boss in BossLib.m_bosses:
                 self.listboxList.append(boss)
                 self.actionListbox.insert(Tkinter.END, boss)
         elif self.curChosenType == 'Farming':
@@ -109,7 +109,6 @@ class ActivityWidget(Tkinter.Frame):
                 description += 'Effect:\n'
                 for i in range(len(info['effect'])):
                     maxstat = max(info['table'][i])
-                    print maxstat
                     description += '+ ' + info['effect'][i] + ' (Up to ' + (str(maxstat) if maxstat > 1 else (str(float(maxstat*100)) + '%')) + ')\n'
                 description += '\n'
                 characterStats = self.parent.m_charInfo.oneTimeAcquire[minorType][minorEntry]
@@ -137,16 +136,16 @@ class ActivityWidget(Tkinter.Frame):
             description += 'DPS requirement: ' + str(info['dps']) + '\n'
             description += 'Defense: ' + str(int(round(info['defense']*100))) + '%\n'
             description += 'Resistance: ' + str(int(round(info['resistance']*100))) + '%\n'
-            description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
-            counter = self.parent.m_charInfo.bossCounter[entry]
-            description += 'Attempt: ' + str(counter[0]) + '/' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
+            description += 'Reward: ' + ', '.join(sorted(info['reward'].keys())) + '\n'
+            counter = self.parent.m_charInfo.bossCounter[info['counter']]
+            description += 'Attempt: ' + str(counter[0]) + '/' + (str(BossLib.m_counter[info['counter']][1]) if BossLib.m_counter[info['counter']][1] != -1 else 'Unlimited') + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
             description += 'Defeat: ' + str(counter[1]) + '/' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
             description += 'Attempt cost: ' + str(info['AP cost']) + ' Action Points\n'
         elif self.curChosenType == 'Farming':
             entry = self.listboxList[self.curSelectIdx]
             info = FarmingLib.m_lib[entry]
             description += entry + '\n\n'
-            description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+            description += 'Reward: ' + ', '.join(sorted(info['reward'].keys())) + '\n'
             description += 'Limit: ' + (str(self.parent.m_charInfo.farmCounter[entry]) + '/' + str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
             description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
                 
@@ -416,9 +415,9 @@ class ActivityWidget(Tkinter.Frame):
             if self.parent.m_charInfo.actionPoint < info['AP cost']:
                 tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Points.')
                 return
-            curAttempt = self.parent.m_charInfo.bossCounter[entry][0]
-            curDefeat = self.parent.m_charInfo.bossCounter[entry][1]
-            if curAttempt >= BossLib.m_counter[info['counter']][1]:
+            curAttempt = self.parent.m_charInfo.bossCounter[info['counter']][0]
+            curDefeat = self.parent.m_charInfo.bossCounter[info['counter']][1]
+            if BossLib.m_counter[info['counter']][1] != -1 and curAttempt >= BossLib.m_counter[info['counter']][1]:
                 tkMessageBox.showwarning('Invalid', 'You have reached attempt limit.')
                 return
             if curDefeat >= BossLib.m_counter[info['counter']][3]:
@@ -438,19 +437,20 @@ class ActivityWidget(Tkinter.Frame):
             res = tkMessageBox.askquestion('Attempt Boss', message, type='yesno')
             if res == 'yes':
                 self.parent.m_charInfo.actionPoint -= info['AP cost']
-                self.parent.m_charInfo.bossCounter[entry][0] += 1
+                self.parent.m_charInfo.bossCounter[info['counter']][0] += 1
                 dps = random.random() * (highdps - lowdps) + lowdps
                 if dps >= info['dps']:
-                    self.parent.m_charInfo.bossCounter[entry][1] += 1
+                    self.parent.m_charInfo.bossCounter[info['counter']][1] += 1
                     message = 'You defeated ' + entry + '!\n\n'
                     message += 'Rewards:\n'
-                    for key in info['reward'].keys():
+                    for key in sorted(info['reward'].keys()):
                         if key == 'Meso':
                             mu = info['reward'][key][0] * info['reward'][key][1]
                             sigma = math.sqrt(info['reward'][key][0] * info['reward'][key][1] * (1 - info['reward'][key][1]))
                             amount = int(round(random.normalvariate(mu, sigma)))
-                            self.parent.m_inventory.m_etc[key] += amount
-                            message += key + ': ' + str(amount) + '\n'
+                            if amount > 0:
+                                self.parent.m_inventory.m_etc[key] += amount
+                                message += key + ': ' + str(amount) + '\n'
                         else:
                             n = info['reward'][key][0]
                             p = info['reward'][key][1]
@@ -458,8 +458,9 @@ class ActivityWidget(Tkinter.Frame):
                             for i in range(n):
                                 if random.random() < p:
                                     amount += 1
-                            self.parent.m_inventory.m_etc[key] += amount
-                            message += key + ': ' + str(amount) + '\n'
+                            if amount > 0:
+                                self.parent.m_inventory.m_etc[key] += amount
+                                message += key + ': ' + str(amount) + '\n'
                     self.parent.tabPurchase.reset()
                     tkMessageBox.showinfo('Success', message)
                 else:
@@ -469,9 +470,9 @@ class ActivityWidget(Tkinter.Frame):
                 description += 'DPS requirement: ' + str(info['dps']) + '\n'
                 description += 'Defense: ' + str(int(round(info['defense']*100))) + '%\n'
                 description += 'Resistance: ' + str(int(round(info['resistance']*100))) + '%\n'
-                description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
-                counter = self.parent.m_charInfo.bossCounter[entry]
-                description += 'Attempt: ' + str(counter[0]) + '/' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
+                description += 'Reward: ' + ', '.join(sorted(info['reward'].keys())) + '\n'
+                counter = self.parent.m_charInfo.bossCounter[info['counter']]
+                description += 'Attempt: ' + str(counter[0]) + '/' + (str(BossLib.m_counter[info['counter']][1]) if BossLib.m_counter[info['counter']][1] != -1 else 'Unlimited') + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
                 description += 'Defeat: ' + str(counter[1]) + '/' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
                 description += 'Attempt cost: ' + str(info['AP cost']) + ' Action Points\n'
                 self.descriptionContent.config(state=Tkinter.NORMAL)
@@ -498,13 +499,14 @@ class ActivityWidget(Tkinter.Frame):
                 self.parent.m_charInfo.farmCounter[entry] += 1
                 message = 'You completed Farming: ' + entry + '\n\n'
                 message += 'Rewards:\n'
-                for key in info['reward'].keys():
+                for key in sorted(info['reward'].keys()):
                     if key == 'Meso':
                         mu = info['reward'][key][0] * info['reward'][key][1]
                         sigma = math.sqrt(info['reward'][key][0] * info['reward'][key][1] * (1 - info['reward'][key][1]))
                         amount = int(round(random.normalvariate(mu, sigma)))
-                        self.parent.m_inventory.m_etc[key] += amount
-                        message += key + ': ' + str(amount) + '\n'
+                        if amount > 0:
+                            self.parent.m_inventory.m_etc[key] += amount
+                            message += key + ': ' + str(amount) + '\n'
                     else:
                         n = info['reward'][key][0]
                         p = info['reward'][key][1]
@@ -512,13 +514,14 @@ class ActivityWidget(Tkinter.Frame):
                         for i in range(n):
                             if random.random() < p:
                                 amount += 1
-                        self.parent.m_inventory.m_etc[key] += amount
-                        message += key + ': ' + str(amount) + '\n'
+                        if amount > 0:
+                            self.parent.m_inventory.m_etc[key] += amount
+                            message += key + ': ' + str(amount) + '\n'
                 self.parent.tabPurchase.reset()
                 tkMessageBox.showinfo('Success', message)
                 description = ''
                 description += entry + '\n\n'
-                description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+                description += 'Reward: ' + ', '.join(sorted(info['reward'].keys())) + '\n'
                 description += 'Limit: ' + (str(self.parent.m_charInfo.farmCounter[entry]) + '/' + str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
                 description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
                 self.descriptionContent.config(state=Tkinter.NORMAL)

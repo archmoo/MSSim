@@ -65,6 +65,7 @@ class Character:
             'Crusader Codex': {
                 'chosen': 'None',
                 'Leafre': (0, 0),
+                'Henesys Ruins': (0, 0),
                 },
             'Link Skill': {                               
                 'Demon Avenger': (0, 0),
@@ -78,13 +79,12 @@ class Character:
                 'Beast Tamer': (0, 0),
                 'Hayato': (0, 0),
                 'Cannoneer': (0, 0),
-                'Cygnus Knight': (0, 0),
+                'Cygnus Knights': (0, 0),
                 },
             'Traits': {
                 'Diligence': (0, 0, 0),
                 'Insight': (0, 0, 0),
                 'Empathy': (0, 0, 0),
-                'Charm': (0, 0, 0),
                 'Ambition': (0, 0, 0),
                 'Willpower': (0, 0, 0),
                 },
@@ -93,7 +93,7 @@ class Character:
         self.bossCounter = {}
         self.farmCounter = {}
         self.actionPoint = 500
-        for boss in BossLib.m_lib.keys():
+        for boss in BossLib.m_counter.keys():
             self.bossCounter[boss] = [0, 0]
         for farmOption in FarmingLib.m_lib.keys():
             self.farmCounter[farmOption] = 0
@@ -363,7 +363,7 @@ class Character:
         modifier = JobLib.m_classModifier[self.m_job]
         lowRange *= modifier
         highRange *= modifier
-#### Code for calculating DPS on each boss
+## Code for calculating DPS on each boss
 ##        classMulti = multiplier
 ##        statValue = [4 * 1500, 4 * 5000, 4 * 10000, 4 * 15000, 4 * 25000]
 ##        baseAtt = [200, 400, 750, 1000, 1500]
