@@ -52,7 +52,10 @@ class Character:
             'Minimum Critical Damage': 0,
             'Maximum Critical Damage': 0,
             'Boss Damage': 0,
+            'Total Damage': 0,
+            'Final Damage': 0,
             'Ignore Enemy Defense': 0,
+            'Ignore Enemy Resistance': 0,
             'Status Resistance': 0,
             'Speed': 0,
             'Jump': 0,
@@ -91,7 +94,7 @@ class Character:
         self.farmCounter = {}
         self.actionPoint = 500
         for boss in BossLib.m_lib.keys():
-            self.bossCounter[boss] = (0, 0)
+            self.bossCounter[boss] = [0, 0]
         for farmOption in FarmingLib.m_lib.keys():
             self.farmCounter[farmOption] = 0
         
@@ -286,7 +289,10 @@ class Character:
         self['Minimum Critical Damage'] = min(self['% Min Crit'], self['% Max Crit'])
         self['Maximum Critical Damage'] = max(self['% Min Crit'], self['% Max Crit'])
         self['Boss Damage'] = self['% Boss Damage']
+        self['Total Damage'] = self['% Total Damage']
+        self['Final Damage'] = jobStats['% Final Damage']
         self['Ignore Enemy Defense'] = self['% Ignore Defense']
+        self['Ignore Enemy Resistance'] = jobStats['% Ignore Resistance']
         self['Status Resistance'] = self['% Status Resistance']
         self['Speed'] = min(self['# speed']+100, jobStats['# max speed'])
         self['Jump'] = min(self['# jump']+100, 123)

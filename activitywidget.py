@@ -135,16 +135,19 @@ class ActivityWidget(Tkinter.Frame):
             description += entry + '\n\n'
             description += info['description'] + '\n\n'
             description += 'DPS requirement: ' + str(info['dps']) + '\n'
+            description += 'Defense: ' + str(int(round(info['defense']*100))) + '%\n'
+            description += 'Resistance: ' + str(int(round(info['resistance']*100))) + '%\n'
             description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
-            description += 'Attempt: ' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
-            description += 'Defeat: ' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
+            counter = self.parent.m_charInfo.bossCounter[entry]
+            description += 'Attempt: ' + str(counter[0]) + '/' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
+            description += 'Defeat: ' + str(counter[1]) + '/' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
             description += 'Attempt cost: ' + str(info['AP cost']) + ' Action Points\n'
         elif self.curChosenType == 'Farming':
             entry = self.listboxList[self.curSelectIdx]
             info = FarmingLib.m_lib[entry]
             description += entry + '\n\n'
             description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
-            description += 'Limit: ' + (str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
+            description += 'Limit: ' + (str(self.parent.m_charInfo.farmCounter[entry]) + '/' + str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
             description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
                 
         self.descriptionContent.config(state=Tkinter.NORMAL)
@@ -310,12 +313,13 @@ class ActivityWidget(Tkinter.Frame):
                     self.parent.tabEquip.reset()
                     toplevel.destroy()
                 return
-
+            
         if self.curChosenType == '- Choose Type -':
             tkMessageBox.showwarning('Invalid', 'Please choose a type.')
             return
         if self.curSelectIdx == -1:
             tkMessageBox.showwarning('Invalid', 'Please select an action.')
+            return
         entry = self.listboxList[self.curSelectIdx]
         if self.curChosenType == 'Upgrade':
             minorType, minorEntry = entry.split(': ')
@@ -348,6 +352,7 @@ class ActivityWidget(Tkinter.Frame):
                 toplevel = Tkinter.Toplevel(self)
                 toplevel.title('Upgrade Traits')
                 toplevel.geometry('350x120+300+300')
+                toplevel.grab_set()
                 quantityLabel = Tkinter.Label(toplevel, text='Spend Action Point:')
                 quantityEntry = Tkinter.Entry(toplevel)
                 startButton = Tkinter.Button(toplevel, text='Start', command=upgradeTraits)
@@ -356,13 +361,174 @@ class ActivityWidget(Tkinter.Frame):
                 quantityEntry.grid(row=0, column=1, columnspan=2, padx=5, pady=5)
                 startButton.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
                 cancelButton.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
-            elif minorType == 'Boss':
-                print 'boss'
+            elif minorType == 'Crusader Codex':
+                info = UpgradeLib.m_lib['Crusader Codex'][minorEntry]
+                if self.parent.m_charInfo.oneTimeAcquire['Crusader Codex']['chosen'] == minorEntry:
+                    tkMessageBox.showwarning('Invalid', 'You have chosen this set!')
+                    return
+                if self.parent.m_charInfo.oneTimeAcquire['Crusader Codex'][minorEntry][0] == 1:
+                    message = 'Are You Sure?\n\n'
+                    message += 'Choosing Crusader Codex: ' + minorEntry + ' Set'
+                    res = tkMessageBox.askquestion('Choose Crusader Codex', message, type='yesno')
+                    if res == 'yes':
+                        self.parent.m_charInfo.oneTimeAcquire['Crusader Codex']['chosen'] = minorEntry
+                        description = ''
+                        description += 'The Crusader Codex is a collection of Monster Book Cards, which gives your character extra boost when a certain set is chosen.\n\n'
+                        description += 'Crusader Codex: ' + minorEntry + '\n\n'
+                        description += 'Effect: ' + PotentialLib.showPotList(info['effect'], ', ') + 'Upgrade cost: ' + str(info['AP cost']) + ' Action Points\n\n'
+                        description += 'Status: ' + ('Acquired' if self.parent.m_charInfo.oneTimeAcquire['Crusader Codex'][minorEntry][0] == 1 else 'Not acquired') + '\n'
+                        description += 'Current Codex set: ' + self.parent.m_charInfo.oneTimeAcquire['Crusader Codex']['chosen'] + '\n'
+                        self.descriptionContent.config(state=Tkinter.NORMAL)
+                        self.descriptionContent.delete('1.0', Tkinter.END)
+                        self.descriptionContent.insert('insert', description)
+                        self.descriptionContent.config(state=Tkinter.DISABLED)
+                    return
+                else:
+                    if self.parent.m_charInfo.actionPoint < info['AP cost']:
+                        tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Points.')
+                        return
+                    else:
+                        message = 'Are You Sure?\n\n'
+                        message += 'Acquiring Crusader Codex: ' + minorEntry + ' Set'
+                        res = tkMessageBox.askquestion('Acquiring Crusader Codex', message, type='yesno')
+                        if res == 'yes':
+                            self.parent.m_charInfo.oneTimeAcquire['Crusader Codex'][minorEntry] = (1, 0)
+                            self.parent.m_charInfo.actionPoint -= info['AP cost']
+                            description = ''
+                            description += 'The Crusader Codex is a collection of Monster Book Cards, which gives your character extra boost when a certain set is chosen.\n\n'
+                            description += 'Crusader Codex: ' + minorEntry + '\n\n'
+                            description += 'Effect: ' + PotentialLib.showPotList(info['effect'], ', ') + 'Upgrade cost: ' + str(info['AP cost']) + ' Action Points\n\n'
+                            description += 'Status: ' + ('Acquired' if self.parent.m_charInfo.oneTimeAcquire['Crusader Codex'][minorEntry][0] == 1 else 'Not acquired') + '\n'
+                            description += 'Current Codex set: ' + self.parent.m_charInfo.oneTimeAcquire['Crusader Codex']['chosen'] + '\n'
+                            self.descriptionContent.config(state=Tkinter.NORMAL)
+                            self.descriptionContent.delete('1.0', Tkinter.END)
+                            self.descriptionContent.insert('insert', description)
+                            self.descriptionContent.config(state=Tkinter.DISABLED)
+                            message = 'Action Point: ' + str(self.parent.m_charInfo.actionPoint)
+                            self.APContent.set(message)
+                            message = 'You have acquired Crusader Codex: ' + minorEntry + ' Set.\n'
+                            message += 'Click "Choose" Button again to enable this set.'
+                            tkMessageBox.showinfo('Success', message)
+                        return
+                    
         elif self.curChosenType == 'Boss':
-            pass
+            info = BossLib.m_lib[entry]
+            if self.parent.m_charInfo.actionPoint < info['AP cost']:
+                tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Points.')
+                return
+            curAttempt = self.parent.m_charInfo.bossCounter[entry][0]
+            curDefeat = self.parent.m_charInfo.bossCounter[entry][1]
+            if curAttempt >= BossLib.m_counter[info['counter']][1]:
+                tkMessageBox.showwarning('Invalid', 'You have reached attempt limit.')
+                return
+            if curDefeat >= BossLib.m_counter[info['counter']][3]:
+                tkMessageBox.showwarning('Invalid', 'You have reached defeat limit.')
+                return
+            stat = self.parent.m_charInfo.m_stat
+            multiplier = 1
+            multiplier *= (1 + stat['Critical Rate'] * (stat['Minimum Critical Damage'] + stat['Maximum Critical Damage']) / 2)
+            multiplier *= (1 + stat['Boss Damage'] + stat['Total Damage']) * (1 + stat['Final Damage'])
+            multiplier *= max(0, (1-info['defense']*(1-stat['Ignore Enemy Defense'])))
+            multiplier *= max(0, (1-info['resistance']*(1-stat['Ignore Enemy Resistance'])))
+            lowdps = int(round(stat['DPS'][0] * multiplier))
+            highdps = int(round(stat['DPS'][1] * multiplier))
+            message = 'Are You Sure?\n\n'
+            message += 'DPS requirement for defeat: ' + str(info['dps']) + '\n'
+            message += 'Your DPS on ' + entry + ': ' + str(lowdps) + ' ~ ' + str(highdps) + '\n'
+            res = tkMessageBox.askquestion('Attempt Boss', message, type='yesno')
+            if res == 'yes':
+                self.parent.m_charInfo.actionPoint -= info['AP cost']
+                self.parent.m_charInfo.bossCounter[entry][0] += 1
+                dps = random.random() * (highdps - lowdps) + lowdps
+                if dps >= info['dps']:
+                    self.parent.m_charInfo.bossCounter[entry][1] += 1
+                    message = 'You defeated ' + entry + '!\n\n'
+                    message += 'Rewards:\n'
+                    for key in info['reward'].keys():
+                        if key == 'Meso':
+                            mu = info['reward'][key][0] * info['reward'][key][1]
+                            sigma = math.sqrt(info['reward'][key][0] * info['reward'][key][1] * (1 - info['reward'][key][1]))
+                            amount = int(round(random.normalvariate(mu, sigma)))
+                            self.parent.m_inventory.m_etc[key] += amount
+                            message += key + ': ' + str(amount) + '\n'
+                        else:
+                            n = info['reward'][key][0]
+                            p = info['reward'][key][1]
+                            amount = 0
+                            for i in range(n):
+                                if random.random() < p:
+                                    amount += 1
+                            self.parent.m_inventory.m_etc[key] += amount
+                            message += key + ': ' + str(amount) + '\n'
+                    self.parent.tabPurchase.reset()
+                    tkMessageBox.showinfo('Success', message)
+                else:
+                    tkMessageBox.showinfo('Fail', 'You didn\'t defeat ' + entry + '.')
+                description = entry + '\n\n'
+                description += info['description'] + '\n\n'
+                description += 'DPS requirement: ' + str(info['dps']) + '\n'
+                description += 'Defense: ' + str(int(round(info['defense']*100))) + '%\n'
+                description += 'Resistance: ' + str(int(round(info['resistance']*100))) + '%\n'
+                description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+                counter = self.parent.m_charInfo.bossCounter[entry]
+                description += 'Attempt: ' + str(counter[0]) + '/' + str(BossLib.m_counter[info['counter']][1]) + ' time(s) per ' + BossLib.m_counter[info['counter']][0] + '\n'
+                description += 'Defeat: ' + str(counter[1]) + '/' + str(BossLib.m_counter[info['counter']][3]) + ' time(s) per ' + BossLib.m_counter[info['counter']][2] + '\n'
+                description += 'Attempt cost: ' + str(info['AP cost']) + ' Action Points\n'
+                self.descriptionContent.config(state=Tkinter.NORMAL)
+                self.descriptionContent.delete('1.0', Tkinter.END)
+                self.descriptionContent.insert('insert', description)
+                self.descriptionContent.config(state=Tkinter.DISABLED)
+                message = 'Action Point: ' + str(self.parent.m_charInfo.actionPoint)
+                self.APContent.set(message)
+                
+            return
         elif self.curChosenType == 'Farming':
-            pass
-    
+            if FarmingLib.m_lib[entry]['limit'] != -1:
+                if self.parent.m_charInfo.farmCounter[entry] >= FarmingLib.m_lib[entry]['limit']:
+                    tkMessageBox.showwarning('Invalid', 'You have reached daily limit.')
+                    return
+            if self.parent.m_charInfo.actionPoint < FarmingLib.m_lib[entry]['AP cost']:
+                tkMessageBox.showwarning('Invalid', 'You don\'t have enough Action Points.')
+                return
+            message = 'Are You Sure?\n'
+            res = tkMessageBox.askquestion('Farm', message, type='yesno')
+            info = FarmingLib.m_lib[entry]
+            if res == 'yes':
+                self.parent.m_charInfo.actionPoint -= info['AP cost']
+                self.parent.m_charInfo.farmCounter[entry] += 1
+                message = 'You completed Farming: ' + entry + '\n\n'
+                message += 'Rewards:\n'
+                for key in info['reward'].keys():
+                    if key == 'Meso':
+                        mu = info['reward'][key][0] * info['reward'][key][1]
+                        sigma = math.sqrt(info['reward'][key][0] * info['reward'][key][1] * (1 - info['reward'][key][1]))
+                        amount = int(round(random.normalvariate(mu, sigma)))
+                        self.parent.m_inventory.m_etc[key] += amount
+                        message += key + ': ' + str(amount) + '\n'
+                    else:
+                        n = info['reward'][key][0]
+                        p = info['reward'][key][1]
+                        amount = 0
+                        for i in range(n):
+                            if random.random() < p:
+                                amount += 1
+                        self.parent.m_inventory.m_etc[key] += amount
+                        message += key + ': ' + str(amount) + '\n'
+                self.parent.tabPurchase.reset()
+                tkMessageBox.showinfo('Success', message)
+                description = ''
+                description += entry + '\n\n'
+                description += 'Reward: ' + ', '.join(info['reward'].keys()) + '\n'
+                description += 'Limit: ' + (str(self.parent.m_charInfo.farmCounter[entry]) + '/' + str(info['limit']) + ' time(s) per day' if info['limit'] >= 0 else 'Unlimited') + '\n'
+                description += 'Cost: ' + str(info['AP cost']) + ' Action Points' + '\n'
+                self.descriptionContent.config(state=Tkinter.NORMAL)
+                self.descriptionContent.delete('1.0', Tkinter.END)
+                self.descriptionContent.insert('insert', description)
+                self.descriptionContent.config(state=Tkinter.DISABLED)
+                message = 'Action Point: ' + str(self.parent.m_charInfo.actionPoint)
+                self.APContent.set(message)               
+            return
+
     def initUI(self):
 
         self.columnconfigure(0, weight=1)
