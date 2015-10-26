@@ -25,7 +25,7 @@ class BossLib:
     m_lib = {
         'Easy Zakum': {
             'counter': 'Zakum',
-            'dps': 0,
+            'dps': 4000,
             'defense': 0.2,
             'resistance': 0,
             'reward': {
@@ -37,7 +37,7 @@ class BossLib:
             },
         'Normal Zakum': {
             'counter': 'Zakum',
-            'dps': 0,
+            'dps': 5000,
             'defense': 0.4,
             'resistance': 0,
             'reward': {
@@ -49,7 +49,7 @@ class BossLib:
             },
         'Chaos Zakum': {
             'counter': 'Zakum',
-            'dps': 0,
+            'dps': 80000,
             'defense': 0.5,
             'resistance': 0,
             'reward': {
@@ -61,7 +61,7 @@ class BossLib:
             },
         'Easy Horntail': {
             'counter': 'Horntail',
-            'dps': 0,
+            'dps': 11000,
             'defense': 0.4,
             'resistance': 0,
             'reward': {
@@ -73,7 +73,7 @@ class BossLib:
             },
         'Normal Horntail': {
             'counter': 'Horntail',
-            'dps': 0,
+            'dps': 18000,
             'defense': 0.4,
             'resistance': 0,
             'reward': {
@@ -85,7 +85,7 @@ class BossLib:
             },
         'Chaos Horntail': {
             'counter': 'Horntail',
-            'dps': 0,
+            'dps': 360000,
             'defense': 0.5,
             'resistance': 0,
             'reward': {
@@ -97,7 +97,7 @@ class BossLib:
             },
         'Normal Pink Bean': {
             'counter': 'Pink Bean',
-            'dps': 0,
+            'dps': 220000,
             'defense': 0.7,
             'resistance': 0.5,
             'reward': {
@@ -109,7 +109,7 @@ class BossLib:
             },
         'Chaos Pink Bean': {
             'counter': 'Pink Bean',
-            'dps': 0,
+            'dps': 2000000,
             'defense': 1.8,
             'resistance': 0.5,
             'reward': {
@@ -121,7 +121,7 @@ class BossLib:
             },
         'Easy Von Leon': {
             'counter': 'Von Leon',
-            'dps': 0,
+            'dps': 23000,
             'defense': 0.5,
             'resistance': 0,
             'reward': {
@@ -133,7 +133,7 @@ class BossLib:
             },
         'Normal Von Leon': {
             'counter': 'Von Leon',
-            'dps': 0,
+            'dps': 49000,
             'defense': 0.8,
             'resistance': 0,
             'reward': {
@@ -145,7 +145,7 @@ class BossLib:
             },
         'Empress Cygnus': {
             'counter': 'Cygnus',
-            'dps': 0,
+            'dps': 960000,
             'defense': 1,
             'resistance': 0.5,
             'reward': {
@@ -158,7 +158,7 @@ class BossLib:
             },
         'Easy Arkarium': {
             'counter': 'Arkarium',
-            'dps': 0,
+            'dps': 280000,
             'defense': 0.6,
             'resistance': 0.5,
             'reward': {
@@ -170,7 +170,7 @@ class BossLib:
             },
         'Normal Arkarium': {
             'counter': 'Arkarium',
-            'dps': 0,
+            'dps': 590000,
             'defense': 0.6,
             'resistance': 0.5,
             'reward': {
@@ -182,7 +182,7 @@ class BossLib:
             },
         'Normal Hilla': {
             'counter': 'Hilla',
-            'dps': 0,
+            'dps': 14000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -194,7 +194,7 @@ class BossLib:
             },
         'Hard Hilla': {
             'counter': 'Hilla',
-            'dps': 0,
+            'dps': 750000,
             'defense': 3.5,
             'resistance': 0.5,
             'reward': {
@@ -206,7 +206,7 @@ class BossLib:
             },
         'Easy Magnus': {
             'counter': 'eMagnus',
-            'dps': 0,
+            'dps': 8500,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -218,7 +218,7 @@ class BossLib:
             },
         'Normal Magnus': {
             'counter': 'nMagnus',
-            'dps': 0,
+            'dps': 170000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -230,7 +230,7 @@ class BossLib:
             },
         'Hard Magnus': {
             'counter': 'hMagnus',
-            'dps': 0,
+            'dps': 1230000,
             'defense': 1.2,
             'resistance': 0.5,
             'reward': {
@@ -244,7 +244,7 @@ class BossLib:
             },
         'Normal Pierre': {
             'counter': 'nPierre',
-            'dps': 0,
+            'dps': 38000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -256,7 +256,7 @@ class BossLib:
             },
         'Chaos Pierre': {
             'counter': 'cPierre',
-            'dps': 0,
+            'dps': 2610000,
             'defense': 0.8,
             'resistance': 0.5,
             'reward': {
@@ -269,7 +269,7 @@ class BossLib:
             },
         'Normal Von Bon': {
             'counter': 'nVB',
-            'dps': 0,
+            'dps': 49000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -281,7 +281,7 @@ class BossLib:
             },
         'Chaos Von Bon': {
             'counter': 'cVB',
-            'dps': 0,
+            'dps': 1590000,
             'defense': 1,
             'resistance': 0.5,
             'reward': {
@@ -294,7 +294,7 @@ class BossLib:
             },
         'Normal Crimson Queen': {
             'counter': 'nQueen',
-            'dps': 0,
+            'dps': 30000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -306,7 +306,7 @@ class BossLib:
             },
         'Chaos Crimson Queen': {
             'counter': 'cQueen',
-            'dps': 0,
+            'dps': 3345000,
             'defense': 1.2,
             'resistance': 0.5,
             'reward': {
@@ -319,7 +319,7 @@ class BossLib:
             },
         'Normal Vellum': {
             'counter': 'nVellum',
-            'dps': 0,
+            'dps': 63000,
             'defense': 0.55,
             'resistance': 0.5,
             'reward': {
@@ -331,7 +331,7 @@ class BossLib:
             },
         'Chaos Vellum': {
             'counter': 'cVellum',
-            'dps': 0,
+            'dps': 5500000,
             'defense': 3,
             'resistance': 0.5,
             'reward': {
@@ -344,7 +344,7 @@ class BossLib:
             },
         'Easy Gollux': {
             'counter': 'Gollux',
-            'dps': 0,
+            'dps': 6500,
             'defense': 0.1,
             'resistance': 0.5,
             'reward': {
@@ -357,7 +357,7 @@ class BossLib:
             },
         'Normal Gollux': {
             'counter': 'Gollux',
-            'dps': 0,
+            'dps': 100000,
             'defense': 0.15,
             'resistance': 0.5,
             'reward': {
@@ -371,7 +371,7 @@ class BossLib:
             },
         'Hard Gollux': {
             'counter': 'Gollux',
-            'dps': 0,
+            'dps': 460000,
             'defense': 0.5,
             'resistance': 0.5,
             'reward': {
@@ -386,7 +386,7 @@ class BossLib:
             },
         'Hell Gollux': {
             'counter': 'Gollux',
-            'dps': 0,
+            'dps': 4300000,
             'defense': 0.8,
             'resistance': 0.5,
             'reward': {

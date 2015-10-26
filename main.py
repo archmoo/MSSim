@@ -273,6 +273,7 @@ if __name__ == '__main__':
 ##        if job == 'Xenon':
 ##            cls = 'Thief'
 ##        app.m_charInfo = Character(job)
+##        app.m_inventory = Inventory()
 ##        app.m_inventory.initBasicEquips(job, cls)
 ##        app.m_charInfo.updateStats([app.m_inventory.m_equip[i] for i in app.m_inventory.m_equipped.values() if i != -1])
 ##        print 

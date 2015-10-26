@@ -342,6 +342,7 @@ class Character:
                 highRange = int(round(0.01 * multiplier * statValue * self['Weapon ATT'] * (1 + self['% Total Damage'] + jobStats['% Hyper Reinforce']) * (1 + jobStats['% Final Damage'])))
             lowRange = int(round(highRange * jobStats['% mastery']))
             self['ATT Stats Reinforce'] = [lowRange, highRange]
+##        print self['ATT Stats'],
         
         if jobStats['class'] == 'Magician':
             highRange = 0.01 * multiplier * statValue * self['Magic ATT']
@@ -363,33 +364,49 @@ class Character:
         modifier = JobLib.m_classModifier[self.m_job]
         lowRange *= modifier
         highRange *= modifier
-## Code for calculating DPS on each boss
+        self['DPS'] = [lowRange, highRange]
+#### Code for calculating DPS on each boss with certain stats
 ##        classMulti = multiplier
-##        statValue = [4 * 1500, 4 * 5000, 4 * 10000, 4 * 15000, 4 * 25000]
-##        baseAtt = [200, 400, 750, 1000, 1500]
-##        percAtt = [0, 0.2, 0.4, 0.6, 0.9]
-##        bossDmg = [0, 0.6, 1.1, 2.3, 3]
-##        totDmg = [0, 0.1, 0.2, 0.3, 0.4]
-##        pdr = 0.8
+##        statValue = [4 * 5000, 4 * 10000, 4 * 15000, 4 * 20000, 4 * 25000]
+##        baseAtt = [700, 900, 1100, 1300, 1500]
+##        percAtt = [0.1, 0.3, 0.5, 0.7, 0.9]
+##        bossDmg = [1.1, 1.4, 1.8, 2.2, 2.6]
+##        totDmg = [0.15, 0.15, 0.2, 0.2, 0.25]
+##        pdr = 0.93
 ##        crit = 1
+##        
 ##        for i in range(5):
 ##            if jobStats['class'] == 'Magician':
 ##                att = baseAtt[i] * (1 + percAtt[i] + self['% matt'])
 ##            else:
 ##                att = baseAtt[i] * (1 + percAtt[i] + self['% watt'])
+##            highRange = 0.01 * classMulti * statValue[i] * att * modifier
+##
 ##            for boss, info in BossLib.m_lib.items():
-##                highRange = 0.01 * classMulti * statValue[i] * att
-##                multiplier = 1
-##                multiplier *= (1 + crit * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
-##                multiplier *= (1 + self['Boss Damage'] + bossDmg[i] + self['Total Damage'] + totDmg[i]) * (1 + self['Final Damage'])
-##                multiplier *= max(0, (1-info['defense']*(1-pdr)))
-##                multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
-##                highRange *= modifier * multiplier
-##                lowdps = int(round(highRange * jobStats['% mastery']))
-##                highdps = int(round(highRange))
-##                print str('%.1f' % (float(lowdps+highdps)/2)) + ',',
+##                if boss == 'Chaos Zakum':
+##                    multiplier = 1
+##                    multiplier *= (1 + 1 * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
+##                    multiplier *= (1 + self['Boss Damage'] + bossDmg[i] + self['Total Damage'] + totDmg[i]) * (1 + self['Final Damage'])
+##                    multiplier *= max(0, (1-info['defense']*(1-pdr)))
+##                    multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
+##                    highdps = highRange * multiplier
+##                    lowdps = highdps * jobStats['% mastery']
+##                    print str('%.1f' % ((lowdps+highdps)/2)) + ',',
 
-        self['DPS'] = [lowRange, highRange]
+#### Code for calculating current equip
+##        for boss, info in BossLib.m_lib.items():
+##            if boss == 'Easy Magnus':
+##                multiplier = 1
+##                multiplier *= (1 + self['Critical Rate'] * (self['Minimum Critical Damage'] + self['Maximum Critical Damage']) / 2)
+##                multiplier *= (1 + self['Boss Damage'] + self['Total Damage']) * (1 + self['Final Damage'])
+##                multiplier *= max(0, (1-info['defense']*(1-self['Ignore Enemy Defense'])))
+##                multiplier *= max(0, (1-info['resistance']*(1-self['Ignore Enemy Resistance'])))
+##                highdps = self['DPS'][1] * multiplier
+##                lowdps = int(round(self['DPS'][0] * multiplier))
+##                highdps = int(round(highdps))
+##                print str('%.1f %.1f' % (lowdps, highdps)) + ',',
+
+        
 
     def showCharacterStats(self):
         jobStats = JobLib.m_job[self.m_job]
